@@ -153,11 +153,12 @@ public class DungeonKeep {
 		
 		for (;;){
 			String move = s.nextLine();
+			
 			moveHero(move);
 			leverStepped();
 			
 			if (heroSpotted()){
-				System.out.println("You lose, doofus!");
+				System.out.println("You got caught, doofus!");
 				break;
 			}
 		}
