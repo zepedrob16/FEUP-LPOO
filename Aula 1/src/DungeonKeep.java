@@ -3,10 +3,16 @@ import java.util.Scanner;
 public class DungeonKeep {
 	
 	static int MAP_ROWS = 10, MAP_COLS = 10;
+	static int heroPosition[] = {1,1};
+	static int guardPosition[] = {1,8};
+	static int leverPosition[] = {8,7};
+	static char guardMovement[] = {'A','S','S','S','S','A','A','A','A','A','A','S','D','D','D','D','D','D','D','W','W','W','W','W'};
+	static int movementIterator = 0;
+	
 	static char gameMap[][] = new char[MAP_ROWS][MAP_COLS];
 	
+	//Mostra o game map no ecrã.
 	public static void drawMap() {
-		//Mostra o game map no ecrã.
 		for (int i = 0; i < MAP_ROWS; i++){
 			for (int j = 0; j < MAP_COLS; j++){
 				if (gameMap[i][j] == 0){
@@ -17,6 +23,112 @@ public class DungeonKeep {
 			System.out.print("\n");
 		}
 	}
+	
+	//Abre todas as portas.
+	public static void openDoors(){
+		for (int i = 0; i < MAP_ROWS; i++){
+			for (int j = 0; j < MAP_COLS; j++){
+				if (gameMap[i][j] == 'I')
+					gameMap[i][j] = 'S';
+			}
+		}
+	}
+	
+	public static boolean heroSpotted(){
+		for (int i = 0; i < MAP_ROWS; i++){
+			for (int j = 0; j < MAP_COLS; j++){
+				if ((heroPosition[0] == guardPosition[0] + 1 && heroPosition[1] == guardPosition[1]) ||
+					(heroPosition[0] == guardPosition[0] - 1 && heroPosition[1] == guardPosition[1])){
+					return true;
+				}
+				else if ((heroPosition[1] == guardPosition[1] + 1 && heroPosition[0] == guardPosition[0]) ||
+						  (heroPosition[1] == guardPosition[1] - 1 && heroPosition[0] == guardPosition[0])){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static void leverStepped(){
+		if (heroPosition[0] == leverPosition[0] && heroPosition[1] == leverPosition[1])
+			openDoors();
+		return;
+	}
+	
+	public static void moveGuard(){
+		if (guardMovement[movementIterator] == 'W'){
+			gameMap[guardPosition[0]][guardPosition[1]] = ' ';
+			guardPosition[0]--;
+			gameMap[guardPosition[0]][guardPosition[1]] = 'G';
+		}
+		else if (guardMovement[movementIterator] == 'A'){
+			gameMap[guardPosition[0]][guardPosition[1]] = ' ';
+			guardPosition[1]--;
+			gameMap[guardPosition[0]][guardPosition[1]] = 'G';		
+		}
+		else if (guardMovement[movementIterator] == 'S'){
+			gameMap[guardPosition[0]][guardPosition[1]] = ' ';
+			guardPosition[0]++;
+			gameMap[guardPosition[0]][guardPosition[1]] = 'G';	
+		}
+		else if (guardMovement[movementIterator] == 'D'){
+			gameMap[guardPosition[0]][guardPosition[1]] = ' ';
+			guardPosition[1]++;
+			gameMap[guardPosition[0]][guardPosition[1]] = 'G';
+		}
+		movementIterator++;
+		
+		if (movementIterator == guardMovement.length)
+			movementIterator = 0;
+		
+		return;
+	}
+	
+	public static void moveHero(String move){
+		if (move.equals("w") || move.equals("W")){
+			if (gameMap[heroPosition[0] - 1][heroPosition[1]] != 'X' && gameMap[heroPosition[0] - 1][heroPosition[1]] != 'I'){
+				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+				heroPosition[0]--;
+				gameMap[heroPosition[0]][heroPosition[1]] = 'H';
+				
+				moveGuard();
+				drawMap();
+			}
+		}
+		else if (move.equals("a") || move.equals("A")){
+			if (gameMap[heroPosition[0]][heroPosition[1] - 1] != 'X' && gameMap[heroPosition[0]][heroPosition[1] - 1] != 'I'){
+				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+				heroPosition[1]--;
+				gameMap[heroPosition[0]][heroPosition[1]] = 'H';
+				
+				moveGuard();
+				drawMap();
+			}
+		}
+		else if (move.equals("s") || move.equals("S")){
+			if (gameMap[heroPosition[0] + 1][heroPosition[1]] != 'X' && gameMap[heroPosition[0] + 1][heroPosition[1]] != 'I'){
+				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+				heroPosition[0]++;
+				gameMap[heroPosition[0]][heroPosition[1]] = 'H';
+				
+				moveGuard();
+				drawMap();
+			}
+		}
+		else if (move.equals("d") || move.equals("D")){
+			if (gameMap[heroPosition[0]][heroPosition[1] + 1] != 'X' && gameMap[heroPosition[0]][heroPosition[1] + 1] != 'I'){
+				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+				heroPosition[1]++;
+				gameMap[heroPosition[0]][heroPosition[1]] = 'H';
+				
+				moveGuard();
+				drawMap();
+			}
+		}
+		return;
+	}
+	
 	public static void main(String[] args) {
 
 		//Preenche rapidamente as borders superiores e inferiores.
@@ -35,54 +147,21 @@ public class DungeonKeep {
 		gameMap[7][9] = 'X'; gameMap[8][0] = 'X'; gameMap[8][2] = 'I'; gameMap[8][4] = 'I'; gameMap[8][6] = 'X'; gameMap[8][7] = 'k'; 
 		gameMap[8][9] = 'X';
 		
-		int heroPosition[] = {1,1};
-		
 		drawMap();
 		
 		Scanner s = new Scanner(System.in);
+		
 		for (;;){
 			String move = s.nextLine();
+			moveHero(move);
+			leverStepped();
 			
-			if (move == "w" || move == "W"){
-				if (gameMap[heroPosition[0] - 1][heroPosition[1]] != 'X'){
-					gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-					heroPosition[0]--;
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';
-					
-					drawMap();
-				}
-			}
-			else if (move == "a" || move == "A"){
-				if (gameMap[heroPosition[0]][heroPosition[1] - 1] != 'X'){
-					gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-					heroPosition[1]--;
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';
-					
-					drawMap();
-				}
-			}
-			else if (move == "s" || move == "S"){
-				if (gameMap[heroPosition[0] + 1][heroPosition[1]] != 'X'){
-					gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-					heroPosition[0]++;
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';
-					
-					drawMap();
-				}
-			}
-			else if (move == "d" || move == "D"){
-				if (gameMap[heroPosition[0]][heroPosition[1] + 1] != 'X'){
-					gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-					heroPosition[1]++;
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';
-					
-					drawMap();
-				}
-			}
-			else if (move == "f" || move == "F"){
+			if (heroSpotted()){
+				System.out.println("You lose, doofus!");
 				break;
 			}
 		}
+		
 		
 	}
 }
