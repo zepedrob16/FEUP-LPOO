@@ -87,7 +87,7 @@ public class DungeonKeep {
 				}
 				else if (gameMap[i][j] == '*') {
 					clubPosition[0] = i;
-					ogrePosition[1] = j;
+					clubPosition[1] = j;
 				}
 			}
 		}
@@ -423,7 +423,7 @@ public class DungeonKeep {
 			if (genMove == 0){
 				if (gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'I'){
 					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
-					clubPosition[0] = ogrePosition[0]-1;
+					clubPosition[0] = ogrePosition[0] - 1;
 					clubPosition[1] = ogrePosition[1];
 					
 					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
@@ -440,7 +440,7 @@ public class DungeonKeep {
 			else if (genMove == 1){
 				if (gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'I'){
 					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
-					clubPosition[1] = ogrePosition[1] - 1;
+					clubPosition[1] = (ogrePosition[1] - 1);
 					clubPosition[0] = ogrePosition[0];
 					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
 						gameMap[clubPosition[0]][clubPosition[1]] = '$';
@@ -456,7 +456,7 @@ public class DungeonKeep {
 			else if (genMove == 2){
 				if (gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'I'){
 					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
-					clubPosition[0] = ogrePosition[0]+1;
+					clubPosition[0] = ogrePosition[0] + 1;
 					clubPosition[1] = ogrePosition[1];
 					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
 						gameMap[clubPosition[0]][clubPosition[1]] = '$';
