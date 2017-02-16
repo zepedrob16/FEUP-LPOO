@@ -8,6 +8,7 @@ public class DungeonKeep {
 	static int guardPosition[] = new int[2];
 	static int leverPosition[] = new int[2];
 	static int ogrePosition[] = new int[2];
+	static int clubPosition[] = new int[2];
 	static char guardMovement[] = {'A','S','S','S','S','A','A','A','A','A','A','S','D','D','D','D','D','D','D','W','W','W','W','W'};
 	static int movementIterator = 0;
 	static int currentMap = 0;
@@ -57,6 +58,7 @@ public class DungeonKeep {
 		gameMap[1][0] = 'I';
 		gameMap[1][4] = 'O';
 		gameMap[1][7] = 'k';
+		gameMap[2][4] = '*';
 		gameMap[7][1] = 'H';
 		
 		currentMap = 2;
@@ -81,6 +83,10 @@ public class DungeonKeep {
 				}
 				else if (gameMap[i][j] == 'O'){
 					ogrePosition[0] = i;
+					ogrePosition[1] = j;
+				}
+				else if (gameMap[i][j] == '*') {
+					clubPosition[0] = i;
 					ogrePosition[1] = j;
 				}
 			}
@@ -180,13 +186,20 @@ public class DungeonKeep {
 		if (move.equals("w") || move.equals("W")){
 			if (gameMap[heroPosition[0] - 1][heroPosition[1]] != 'X'){
 				
-				if (currentMap == 1 && gameMap[heroPosition[0] - 1][heroPosition[1]] != 'I'){
+				if (currentMap == 1 && gameMap[heroPosition[0] - 1][heroPosition[1]] == 'I'){
 					return false;
 				}
 				
 				//Checks whether the next cell is an exit cell.
 				if (gameMap[heroPosition[0] - 1][heroPosition[1]] == 'S'){
 					levelComplete = true;
+				}
+				if (currentMap == 1){
+					moveGuard();					
+					leverStepped();
+				}else{
+					moveOgre();
+					keyPicked();
 				}
 				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
 				heroPosition[0]--;
@@ -197,13 +210,6 @@ public class DungeonKeep {
 					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
 				}
 				
-				if (currentMap == 1){
-					moveGuard();					
-					leverStepped();
-				}else{
-					moveOgre();
-					keyPicked();
-				}
 				drawMap();
 				
 				if (levelComplete){
@@ -214,7 +220,7 @@ public class DungeonKeep {
 		else if (move.equals("a") || move.equals("A")){
 			if (gameMap[heroPosition[0]][heroPosition[1] - 1] != 'X'){
 				
-				if (currentMap == 1 && gameMap[heroPosition[0]][heroPosition[1] - 1] != 'I'){
+				if (currentMap == 1 && gameMap[heroPosition[0]][heroPosition[1] - 1] == 'I'){
 					return false;
 				}
 
@@ -229,6 +235,13 @@ public class DungeonKeep {
 						return false;
 					}
 				}
+				if (currentMap == 1){
+					moveGuard();					
+					leverStepped();
+				}else{
+					moveOgre();
+					keyPicked();
+				}
 				
 				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
 				heroPosition[1]--;
@@ -239,13 +252,7 @@ public class DungeonKeep {
 					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
 				}
 				
-				if (currentMap == 1){
-					moveGuard();					
-					leverStepped();
-				}else{
-					moveOgre();
-					keyPicked();
-				}
+				
 				drawMap();
 				
 				if (levelComplete){
@@ -256,13 +263,20 @@ public class DungeonKeep {
 		else if (move.equals("s") || move.equals("S")){
 			if (gameMap[heroPosition[0] + 1][heroPosition[1]] != 'X'){
 				
-				if (currentMap == 1 && gameMap[heroPosition[0] + 1][heroPosition[1]] != 'I'){
+				if (currentMap == 1 && gameMap[heroPosition[0] + 1][heroPosition[1]] == 'I'){
 					return false;
 				}
 				
 				//Checks whether the next cell is an exit cell.
 				if (gameMap[heroPosition[0] + 1][heroPosition[1]] == 'S'){
 					levelComplete = true;
+				}
+				if (currentMap == 1){
+					moveGuard();					
+					leverStepped();
+				}else{
+					moveOgre();
+					keyPicked();
 				}
 				
 				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
@@ -274,14 +288,6 @@ public class DungeonKeep {
 					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
 				}
 				
-				if (currentMap == 1){
-					moveGuard();					
-					leverStepped();
-				}else{
-					moveOgre();
-					keyPicked();
-				}
-				
 				drawMap();
 				
 				if (levelComplete){
@@ -291,8 +297,8 @@ public class DungeonKeep {
 		}
 		else if (move.equals("d") || move.equals("D")){
 			if (gameMap[heroPosition[0]][heroPosition[1] + 1] != 'X'){
-				
-				if (currentMap == 1 && gameMap[heroPosition[0]][heroPosition[1] + 1] != 'I'){
+
+				if (currentMap == 1 && gameMap[heroPosition[0]][heroPosition[1] + 1] == 'I'){
 					return false;
 				}
 				
@@ -300,22 +306,21 @@ public class DungeonKeep {
 				if (gameMap[heroPosition[0]][heroPosition[1] + 1] == 'S'){
 					levelComplete = true;
 				}
-				
-				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-				heroPosition[1]++;
-				
-				if (!keyStolen){
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
-				}else{
-					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
-				}
-				
 				if (currentMap == 1){
 					moveGuard();					
 					leverStepped();
 				}else{
 					moveOgre();
 					keyPicked();
+				}
+				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+				heroPosition[1]++;
+				
+				
+				if (!keyStolen){
+					gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
+				}else{
+					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
 				}
 				
 				drawMap();
@@ -353,6 +358,7 @@ public class DungeonKeep {
 							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
 						}
 					}
+					moveClub();
 					break;
 				}
 			}
@@ -368,6 +374,7 @@ public class DungeonKeep {
 							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
 						}
 					}
+					moveClub();
 					break;
 				}
 			}
@@ -383,6 +390,7 @@ public class DungeonKeep {
 							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
 						}
 					}
+					moveClub();
 					break;
 				}
 			}
@@ -394,6 +402,82 @@ public class DungeonKeep {
 						gameMap[ogrePosition[0]][ogrePosition[1]] = '$';
 					}else{
 						gameMap[ogrePosition[0]][ogrePosition[1]] = 'O';
+						if (!keyStolen){
+							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
+						}
+					}
+					moveClub();
+					break;
+				}
+			}
+		}
+		return;
+	}
+	
+	private static void moveClub() {
+		Random rnd = new Random();
+		
+		for (;;){
+			int genMove = rnd.nextInt(4);
+			
+			if (genMove == 0){
+				if (gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'I'){
+					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					clubPosition[0] = ogrePosition[0]-1;
+					clubPosition[1] = ogrePosition[1];
+					
+					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
+						gameMap[clubPosition[0]][clubPosition[1]] = '$';
+					}else{
+						gameMap[clubPosition[0]][clubPosition[1]] = '*';
+						if (!keyStolen){
+							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
+						}
+					}
+					break;
+				}
+			}
+			else if (genMove == 1){
+				if (gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'I'){
+					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					clubPosition[1] = ogrePosition[1] - 1;
+					clubPosition[0] = ogrePosition[0];
+					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
+						gameMap[clubPosition[0]][clubPosition[1]] = '$';
+					}else{
+						gameMap[clubPosition[0]][clubPosition[1]] = '*';
+						if (!keyStolen){
+							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
+						}
+					}
+					break;
+				}
+			}
+			else if (genMove == 2){
+				if (gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'I'){
+					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					clubPosition[0] = ogrePosition[0]+1;
+					clubPosition[1] = ogrePosition[1];
+					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
+						gameMap[clubPosition[0]][clubPosition[1]] = '$';
+					}else{
+						gameMap[clubPosition[0]][clubPosition[1]] = '*';
+						if (!keyStolen){
+							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
+						}
+					}
+					break;
+				}
+			}
+			else if (genMove == 3){
+				if (gameMap[ogrePosition[0]][ogrePosition[1] + 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] + 1] != 'I'){
+					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					clubPosition[1] = ogrePosition[1] + 1;
+					clubPosition[0] = ogrePosition[0];
+					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
+						gameMap[clubPosition[0]][clubPosition[1]] = '$';
+					}else{
+						gameMap[clubPosition[0]][clubPosition[1]] = '*';
 						if (!keyStolen){
 							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
 						}
@@ -414,7 +498,7 @@ public class DungeonKeep {
 		Scanner s = new Scanner(System.in);
 		
 		//First level input loop.
-		/*for (;;){
+	/*	for (;;){
 			String move = s.nextLine();
 			
 			if (moveHero(move)){
@@ -427,8 +511,8 @@ public class DungeonKeep {
 				System.out.println("You got caught, doofus!\n");
 				return;
 			}
-		}*/
-		
+		}
+		*/
 		//Keep's Crazy Ogre input loop.
 		loadMap2();
 		loadPositions();
