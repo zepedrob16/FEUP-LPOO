@@ -128,11 +128,15 @@ public class DungeonKeep {
 					}					
 				}else{
 					if ((heroPosition[0] == ogrePosition[0] + 1 && heroPosition[1] == ogrePosition[1]) ||
-							(heroPosition[0] == ogrePosition[0] - 1 && heroPosition[1] == ogrePosition[1])){
+							(heroPosition[0] == ogrePosition[0] - 1 && heroPosition[1] == ogrePosition[1]) ||
+							(heroPosition[0] == clubPosition[0] + 1 && heroPosition[1] == clubPosition[1]) ||
+							(heroPosition[0] == clubPosition[0] - 1 && heroPosition[1] == clubPosition[1])){
 						return true;
 					}
 					else if ((heroPosition[1] == ogrePosition[1] + 1 && heroPosition[0] == ogrePosition[0]) ||
-							(heroPosition[1] == ogrePosition[1] - 1 && heroPosition[0] == ogrePosition[0])){
+							(heroPosition[1] == ogrePosition[1] - 1 && heroPosition[0] == ogrePosition[0]) ||
+							(heroPosition[1] == clubPosition[1] + 1 && heroPosition[0] == clubPosition[0]) ||
+							(heroPosition[1] == clubPosition[1] - 1 && heroPosition[0] == clubPosition[0])){
 						return true;
 					}	
 				}
@@ -232,6 +236,11 @@ public class DungeonKeep {
 					if (gameMap[heroPosition[0]][heroPosition[1] - 1] == 'I') {
 						openDoors();
 						drawMap();
+						return false;
+					}
+				}
+				if (currentMap == 2 && !keyStolen) {
+					if (gameMap[heroPosition[0]][heroPosition[1] - 1] == 'I') {
 						return false;
 					}
 				}
@@ -422,7 +431,9 @@ public class DungeonKeep {
 			
 			if (genMove == 0){
 				if (gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'I'){
-					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
+						gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					}
 					clubPosition[0] = ogrePosition[0] - 1;
 					clubPosition[1] = ogrePosition[1];
 					
@@ -439,7 +450,9 @@ public class DungeonKeep {
 			}
 			else if (genMove == 1){
 				if (gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'I'){
-					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
+						gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					}
 					clubPosition[1] = (ogrePosition[1] - 1);
 					clubPosition[0] = ogrePosition[0];
 					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
@@ -455,7 +468,9 @@ public class DungeonKeep {
 			}
 			else if (genMove == 2){
 				if (gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'I'){
-					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
+						gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					}
 					clubPosition[0] = ogrePosition[0] + 1;
 					clubPosition[1] = ogrePosition[1];
 					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
@@ -471,7 +486,9 @@ public class DungeonKeep {
 			}
 			else if (genMove == 3){
 				if (gameMap[ogrePosition[0]][ogrePosition[1] + 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] + 1] != 'I'){
-					gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
+						gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+					}
 					clubPosition[1] = ogrePosition[1] + 1;
 					clubPosition[0] = ogrePosition[0];
 					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
@@ -498,7 +515,7 @@ public class DungeonKeep {
 		Scanner s = new Scanner(System.in);
 		
 		//First level input loop.
-	/*	for (;;){
+		for (;;){
 			String move = s.nextLine();
 			
 			if (moveHero(move)){
@@ -512,7 +529,7 @@ public class DungeonKeep {
 				return;
 			}
 		}
-		*/
+		
 		//Keep's Crazy Ogre input loop.
 		loadMap2();
 		loadPositions();
