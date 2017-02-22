@@ -1,7 +1,8 @@
 package dkeep.logic;
 
 public class Hero {
-	private int x, y;
+	private int x;
+	private int y;
 	private char symbol;
 
 	public Hero(int x, int y){
@@ -10,20 +11,20 @@ public class Hero {
 		symbol = 'H';
 	}
 
-	public void moveHero(char move){
-		if (move == 'w'){
-			moveTo(x-1,y);
+	public boolean moveHero(DungeonMap map, String move){
+		if (move.equals("w")) {
+			map.moveTo(x-1,y);
 		}
-		else if (move == 'a'){
-			moveTo(x,y-1);
+		else if (move.equals("a")){
+			map.moveTo(x,y-1);
 		}
-		else if (move == 's'){
-			moveTo(x+1,y);
+		else if (move.equals("s")){
+			map.moveTo(x+1,y);
 		}
-		else if (move == 'd'){
-			moveTo(x,y+1);
+		else if (move.equals("d")){
+			map.moveTo(x,y+1);
 		}
-		return;
+		return false;
 	}
 
 
