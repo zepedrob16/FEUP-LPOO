@@ -14,7 +14,7 @@ public class UserInput {
 		System.out.print("Load Map : ");
 		int loadMap = s.nextInt();
 
-		Hero h = new Hero(1,1);
+		
 		//GameMap map;
 		GameState g;
 
@@ -27,6 +27,7 @@ public class UserInput {
 
 
 			if (loadMap == 1) {
+				Hero h = new Hero(1,1);
 				DungeonMap map = new DungeonMap();
 				g = new GameState(map);
 				if (h.moveHero(map, move)){

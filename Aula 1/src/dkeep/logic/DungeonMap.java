@@ -3,8 +3,8 @@ package dkeep.logic;
 public class DungeonMap implements GameMap{
 
 	char[][] gameMap = new char[10][10];
-	static Hero hero = new Hero(1,1);
-	static Guard guard = new Guard(1,8,'R');
+	Hero hero = new Hero(1,1);
+	Guard guard = new Guard(1,8,'R');
 	
 	public void drawMap() {
 		for (int i = 0; i < 10; i++){
@@ -49,7 +49,7 @@ public class DungeonMap implements GameMap{
 			}
 		}
 	}
-	public static boolean heroSpotted(){
+	public boolean heroSpotted(){
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
 				if ((hero.getX() == guard.getX() + 1 && hero.getY() == guard.getY()) ||
