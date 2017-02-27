@@ -3,6 +3,7 @@ package dkeep.cli;
 import java.util.Scanner;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
+import dkeep.logic.Guard;
 import dkeep.logic.Hero;
 import dkeep.logic.DungeonMap;
 
@@ -14,35 +15,44 @@ public class UserInput {
 		System.out.print("Load Map : ");
 		int loadMap = s.nextInt();
 
+		GameState gameState = new GameState();
 		
-		//GameMap map;
-		GameState g;
-
-		if (loadMap == 2){
-			//TODO: Implement more maps.
+		if (loadMap == 1){	//Loads the Dungeon map.
+			System.out.println("Loading DUNGEON level!");
+			DungeonMap dungeonMap = new DungeonMap();
+			gameState.setGameMap(dungeonMap);
 		}
+		else if (loadMap == 2){ //Loads the Crazy Ogre map.
+			System.out.println("Loading CRAZY OGRE level!");
+			//OgreMap ogreMap = new OgreMap();
+			//gameState.setGameMap(ogreMap);
+		}
+		
+		gameState.getGameMap().drawMap();
+		Hero h = new Hero(1,1); //Instantiates a new hero.
+		Guard g = new Guard(1,1,'p');	//Instantiates a new guard.
 
-		for (;;){
+		while (true){
 			String move = s.nextLine();
-
-
-			if (loadMap == 1) {
-				Hero h = new Hero(1,1);
-				DungeonMap map = new DungeonMap();
-				g = new GameState(map);
-				if (h.moveHero(map, move)){
-					System.out.println("Level complete!\n");
-					Thread.sleep(1500);
-					break;
-				}
-				if (map.heroSpotted()){
-					System.out.println("You got caught, doofus!\n");
-					return;
-				}
+			
+			if (h.moveHero(gameState.getGameMap(), move) == 0){
+				gameState.getGameMap().drawMap();
 			}
-
+			else if (h.moveHero(gameState.getGameMap(), move) == 1){
+				gameState.getGameMap().drawMap();
+				System.out.println("Level complete!\n"); Thread.sleep(1500);
+				
+				//TODO: gameState.setGameMap(map);
+			}
+			else if (h.moveHero(gameState.getGameMap(), move) == -1){
+				System.out.println("Invalid move!\n");
+				continue;
+			}
+			
+			if (h.heroSpotted(g) == true){
+				System.out.println("You got caught, doofus!\n");
+				return;
+			}
 		}
-
 	}
-
 }

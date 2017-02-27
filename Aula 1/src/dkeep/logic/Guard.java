@@ -11,6 +11,20 @@ public class Guard {
 		this.personality = personality;
 		this.symbol = 'G';
 	}
+	
+	public void moveGuard(GameMap map){
+		if (this.personality == 'R'){  //Guard has Rookie personality.
+
+		}
+		else if (this.personality == 'D'){  //Guard has Drunken personality.
+			
+		}
+		else if (this.personality == 'S'){  //Guard has Suspicious personality.
+			
+		}
+	}
+	
+	
 	public int getX(){
 		return x;
 	}
