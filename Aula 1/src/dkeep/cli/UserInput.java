@@ -28,16 +28,14 @@ public class UserInput {
 			//gameState.setGameMap(ogreMap);
 		}
 		
-		Hero h = new Hero(1,1); //Instantiates a new hero.
-		Guard g = new Guard(1,8,'R');	//Instantiates a new guard.
-		gameState.getGameMap().drawMap(h,g);
-		
-		//s.next();
+		gameState.spawnHero(1,1);  //Instantiates a new hero.
+		gameState.spawnGuard(1,8);  //Instantiates a guard with a random personality.
+		gameState.drawMap();
 
 		while (true){
 			String move = s.nextLine();
 			
-			int m = h.moveHero(gameState.getGameMap(), move); 
+			int m = gameState.hero.moveHero(gameState.getGameMap(), move);
 			
 			if (m == 0){
 				g.moveGuard(gameState.getGameMap());

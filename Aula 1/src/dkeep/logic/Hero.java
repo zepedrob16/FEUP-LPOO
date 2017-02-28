@@ -5,6 +5,8 @@ public class Hero {
 	private int y;
 	private char symbol;
 
+	public Hero(){}
+	
 	public Hero(int x, int y){
 		this.x = x;
 		this.y = y;

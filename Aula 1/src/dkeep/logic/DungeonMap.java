@@ -28,31 +28,6 @@ public class DungeonMap implements GameMap{
 			}
 		}
 	}
-	
-	public void drawMap(Hero hero, Guard guard) {
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
-				if (i == hero.getX() && j == hero.getY()) {
-					System.out.print('H' + " ");
-					continue;
-				}
-				else if (i == guard.getX() && j == guard.getY()) {
-					System.out.print('G' + " ");
-					continue;
-				}
-				System.out.print(gameMap[i][j] + " ");
-			}
-			System.out.print("\n");
-		}
-		
-	}
-	
-	/*public void changeCell(int x, int y){
-		if (gameMap[x][y] == 'I'){
-			gameMap[x][y] = 'S';
-		}
-	}
-	*/
 	public void openDoors() {
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
@@ -74,6 +49,10 @@ public class DungeonMap implements GameMap{
 			return 1; //Returns 1 if the move is towards a stairs block.
 		}
 		return 0; //Returns 0 if the move is valid, but not towards a stairs block.
+	}
+
+	public char[][] getMap() {
+		return gameMap;
 	}
 	
 }
