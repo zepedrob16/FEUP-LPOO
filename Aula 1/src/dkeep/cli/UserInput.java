@@ -37,20 +37,23 @@ public class UserInput {
 		while (true){
 			String move = s.nextLine();
 			
-			if (h.moveHero(gameState.getGameMap(), move) == 0){
+			int m = h.moveHero(gameState.getGameMap(), move); 
+			
+			if (m == 0){
 				g.moveGuard(gameState.getGameMap());
 				gameState.getGameMap().drawMap(h,g);
 				System.out.println(h.getX() + "|" + h.getY() + "\n");    //To study the hero's movement
 			}
-			else if (h.moveHero(gameState.getGameMap(), move) == 1){
+			else if (m == 1){
 				g.moveGuard(gameState.getGameMap());
 				gameState.getGameMap().drawMap(h,g);
 				System.out.println(h.getX() + "|" + h.getY() + "\n");
 				System.out.println("Level complete!\n"); Thread.sleep(1500);
+				return;
 				
 				//TODO: gameState.setGameMap(map);
 			}
-			else if (h.moveHero(gameState.getGameMap(), move) == -1){
+			else if (m == -1){
 				System.out.println("Invalid move!\n");
 				System.out.println(h.getX() + "|" + h.getY() + "\n");
 				continue;
