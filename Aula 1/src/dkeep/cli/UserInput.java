@@ -28,24 +28,31 @@ public class UserInput {
 			//gameState.setGameMap(ogreMap);
 		}
 		
-		gameState.getGameMap().drawMap();
 		Hero h = new Hero(1,1); //Instantiates a new hero.
-		Guard g = new Guard(1,1,'p');	//Instantiates a new guard.
+		Guard g = new Guard(1,8,'R');	//Instantiates a new guard.
+		gameState.getGameMap().drawMap(h,g);
+		
+		//s.next();
 
 		while (true){
 			String move = s.nextLine();
 			
 			if (h.moveHero(gameState.getGameMap(), move) == 0){
-				gameState.getGameMap().drawMap();
+				g.moveGuard(gameState.getGameMap());
+				gameState.getGameMap().drawMap(h,g);
+				System.out.println(h.getX() + "|" + h.getY() + "\n");    //To study the hero's movement
 			}
 			else if (h.moveHero(gameState.getGameMap(), move) == 1){
-				gameState.getGameMap().drawMap();
+				g.moveGuard(gameState.getGameMap());
+				gameState.getGameMap().drawMap(h,g);
+				System.out.println(h.getX() + "|" + h.getY() + "\n");
 				System.out.println("Level complete!\n"); Thread.sleep(1500);
 				
 				//TODO: gameState.setGameMap(map);
 			}
 			else if (h.moveHero(gameState.getGameMap(), move) == -1){
 				System.out.println("Invalid move!\n");
+				System.out.println(h.getX() + "|" + h.getY() + "\n");
 				continue;
 			}
 			

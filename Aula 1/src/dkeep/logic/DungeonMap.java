@@ -4,8 +4,8 @@ public class DungeonMap implements GameMap{
 
 	char[][] gameMap = new char[10][10];
 	
-	Hero hero = new Hero(1,1);
-	Guard guard = new Guard(1,8,'R');
+	//Hero hero = new Hero(1,1);
+	//Guard guard = new Guard(1,8,'R');
 	
 	public DungeonMap() {
 		for (int i = 0; i < 10; i++){
@@ -18,7 +18,7 @@ public class DungeonMap implements GameMap{
 		gameMap[4][0] = 'X'; gameMap[4][1] = 'X'; gameMap[4][2] = 'X'; gameMap[4][4] = 'X'; gameMap[4][5] = 'X'; gameMap[4][6] = 'X';
 		gameMap[4][9] = 'X'; gameMap[5][0] = 'I'; gameMap[5][9] = 'X'; gameMap[6][0] = 'I'; gameMap[6][9] = 'X'; gameMap[7][0] = 'X'; 
 		gameMap[7][1] = 'X'; gameMap[7][2] = 'X'; gameMap[7][4] = 'X'; gameMap[7][5] = 'X'; gameMap[7][6] = 'X'; gameMap[7][7] = 'X'; 
-		gameMap[7][9] = 'X'; gameMap[8][0] = 'X'; gameMap[8][2] = 'I'; gameMap[8][4] = 'I'; gameMap[8][6] = 'X'; 
+		gameMap[7][9] = 'X'; gameMap[8][0] = 'X'; gameMap[8][2] = 'I'; gameMap[8][4] = 'I'; gameMap[8][6] = 'X'; gameMap[8][7] = 'k';
 		gameMap[8][9] = 'X';
 		
 		for (int i = 0; i < 10; i++){
@@ -29,24 +29,46 @@ public class DungeonMap implements GameMap{
 		}
 	}
 	
-	public void drawMap() {
+	public void drawMap(Hero hero, Guard guard) {
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
+				if (i == hero.getX() && j == hero.getY()) {
+					System.out.print('H' + " ");
+					continue;
+				}
+				else if (i == guard.getX() && j == guard.getY()) {
+					System.out.print('G' + " ");
+					continue;
+				}
 				System.out.print(gameMap[i][j] + " ");
 			}
 			System.out.print("\n");
 		}
+		
 	}
 	
-	public void changeCell(int x, int y){
+	/*public void changeCell(int x, int y){
 		if (gameMap[x][y] == 'I'){
 			gameMap[x][y] = 'S';
+		}
+	}
+	*/
+	public void openDoors() {
+		for (int i = 0; i < 10; i++){
+			for (int j = 0; j < 10; j++){
+				if (gameMap[i][j] == 'I') {
+					gameMap[i][j] = 'S';
+				}
+			}
 		}
 	}
 	
 	public int moveTo(int x, int y) {
 		if (gameMap[x][y] == 'X' || gameMap[x][y] == 'I'){
 			return -1; //Returns -1 if the move is invalid (wall or door in the way).
+		}
+		else if (gameMap[x][y] == 'k') {
+			openDoors();
 		}
 		else if (gameMap[x][y] == 'S'){
 			return 1; //Returns 1 if the move is towards a stairs block.
