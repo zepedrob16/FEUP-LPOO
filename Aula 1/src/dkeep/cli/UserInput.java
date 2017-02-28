@@ -31,21 +31,23 @@ public class UserInput {
 		gameState.spawnHero(1,1);  //Instantiates a new hero.
 		gameState.spawnGuard(1,8);  //Instantiates a guard with a random personality.
 		gameState.drawMap();
-
+		
+		Hero h = gameState.hero;
+		Guard g = gameState.guard;
 		while (true){
 			String move = s.nextLine();
 			
 			int m = gameState.hero.moveHero(gameState.getGameMap(), move);
 			
 			if (m == 0){
-				g.moveGuard(gameState.getGameMap());
-				gameState.getGameMap().drawMap(h,g);
-				System.out.println(h.getX() + "|" + h.getY() + "\n");    //To study the hero's movement
+				g.moveGuard();
+				gameState.drawMap();
+				System.out.println(g.getX() + "|" + g.getY() + "\n");    //To study the hero's movement
 			}
 			else if (m == 1){
-				g.moveGuard(gameState.getGameMap());
-				gameState.getGameMap().drawMap(h,g);
-				System.out.println(h.getX() + "|" + h.getY() + "\n");
+				g.moveGuard();
+				gameState.drawMap();
+				System.out.println(g.getX() + "|" + g.getY() + "\n");
 				System.out.println("Level complete!\n"); Thread.sleep(1500);
 				return;
 				
@@ -53,7 +55,7 @@ public class UserInput {
 			}
 			else if (m == -1){
 				System.out.println("Invalid move!\n");
-				System.out.println(h.getX() + "|" + h.getY() + "\n");
+				System.out.println(g.getX() + "|" + g.getY() + "\n");
 				continue;
 			}
 			

@@ -14,6 +14,8 @@ public class Guard {
 		this.symbol = 'G';
 	}
 	
+	public void moveGuard(){};
+	
 	//Get and set methods.
 	public int getX(){
 		return x;
