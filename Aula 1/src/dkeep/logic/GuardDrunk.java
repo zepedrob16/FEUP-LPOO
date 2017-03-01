@@ -13,44 +13,64 @@ public class GuardDrunk extends Guard {
 		this.inversePath = false;
 	}
 	public void moveGuard(){
-		
-		if (sleeping){
-			wakeUp();
-			return;
+		if (this.sleeping){
+			if (!wakeUp()){
+				return;
+			}
 		}
+		
 		if (patrolRoute[movementIterator] == 'W'){
-			this.x--;
+			if (!this.inversePath){
+				this.x--;				
+			}else{
+				this.x++;
+			}
 		}
 		else if (patrolRoute[movementIterator] == 'A'){
-			this.y--;
+			if (!this.inversePath){
+				this.y--;				
+			}else{
+				this.y++;
+			}
 		}
 		else if (patrolRoute[movementIterator] == 'S'){
-			this.x++;
+			if (!this.inversePath){
+				this.x++;				
+			}else{
+				this.x--;
+			}
 		}
 		else if (patrolRoute[movementIterator] == 'D'){
-			this.y++;
+			if (!this.inversePath){
+				this.y++;				
+			}else{
+				this.y--;
+			}
 		}
+		System.out.println(patrolRoute[movementIterator]);
 		
-		if (!this.inversePath){
-			movementIterator++;			
-		}else{
-			movementIterator--;
+		if (!fallAsleep()){
+			if (!changeDirection()){
+				if (!this.inversePath && !this.sleeping){
+					movementIterator++;			
+				}
+				else if (this.inversePath && !this.sleeping){
+					movementIterator--;
+				}
+			}
 		}
-		
-		if (movementIterator == patrolRoute.length && !this.inversePath){
+		if (movementIterator == patrolRoute.length && !this.inversePath && !this.sleeping){
 			movementIterator = 0;	
 		}
-		else if (movementIterator == -1 && this.inversePath){
+		else if (movementIterator == -1 && this.inversePath && !this.sleeping){
 			movementIterator = (patrolRoute.length - 1);
 		}
-		
-		fallAsleep();
 	}
 	public boolean fallAsleep(){
 		Random rnd = new Random();
-		int chance = rnd.nextInt(4);
+		int chance = rnd.nextInt(3);
 		
-		if (chance == 0){ //25% chance to fall asleep.
+		if (chance == 0){ //33% chance to fall asleep.
 			this.sleeping = true;
 			this.symbol = 'g';
 			return true;
@@ -64,7 +84,6 @@ public class GuardDrunk extends Guard {
 		if (chance != 0){ //75% chance to wake up.
 			this.sleeping = false;
 			this.symbol = 'G';
-			changeDirection();
 			return true;
 		}
 		return false;
