@@ -5,6 +5,7 @@ public class GuardRookie extends Guard {
 	public GuardRookie(int x, int y){
 		this.x = x;
 		this.y = y;
+		this.symbol = 'G';
 	}
 	public void moveGuard(){
 		if (patrolRoute[movementIterator] == 'W'){

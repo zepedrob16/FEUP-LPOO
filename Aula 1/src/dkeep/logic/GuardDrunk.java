@@ -8,6 +8,7 @@ public class GuardDrunk extends Guard {
 	public GuardDrunk(int x, int y){
 		this.x = x;
 		this.y = y;
+		this.symbol = 'G';
 		this.sleeping = false;
 		this.inversePath = false;
 	}

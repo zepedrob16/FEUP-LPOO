@@ -34,6 +34,7 @@ public class UserInput {
 		
 		Hero h = gameState.hero;
 		Guard g = gameState.guard;
+		
 		while (true){
 			String move = s.nextLine();
 			

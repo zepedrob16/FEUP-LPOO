@@ -7,7 +7,7 @@ public class Guard {
 	
 	public Guard(){}
 	
-	public Guard(int x, int y, char personality){
+	public Guard(int x, int y){
 		this.x = x;
 		this.y = y;
 		this.movementIterator = 0;
