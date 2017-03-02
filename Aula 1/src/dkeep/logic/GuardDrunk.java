@@ -49,7 +49,7 @@ public class GuardDrunk extends Guard {
 		}
 		System.out.println(patrolRoute[movementIterator]);
 		
-		if (!fallAsleep()){
+		if (!sleeping){
 			if (!changeDirection()){
 				if (!this.inversePath && !this.sleeping){
 					movementIterator++;			
@@ -65,6 +65,7 @@ public class GuardDrunk extends Guard {
 		else if (movementIterator == -1 && this.inversePath && !this.sleeping){
 			movementIterator = (patrolRoute.length - 1);
 		}
+		fallAsleep();
 	}
 	public boolean fallAsleep(){
 		Random rnd = new Random();

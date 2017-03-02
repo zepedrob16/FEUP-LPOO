@@ -48,7 +48,7 @@ public class Hero {
 	public boolean heroSpotted(Guard guard){
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
-				if ((x == guard.getX() + 1 && y == guard.getY()) || (x == guard.getX() - 1 && y == guard.getY()) || (y == guard.getY() + 1 && x == guard.getX()) || (y == guard.getY() - 1 && x == guard.getX())){
+				if (((x == guard.getX() + 1 && y == guard.getY()) || (x == guard.getX() - 1 && y == guard.getY()) || (y == guard.getY() + 1 && x == guard.getX()) || (y == guard.getY() - 1 && x == guard.getX())) && guard.getSymbol() == 'G'){
 					return true;
 				}
 			}

@@ -13,31 +13,50 @@ public class GuardSuspicious extends Guard {
 	}
 	public void moveGuard(){
 		if (patrolRoute[movementIterator] == 'W'){
-			this.x--;
+			if (!this.inversePath){
+				this.x--;				
+			}else{
+				this.x++;
+			}
 		}
 		else if (patrolRoute[movementIterator] == 'A'){
-			this.y--;
+			if (!this.inversePath){
+				this.y--;				
+			}else{
+				this.y++;
+			}
 		}
 		else if (patrolRoute[movementIterator] == 'S'){
-			this.x++;
+			if (!this.inversePath){
+				this.x++;				
+			}else{
+				this.x--;
+			}
 		}
 		else if (patrolRoute[movementIterator] == 'D'){
-			this.y++;
+			if (!this.inversePath){
+				this.y++;				
+			}else{
+				this.y--;
+			}
 		}
+		System.out.println(patrolRoute[movementIterator]);
 		
-		if (!this.inversePath){
-			movementIterator++;			
-		}else{
-			movementIterator--;
-		}
-		
+			if (!changeDirection()){
+				if (!this.inversePath){
+					movementIterator++;			
+				}
+				else if (this.inversePath){
+					movementIterator--;
+				}
+			}
 		if (movementIterator == patrolRoute.length && !this.inversePath){
 			movementIterator = 0;	
 		}
 		else if (movementIterator == -1 && this.inversePath){
 			movementIterator = (patrolRoute.length - 1);
 		}
-		changeDirection();
+		//changeDirection();
 	}
 	public boolean changeDirection(){
 		Random rnd = new Random();
