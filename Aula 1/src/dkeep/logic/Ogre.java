@@ -9,6 +9,9 @@ public class Ogre {
 		this.y = y;
 		this.symbol = 'O';
 	}
+	
+	
+	
 	public int getX(){
 		return x;
 	}
