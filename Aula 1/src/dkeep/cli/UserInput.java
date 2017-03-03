@@ -1,13 +1,9 @@
 package dkeep.cli;
 
 import java.util.Scanner;
-import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
-import dkeep.logic.Guard;
-import dkeep.logic.Hero;
-import dkeep.logic.Ogre;
-import dkeep.logic.OgreMap;
 import dkeep.logic.DungeonMap;
+import dkeep.logic.OgreMap;
 
 public class UserInput {
 
@@ -23,21 +19,17 @@ public class UserInput {
 			System.out.println("Loading DUNGEON level!");
 			DungeonMap dungeonMap = new DungeonMap();
 			gameState.setGameMap(dungeonMap);
-			gameState.spawnGuard(1,8);  //Instantiates a guard with a random personality.
-			
+			gameState.spawnGuard(1,8);  //Instantiates a guard with a random personality.	
 		}
 		else if (loadMap == 2){ //Loads the Crazy Ogre map.
 			System.out.println("Loading CRAZY OGRE level!");
 			OgreMap ogreMap = new OgreMap();
 			gameState.setGameMap(ogreMap);
+			gameState.spawnKey(1,7);
 		}
 		
 		gameState.spawnHero(1,1);  //Instantiates a new hero.
-		Guard g = gameState.guard;
-		Ogre[] o = gameState.ogres;
 		gameState.drawMap();
-		
-		Hero h = gameState.hero;
 		
 		while (true){
 			String move = s.nextLine();
@@ -46,11 +38,11 @@ public class UserInput {
 			
 			if (loadMap == 1) {
 				if (m == 0){
-					g.moveGuard();
+					gameState.guard.moveGuard();
 					gameState.drawMap();
 				}
 				else if (m == 1){
-					g.moveGuard();
+					gameState.guard.moveGuard();
 					gameState.drawMap();
 					System.out.println("Level complete!\n"); Thread.sleep(1500);
 					return;
@@ -62,16 +54,32 @@ public class UserInput {
 					continue;
 				}
 
-				if (h.heroSpotted(g) == true){
+				if (gameState.hero.heroSpotted(gameState.guard) == true){
 					System.out.println("You got caught, doofus!\n");
-					return;
+					break;
 				}
 			}
 			if (loadMap == 2) {
 				if (m == 0) {
+					gameState.moveEveryOgre();
+					gameState.drawMap();
+				}
+				else if (m == 1){
 					
 				}
+				else if (m == -1){
+					
+				}
+				
+				for (int i = 0; i < gameState.ogres.length && gameState.ogres[i] != null; i++){
+					if (gameState.ogres[i].heroAdjacent(gameState.hero) == true){
+						System.out.println("You got caught, doofus!\n");
+						break;
+					}
+				}
+				
 			}
 		}
+		s.close();
 	}
 }

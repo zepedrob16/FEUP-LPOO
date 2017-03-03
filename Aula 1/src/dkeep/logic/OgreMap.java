@@ -1,9 +1,14 @@
 package dkeep.logic;
 
 public class OgreMap implements GameMap{
-	char[][] gameMap = new char[10][10];
+	char[][] gameMap = new char[9][9];
 	
 	public OgreMap(){
+		for (int i = 0; i < 9; i++){
+			for (int j = 0; j < 9; j++){
+				gameMap[i][j] = ' ';
+			}
+		}
 		for (int i = 0; i < 9; i++){
 			gameMap[0][i] = 'X';
 			gameMap[8][i] = 'X';

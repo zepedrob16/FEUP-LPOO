@@ -8,6 +8,7 @@ public class GameState {
 	public Hero hero = new Hero();
 	public Guard guard = new Guard();
 	public Ogre[] ogres = new Ogre[5];  //Ogres spawned on the map.
+	public int keyX, keyY; 
 	
 	public GameState() {
 	}
@@ -26,10 +27,10 @@ public class GameState {
 		
 		for (int i = 0; i < currentMap.length; i++){
 			for (int j = 0; j < currentMap[i].length; j++){
-				if (i == hero.getX() && j == hero.getY()){
+				if (i == hero.getX() && j == hero.getY() && hero.getX() != 0 && hero.getY() != 0){
 					System.out.print(hero.getSymbol() + " ");
 				}
-				else if (i == guard.getX() && j == guard.getY()){
+				else if (i == guard.getX() && j == guard.getY() && guard.getX() != 0 && guard.getY() != 0){
 					System.out.print(guard.getSymbol() + " ");
 				}
 				else{
@@ -61,5 +62,14 @@ public class GameState {
 			guard = suspicious;
 		}
 		return;
+	}
+	public void spawnKey(int x, int y){
+		this.keyX = x;
+		this.keyY = y;
+	}
+	public void moveEveryOgre(){
+		for (int i = 0; i < ogres.length && ogres[i] != null; i++){
+			ogres[i].move(this.map);
+		}
 	}
 }
