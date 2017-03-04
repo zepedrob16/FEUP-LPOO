@@ -2,10 +2,8 @@ package dkeep.logic;
 
 public class DungeonMap implements GameMap{
 
-	char[][] gameMap = new char[10][10];
-	
-	//Hero hero = new Hero(1,1);
-	//Guard guard = new Guard(1,8,'R');
+	private String name = "DUNGEON";
+	private char[][] gameMap = new char[10][10];
 	
 	public DungeonMap() {
 		for (int i = 0; i < 10; i++){
@@ -53,6 +51,9 @@ public class DungeonMap implements GameMap{
 
 	public char[][] getMap() {
 		return gameMap;
+	}
+	public String getName(){
+		return name;
 	}
 	
 }

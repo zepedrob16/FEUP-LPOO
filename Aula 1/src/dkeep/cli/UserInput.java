@@ -16,25 +16,25 @@ public class UserInput {
 		GameState gameState = new GameState();
 		
 		if (loadMap == 1){	//Loads the Dungeon map.
-			System.out.println("Loading DUNGEON level!");
+			System.out.println("\nLoading DUNGEON level...\n");
 			DungeonMap dungeonMap = new DungeonMap();
 			gameState.setGameMap(dungeonMap);
+			gameState.spawnHero(1,1);  //Instantiates a new hero.
 			gameState.spawnGuard(1,8);  //Instantiates a guard with a random personality.	
 		}
 		else if (loadMap == 2){ //Loads the Crazy Ogre map.
-			System.out.println("Loading CRAZY OGRE level!");
+			System.out.println("\nLoading CRAZY OGRE level...\n");
 			OgreMap ogreMap = new OgreMap();
 			gameState.setGameMap(ogreMap);
+			gameState.spawnHero(1,1);  //Instantiates a new hero.
 			gameState.spawnKey(1,7);
+			gameState.spawnOgres();  //Spawns 1-5 ogres (randomly).
 		}
-		
-		gameState.spawnHero(1,1);  //Instantiates a new hero.
 		gameState.drawMap();
 		
 		while (true){
 			String move = s.nextLine();
-			
-			int m = gameState.hero.moveHero(gameState.getGameMap(), move);
+			int m = gameState.hero.moveHero(gameState.getGameMap(), move);  //0 if movement is valid, 1 if victorious, -1 if invalid.
 			
 			if (loadMap == 1) {
 				if (m == 0){
@@ -45,15 +45,14 @@ public class UserInput {
 					gameState.guard.moveGuard();
 					gameState.drawMap();
 					System.out.println("Level complete!\n"); Thread.sleep(1500);
-					return;
-
-					//TODO: gameState.setGameMap(map);
+					
+					OgreMap ogreMap = new OgreMap();
+					gameState.setGameMap(ogreMap);
 				}
 				else if (m == -1){
 					System.out.println("Invalid move!\n");
 					continue;
 				}
-
 				if (gameState.hero.heroSpotted(gameState.guard) == true){
 					System.out.println("You got caught, doofus!\n");
 					break;
@@ -65,19 +64,21 @@ public class UserInput {
 					gameState.drawMap();
 				}
 				else if (m == 1){
-					
+					gameState.moveEveryOgre();
+					gameState.drawMap();
+					System.out.println("Level complete!\n"); Thread.sleep(1500);
+					return;
 				}
 				else if (m == -1){
-					
+					System.out.println("Invalid move!\n");
+					continue;
 				}
-				
-				for (int i = 0; i < gameState.ogres.length && gameState.ogres[i] != null; i++){
-					if (gameState.ogres[i].heroAdjacent(gameState.hero) == true){
+				for (int i = 0; i < gameState.ogres.size(); i++){
+					if (gameState.ogres.get(i).heroAdjacent(gameState.hero) == true){
 						System.out.println("You got caught, doofus!\n");
 						break;
 					}
 				}
-				
 			}
 		}
 		s.close();

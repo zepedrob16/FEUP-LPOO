@@ -1,6 +1,8 @@
 package dkeep.logic;
 
 public class OgreMap implements GameMap{
+	
+	private String name = "CRAZY OGRE";  //Nome do mapa.
 	char[][] gameMap = new char[9][9];
 	
 	public OgreMap(){
@@ -42,5 +44,8 @@ public class OgreMap implements GameMap{
 	
 	public char[][] getMap() {
 		return gameMap;
+	}
+	public String getName(){
+		return name;
 	}
 }
