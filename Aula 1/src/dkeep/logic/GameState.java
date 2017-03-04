@@ -33,6 +33,11 @@ public class GameState {
 					System.out.print(hero.getSymbol() + " ");  //Display do herói.
 					continue;
 				}
+				else if (i == hero.getClubX() && j == hero.getClubY()) {
+					System.out.print(hero.getClubSymbol() + " "); //Display do club do herói
+					continue;
+				}
+				
 				else if (i == guard.getX() && j == guard.getY() && guard.getX() != 0 && guard.getY() != 0){
 					System.out.print(guard.getSymbol() + " ");  //Display do guarda.
 					continue;

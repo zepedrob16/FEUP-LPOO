@@ -78,7 +78,7 @@ public class Ogre {
 			}
 			else if (genMove == 1 && gameMap[x][y-1] != 'X' && gameMap[x][y-1] != 'I'){
 				this.clubX = this.x;
-				this.clubY = this.y + 1;
+				this.clubY = this.y - 1;
 				validMove = true;
 			}
 			else if (genMove == 2 && gameMap[x+1][y] != 'X' && gameMap[x+1][y] != 'I'){
@@ -88,7 +88,7 @@ public class Ogre {
 			}
 			else if (genMove == 3 && gameMap[x][y+1] != 'X' && gameMap[x][y+1] != 'I'){
 				this.clubX = this.x;
-				this.clubY = this.y - 1;
+				this.clubY = this.y + 1;
 				validMove = true;
 			}
 			

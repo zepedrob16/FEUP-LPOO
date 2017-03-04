@@ -27,6 +27,7 @@ public class UserInput {
 			OgreMap ogreMap = new OgreMap();
 			gameState.setGameMap(ogreMap);
 			gameState.spawnHero(1,1);  //Instantiates a new hero.
+			gameState.hero.setSymbol('A');
 			gameState.spawnKey(1,7);
 			gameState.spawnOgres();  //Spawns 1-5 ogres (randomly).
 		}
@@ -61,10 +62,12 @@ public class UserInput {
 			if (loadMap == 2) {
 				if (m == 0) {
 					gameState.moveEveryOgre();
+					gameState.hero.moveHeroClub(gameState);
 					gameState.drawMap();
 				}
 				else if (m == 1){
 					gameState.moveEveryOgre();
+					gameState.hero.moveHeroClub(gameState);
 					gameState.drawMap();
 					System.out.println("Level complete!\n"); Thread.sleep(1500);
 					return;
