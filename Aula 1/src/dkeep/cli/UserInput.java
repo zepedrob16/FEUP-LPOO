@@ -26,7 +26,7 @@ public class UserInput {
 			System.out.println("\nLoading CRAZY OGRE level...\n");
 			OgreMap ogreMap = new OgreMap();
 			gameState.setGameMap(ogreMap);
-			gameState.spawnHero(1,1);  //Instantiates a new hero.
+			gameState.spawnHero(7,1);  //Instantiates a new hero.
 			gameState.hero.setSymbol('A');
 			gameState.spawnKey(1,7);
 			gameState.spawnOgres();  //Spawns 1-5 ogres (randomly).
@@ -72,6 +72,12 @@ public class UserInput {
 					System.out.println("Level complete!\n"); Thread.sleep(1500);
 					return;
 				}
+				else if (m == 2) {
+					gameState.moveEveryOgre();
+					gameState.hero.moveHeroClub(gameState);
+					gameState.hero.setSymbol('K');
+					gameState.drawMap();
+				}
 				else if (m == -1){
 					System.out.println("Invalid move!\n");
 					continue;
@@ -79,8 +85,9 @@ public class UserInput {
 				for (int i = 0; i < gameState.ogres.size(); i++){
 					if (gameState.ogres.get(i).heroAdjacent(gameState.hero) == true){
 						System.out.println("You got caught, doofus!\n");
-						break;
+						return;
 					}
+					gameState.hero.stunOgre(gameState.ogres.get(i));
 				}
 			}
 		}

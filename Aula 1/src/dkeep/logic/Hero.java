@@ -17,28 +17,33 @@ public class Hero {
 	
 	public int moveHero(GameMap map, String move){
 		if (move.equals("w")) {
-			if (map.moveTo(x-1, y) == 0 || map.moveTo(x-1, y) == 1){ //Valid moves, hero position updated.
+			if (map.moveTo(x-1, y) == 0 || map.moveTo(x-1, y) == 1 || map.moveTo(x-1, y) == 2){ //Valid moves, hero position updated.
 				this.x--;
 				return map.moveTo(x, y);
 			}
 			return map.moveTo(x-1, y);	//In case of invalid movement, hero stays put.
 		}
 		else if (move.equals("a")){
-			if (map.moveTo(x, y-1) == 0 || map.moveTo(x, y-1) == 1){
+			if (map.moveTo(x, y-1) == -1 && symbol == 'K') {
+				map.openDoors();
+				return 0;
+			}
+		
+			else if (map.moveTo(x, y-1) == 0 || map.moveTo(x, y-1) == 1 || map.moveTo(x, y-1) == 2){
 				this.y--;
 				return map.moveTo(x, y);
 			}
 			return map.moveTo(x, y-1);
 		}
 		else if (move.equals("s")){
-			if (map.moveTo(x+1, y) == 0 || map.moveTo(x+1, y) == 1){
+			if (map.moveTo(x+1, y) == 0 || map.moveTo(x+1, y) == 1 || map.moveTo(x+1, y) == 2){
 				this.x++;
 				return map.moveTo(x, y);
 			}
 			return map.moveTo(x+1, y);
 		}
 		else if (move.equals("d")){
-			if (map.moveTo(x, y+1) == 0 || map.moveTo(x, y+1) == 1){
+			if (map.moveTo(x, y+1) == 0 || map.moveTo(x, y+1) == 1 || map.moveTo(x, y+1) == 2){
 				this.y++;
 				return map.moveTo(x, y);
 			}
@@ -102,6 +107,14 @@ public class Hero {
 
 	public void setSymbol(char symbol) {
 		this.symbol = symbol;
+	}
+	
+	public boolean stunOgre(Ogre ogre) {
+		if ((clubX == ogre.getX() - 1 && clubY == ogre.getY()) || (clubX == ogre.getX() + 1 && clubY == ogre.getY()) || (clubX == ogre.getX() && clubY == ogre.getY() - 1) || (clubX == ogre.getX() && clubY == ogre.getY() + 1)) {
+			ogre.stun();
+		}
+		
+		return false;
 	}
 
 	//Get methods.

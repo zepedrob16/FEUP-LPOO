@@ -3,8 +3,9 @@ package dkeep.logic;
 import java.util.Random;
 
 public class Ogre {
-	private int x, y, clubX, clubY;
+	private int x, y, clubX, clubY, stunCounter = 0;
 	private char symbol, clubSymbol;
+	private boolean stunned;
 	
 	public Ogre(int x, int y){
 		this.x = x;
@@ -25,6 +26,12 @@ public class Ogre {
 			return false;
 		}
 	}
+	
+	public void stun() {
+		stunned = true;
+		symbol = '8';
+	}
+	
 	public void move(GameState gameState){
 		char[][] gameMap = gameState.getGameMap().getMap();
 		Random rnd = new Random();
@@ -32,7 +39,15 @@ public class Ogre {
 		while(true){
 			int genMove = rnd.nextInt(4);
 			boolean validMove = false;
-			
+			if (stunned && stunCounter < 2){
+				stunCounter++;
+				break;
+			}
+			if (stunCounter == 2) {
+				stunned = false;
+				stunCounter = 0;
+			}
+
 			if (genMove == 0 && gameMap[x-1][y] != 'X' && gameMap[x-1][y] != 'I'){
 				x--;
 				validMove = true;
@@ -49,7 +64,7 @@ public class Ogre {
 				y++;
 				validMove = true;
 			}
-			
+
 			if (validMove){
 				if (x == gameState.keyX && y == gameState.keyY){
 					this.symbol = '$';

@@ -17,6 +17,8 @@ public class OgreMap implements GameMap{
 			gameMap[i][0] = 'X';
 			gameMap[i][8] = 'X';
 		}
+		gameMap[1][0] = 'I';
+		gameMap[1][7] = 'k';
 	}
 	
 	public int moveTo(int x, int y) {
@@ -24,7 +26,8 @@ public class OgreMap implements GameMap{
 			return -1; //Returns -1 if the move is invalid (wall or door in the way).
 		}
 		else if (gameMap[x][y] == 'k') {
-			openDoors();
+			//gameMap[x][y] = ' ';
+			return 2;
 		}
 		else if (gameMap[x][y] == 'S'){
 			return 1; //Returns 1 if the move is towards a stairs block.
@@ -33,8 +36,8 @@ public class OgreMap implements GameMap{
 	}
 	
 	public void openDoors() {
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
+		for (int i = 0; i < 9; i++){
+			for (int j = 0; j < 9; j++){
 				if (gameMap[i][j] == 'I') {
 					gameMap[i][j] = 'S';
 				}
