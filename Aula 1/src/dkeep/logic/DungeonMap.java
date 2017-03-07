@@ -7,9 +7,11 @@ public class DungeonMap implements GameMap{
 	
 	// Inicializa o mapa por defeito.
 	public DungeonMap() {
+		System.out.println("\nLoading DUNGEON level...\n");
+		
 		this.gameMap = new char[][] {
 			{'X','X','X','X','X','X','X','X','X','X'},
-			{'X',' ',' ',' ','I',' ','X',' ',' ','X'},
+			{'X','H',' ',' ','I',' ','X',' ','G','X'},
 			{'X','X','X',' ','X','X','X',' ',' ','X'},
 			{'X',' ','I',' ','I',' ','X',' ',' ','X'},
 			{'X','X','X',' ','X','X','X',' ',' ','X'},
@@ -53,6 +55,10 @@ public class DungeonMap implements GameMap{
 	public char[][] getMap() {
 		return gameMap;
 	}
+	public void setMap(char[][] map){
+		this.gameMap = map;
+	}
+	
 	public String getName(){
 		return name;
 	}

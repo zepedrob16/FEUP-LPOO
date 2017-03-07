@@ -8,10 +8,16 @@ public class Hero {
 	
 	public Hero(){}
 	
-	public Hero(int x, int y){
+	public Hero(int x, int y, String name){
 		this.x = x;
 		this.y = y;
-		symbol = 'H';
+		
+		if (name == "DUNGEON"){
+			this.symbol = 'H';			
+		}
+		else if (name == "CRAZY OGRE"){
+			this.symbol = 'A';
+		}
 	}
 	
 	public int moveHero(GameMap map, String move){

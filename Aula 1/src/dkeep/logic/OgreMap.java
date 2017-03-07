@@ -2,23 +2,27 @@ package dkeep.logic;
 
 public class OgreMap implements GameMap{
 	
-	private String name = "CRAZY OGRE";  //Nome do mapa.
-	char[][] gameMap = new char[9][9];
+	private String name = "CRAZY OGRE";
+	private char[][] gameMap;
 	
 	public OgreMap(){
-		for (int i = 0; i < 9; i++){
-			for (int j = 0; j < 9; j++){
-				gameMap[i][j] = ' ';
-			}
-		}
-		for (int i = 0; i < 9; i++){
-			gameMap[0][i] = 'X';
-			gameMap[8][i] = 'X';
-			gameMap[i][0] = 'X';
-			gameMap[i][8] = 'X';
-		}
-		gameMap[1][0] = 'I';
-		gameMap[1][7] = 'k';
+		System.out.println("\nLoading CRAZY OGRE level...\n");
+		
+		this.gameMap = new char[][]{
+			{'X','X','X','X','X','X','X','X','X'},
+			{'I',' ',' ',' ',' ',' ',' ','k','X'},
+			{'X',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'X',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'X',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'X',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'X',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'X','H',' ',' ',' ',' ',' ',' ','X'},
+			{'X','X','X','X','X','X','X','X','X'}
+		};
+	}
+	
+	public OgreMap(char[][] map){
+		this.gameMap = map;
 	}
 	
 	public int moveTo(int x, int y) {
@@ -50,5 +54,9 @@ public class OgreMap implements GameMap{
 	}
 	public String getName(){
 		return name;
+	}
+
+	public void setMap(char[][] map) {
+		this.gameMap = map;
 	}
 }
