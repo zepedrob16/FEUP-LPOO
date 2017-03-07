@@ -6,7 +6,6 @@ public class Hero {
 	private int x, y, clubX, clubY;
 	private char symbol, clubSymbol;
 	
-
 	public Hero(){}
 	
 	public Hero(int x, int y){

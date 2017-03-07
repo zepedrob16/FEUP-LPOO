@@ -8,15 +8,17 @@ public class GameState {
 	
 	public Hero hero = new Hero();
 	public Guard guard = new Guard();
-	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned	on the map.
+	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned on the map.
 	public int keyX, keyY;
 	
 	public GameState() {
 	}
+	
 	public GameState(GameMap map) {
 		super();
 		this.map = map;
 	}
+	
 	public GameMap getGameMap(){
 		return this.map;
 	}

@@ -3,29 +3,30 @@ package dkeep.logic;
 public class DungeonMap implements GameMap{
 
 	private String name = "DUNGEON";
-	private char[][] gameMap = new char[10][10];
+	private char[][] gameMap;
 	
+	// Inicializa o mapa por defeito.
 	public DungeonMap() {
-		for (int i = 0; i < 10; i++){
-			gameMap[0][i] = 'X';
-			gameMap[9][i] = 'X';
-		}
-		gameMap[1][0] = 'X'; gameMap[1][4] = 'I'; gameMap[1][6] = 'X'; gameMap[1][9] = 'X';
-		gameMap[2][0] = 'X'; gameMap[2][1] = 'X'; gameMap[2][2] = 'X'; gameMap[2][4] = 'X'; gameMap[2][5] = 'X'; gameMap[2][6] = 'X';
-		gameMap[2][9] = 'X'; gameMap[3][0] = 'X'; gameMap[3][2] = 'I'; gameMap[3][4] = 'I'; gameMap[3][6] = 'X'; gameMap[3][9] = 'X';
-		gameMap[4][0] = 'X'; gameMap[4][1] = 'X'; gameMap[4][2] = 'X'; gameMap[4][4] = 'X'; gameMap[4][5] = 'X'; gameMap[4][6] = 'X';
-		gameMap[4][9] = 'X'; gameMap[5][0] = 'I'; gameMap[5][9] = 'X'; gameMap[6][0] = 'I'; gameMap[6][9] = 'X'; gameMap[7][0] = 'X'; 
-		gameMap[7][1] = 'X'; gameMap[7][2] = 'X'; gameMap[7][4] = 'X'; gameMap[7][5] = 'X'; gameMap[7][6] = 'X'; gameMap[7][7] = 'X'; 
-		gameMap[7][9] = 'X'; gameMap[8][0] = 'X'; gameMap[8][2] = 'I'; gameMap[8][4] = 'I'; gameMap[8][6] = 'X'; gameMap[8][7] = 'k';
-		gameMap[8][9] = 'X';
-		
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
-				if (gameMap[i][j] == 0)
-					gameMap[i][j] = ' ';
-			}
-		}
+		this.gameMap = new char[][] {
+			{'X','X','X','X','X','X','X','X','X','X'},
+			{'X',' ',' ',' ','I',' ','X',' ',' ','X'},
+			{'X','X','X',' ','X','X','X',' ',' ','X'},
+			{'X',' ','I',' ','I',' ','X',' ',' ','X'},
+			{'X','X','X',' ','X','X','X',' ',' ','X'},
+			{'I',' ',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'I',' ',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'X','X','X',' ','X','X','X','X',' ','X'},
+			{'X',' ','I',' ','I',' ','X','k',' ','X'},
+			{'X','X','X','X','X','X','X','X','X','X'}
+		};						 
 	}
+	
+	//Inicializa um mapa custom.
+	public DungeonMap(char[][] map){
+		this.gameMap = map;
+	}
+	
+	
 	public void openDoors() {
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
