@@ -12,6 +12,9 @@ public class GuardSuspicious extends Guard {
 		this.symbol = 'G';
 	}
 	public void moveGuard(){
+		if (!this.patrolling){
+			return;
+		}
 		if (patrolRoute[movementIterator] == 'W'){
 			if (!this.inversePath){
 				this.x--;				

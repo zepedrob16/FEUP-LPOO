@@ -4,8 +4,9 @@ public class DungeonMap implements GameMap{
 
 	private String name = "DUNGEON";
 	private char[][] gameMap;
+
+	private boolean defaultMap; // Apenas usado para abrir gate principal.
 	
-	// Inicializa o mapa por defeito.
 	public DungeonMap() {
 		System.out.println("\nLoading DUNGEON level...\n");
 		
@@ -20,31 +21,37 @@ public class DungeonMap implements GameMap{
 			{'X','X','X',' ','X','X','X','X',' ','X'},
 			{'X',' ','I',' ','I',' ','X','k',' ','X'},
 			{'X','X','X','X','X','X','X','X','X','X'}
-		};						 
+		};
+		
+		this.defaultMap = true;
 	}
 	
-	//Inicializa um mapa custom.
 	public DungeonMap(char[][] map){
 		this.gameMap = map;
+		this.defaultMap = false;
 	}
 	
-	
 	public void openDoors() {
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
+		
+		if (this.defaultMap){
+			this.gameMap[5][0] = 'S';
+			this.gameMap[6][0] = 'S';
+			return;
+		}
+		
+		for (int i = 0; i < gameMap.length; i++){
+			for (int j = 0; j < gameMap[i].length; j++){
 				if (gameMap[i][j] == 'I') {
 					gameMap[i][j] = 'S';
 				}
 			}
 		}
+		return;
 	}
 	
 	public int moveTo(int x, int y) {
 		if (gameMap[x][y] == 'X' || gameMap[x][y] == 'I'){
 			return -1; //Returns -1 if the move is invalid (wall or door in the way).
-		}
-		else if (gameMap[x][y] == 'k') {
-			openDoors();
 		}
 		else if (gameMap[x][y] == 'S'){
 			return 1; //Returns 1 if the move is towards a stairs block.

@@ -8,6 +8,9 @@ public class GuardRookie extends Guard {
 		this.symbol = 'G';
 	}
 	public void moveGuard(){
+		if (!this.patrolling){
+			return;
+		}
 		if (patrolRoute[movementIterator] == 'W'){
 			this.x--;
 		}

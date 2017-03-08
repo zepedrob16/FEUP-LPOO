@@ -5,20 +5,92 @@ import java.util.*;
 
 public class GameState {
 	
-	// GAME ENTITIES
+	/* STATE MACHINE */	
+	
+	public enum Level {
+		DUNGEON, OGRE
+	}
+	public enum State {
+		VICTORY, DEFEAT, RUNNING, EXIT
+	}
+	public enum Event {
+		VALID_MOVE, INVALID_MOVE, HERO_CAUGHT, NEXT_LEVEL, LEVEL_COMPLETED, KEEP_COMPLETED
+	}
+	private Level level;
+	private State state;
+	
+	
+	/* GAME ENTITIES */
+	
 	private GameMap map;
-	public Hero hero = new Hero();
-	public Guard guard = new Guard();
-	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned on the map.
+	public Hero hero;
+	public Guard guard;
 	public int keyX, keyY;
+	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned on the map.
+	
+	
+	/* METHODS */
 	
 	public GameState() {
+		this.level = Level.DUNGEON;
+		this.state = State.RUNNING;
 	}
 	
 	public GameState(GameMap map) {
 		super();
 		this.map = map;
+		this.state = State.RUNNING;
 		spawnEntities();
+	}
+	
+	public void stateMachine(Event evt){
+		
+		if (this.state == State.RUNNING){
+			if (evt == Event.VALID_MOVE){
+				updateEntities();				
+			}
+			else if (evt == Event.INVALID_MOVE){
+				System.out.println("\nInvalid move!\n");
+			}
+			else if (evt == Event.HERO_CAUGHT){
+				this.state = State.DEFEAT;
+			}
+			else if (evt == Event.LEVEL_COMPLETED){
+				this.state = State.VICTORY;
+				System.out.println("Level complete!\n");
+			}
+		}
+		else if (this.state == State.DEFEAT){
+			System.out.println("\n\nGAME OVER! You got caught, doofus!\n");
+			this.state = State.EXIT;
+		}
+		else if (this.state == State.VICTORY){
+			if (this.level == Level.DUNGEON){
+				this.level = Level.OGRE;
+				this.state = State.RUNNING;
+			}
+			else if (this.level == Level.OGRE){
+				System.out.println("\n\nYOU WIN! Dungeon Keep cleared.\n");
+				this.state = State.EXIT;
+			}
+		}
+		else if (this.state == State.EXIT){
+			System.exit(0);
+		}
+		return;
+	}
+	
+	public void updateEntities(){
+		
+		if (level == Level.DUNGEON){
+			guard.moveGuard();
+		}
+		else if (level == Level.OGRE){
+			moveEveryOgre();
+			hero.moveHeroClub(this);
+		}
+		drawMap();
+		return;
 	}
 	
 	public void spawnEntities(){
@@ -38,59 +110,47 @@ public class GameState {
 					thisMap[i][j] = ' ';
 					this.keyX = i;	this.keyY = j;
 				}
+				else if (thisMap[i][j] == 'O'){
+					thisMap[i][j] = ' ';
+					Ogre ogre = new Ogre(i, j);
+					this.ogres.add(ogre);
+				}
 			}
 		}
 		this.map.setMap(thisMap);
 	}
 	
-	public boolean processMove(String move) throws InterruptedException{
+	public boolean processMove(String move){
 		int m = hero.moveHero(this.map, move);
 		
-		if (this.map instanceof DungeonMap){
-			if (m == 0){
-				guard.moveGuard();
-				drawMap();
-			}
-			else if (m == 1){
-				guard.moveGuard();
-				drawMap();
-				System.out.println("Level complete!\n"); Thread.sleep(1500);
-			}
-			else if (m == -1){
-				System.out.println("Invalid move!\n");
-			}
-			if (hero.heroSpotted(guard)){
-				System.out.println("You got caught, doofus!\n");
+		// Se o herói está na mesma posição da chave/alavanca, abre portas.
+		if (this.hero.getX() == this.keyX && this.hero.getY() == this.keyY){
+			this.map.openDoors();
+			if (this.map instanceof OgreMap){
+				this.hero.setSymbol('K');				
 			}
 		}
-		else if (this.map instanceof OgreMap){
-			if (m == 0) {
-				moveEveryOgre();
-				hero.moveHeroClub(this);
-				drawMap();
+		
+		if (m == 0){
+			stateMachine(Event.VALID_MOVE);
+		}
+		else if (m == 1){
+			stateMachine(Event.LEVEL_COMPLETED);
+		}
+		else if (m == -1){
+			stateMachine(Event.INVALID_MOVE);
+		}
+		if (hero.heroSpotted(guard)){
+			stateMachine(Event.HERO_CAUGHT);
+		}
+		
+		//TODO: Deveríamos arranjar outro lugar para meter isto...
+		for (int i = 0; i < ogres.size(); i++){
+			if (ogres.get(i).heroAdjacent(hero)){
+				System.out.println("You got caught, doofus!\n");
+				return false;
 			}
-			else if (m == 1){
-				moveEveryOgre();
-				hero.moveHeroClub(this);
-				drawMap();
-				System.out.println("Level complete!\n"); Thread.sleep(1500);
-			}
-			else if (m == 2) {
-				moveEveryOgre();
-				hero.moveHeroClub(this);
-				hero.setSymbol('K');
-				drawMap();
-			}
-			else if (m == -1){
-				System.out.println("Invalid move!\n");	
-			}
-			for (int i = 0; i < ogres.size(); i++){
-				if (ogres.get(i).heroAdjacent(hero)){
-					System.out.println("You got caught, doofus!\n");
-					return false;
-				}
-				hero.stunOgre(ogres.get(i));
-			}
+			hero.stunOgre(ogres.get(i));
 		}
 		return true;
 	}
@@ -98,10 +158,16 @@ public class GameState {
 	public GameMap getGameMap(){
 		return this.map;
 	}
+	
+	public State getState(){
+		return this.state;
+	}
+	
 	public void setGameMap(GameMap map){
 		this.map = map;
 		spawnEntities();
 	}
+	
 	public void drawMap(){
 		char[][] currentMap = map.getMap();
 		
@@ -141,9 +207,10 @@ public class GameState {
 		}
 	}
 	
+	// SPAWN ENTITIES
+	
 	public void spawnHero(int x, int y){
-		Hero h = new Hero(x, y, this.map.getName());
-		hero = h;
+		hero = new Hero(x, y, this.map.getName());
 	}
 	
 	public void spawnGuard(int x, int y){
@@ -151,16 +218,13 @@ public class GameState {
 		int guardGen = rnd.nextInt(3);
 		
 		if (guardGen == 0){
-			GuardRookie rookie = new GuardRookie(x,y);
-			guard = rookie;
+			guard = new GuardRookie(x,y);
 		}
 		else if (guardGen == 1){
-			GuardDrunk drunk = new GuardDrunk(x,y);
-			guard = drunk;
+			guard = new GuardDrunk(x,y);
 		}
 		else if (guardGen == 2){
-			GuardSuspicious suspicious = new GuardSuspicious(x,y);
-			guard = suspicious;
+			guard = new GuardSuspicious(x,y);
 		}
 		return;
 	}
@@ -200,14 +264,17 @@ public class GameState {
 		return;
 	}
 	
-	
 	public void spawnKey(int x, int y){
 		this.keyX = x;
 		this.keyY = y;
+		return;
 	}
+	
 	public void moveEveryOgre(){
 		for (int i = 0; i < ogres.size(); i++){
 			ogres.get(i).move(this);
 		}
+		return;
 	}
+	
 }

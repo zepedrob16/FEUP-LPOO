@@ -6,12 +6,15 @@ public class Ogre {
 	private int x, y, clubX, clubY, stunCounter = 0;
 	private char symbol, clubSymbol;
 	private boolean stunned;
+	private boolean testMode;
 	
 	public Ogre(int x, int y){
 		this.x = x;
 		this.y = y;
+		this.testMode = false;
 		this.symbol = 'O';
 	}
+	
 	public boolean heroAdjacent(Hero hero){
 		if (hero.getX() == this.x && hero.getY() == this.y){	//Caso estejam na mesma célula.
 			return true;
@@ -32,7 +35,21 @@ public class Ogre {
 		symbol = '8';
 	}
 	
+	public void testMode(boolean enable){
+		if (enable){
+			this.testMode = true;
+		}else{
+			this.testMode = false;
+		}
+		return;
+	}
+	
 	public void move(GameState gameState){
+		
+		if (this.testMode){
+			return;
+		}
+		
 		char[][] gameMap = gameState.getGameMap().getMap();
 		Random rnd = new Random();
 

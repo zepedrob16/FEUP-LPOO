@@ -29,10 +29,6 @@ public class OgreMap implements GameMap{
 		if (gameMap[x][y] == 'X' || gameMap[x][y] == 'I'){
 			return -1; //Returns -1 if the move is invalid (wall or door in the way).
 		}
-		else if (gameMap[x][y] == 'k') {
-			//gameMap[x][y] = ' ';
-			return 2;
-		}
 		else if (gameMap[x][y] == 'S'){
 			return 1; //Returns 1 if the move is towards a stairs block.
 		}

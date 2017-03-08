@@ -12,7 +12,12 @@ public class GuardDrunk extends Guard {
 		this.sleeping = false;
 		this.inversePath = false;
 	}
+	
 	public void moveGuard(){
+		if (!this.patrolling){
+			return;
+		}
+		
 		if (this.sleeping){
 			if (!wakeUp()){
 				return;
