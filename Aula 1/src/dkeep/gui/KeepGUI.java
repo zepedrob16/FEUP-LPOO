@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
+
+import dkeep.logic.DungeonMap;
+import dkeep.logic.GameState;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -20,6 +24,8 @@ public class KeepGUI {
 
 	private JFrame frame;
 	private JTextField txtAs;
+	
+	GameState state;
 
 	/**
 	 * Launch the application.
@@ -60,6 +66,7 @@ public class KeepGUI {
 		frame.getContentPane().add(lblNumberOfOgres);
 		
 		txtAs = new JTextField();
+		txtAs.setFont(new Font("Inconsolata", Font.PLAIN, 16));
 		txtAs.setBounds(194, 11, 63, 22);
 		txtAs.setHorizontalAlignment(SwingConstants.LEFT);
 		frame.getContentPane().add(txtAs);
@@ -73,15 +80,23 @@ public class KeepGUI {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setToolTipText("");
+		comboBox.setFont(new Font("Inconsolata", Font.PLAIN, 16));
+		comboBox.addItem("Rookie");
+		comboBox.addItem("Drunk");
+		comboBox.addItem("Suspicious");
+		
 		comboBox.setBounds(194, 44, 171, 22);
 		frame.getContentPane().add(comboBox);
 		
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DungeonMap map = new DungeonMap();
+				state.setGameMap(map);
 				
-				
-			}
+				state.spawnOgres(Integer.parseInt(lblNumberOfOgres.getText()));
+;			}
+			
 		});
 		btnNewGame.setFont(new Font("Inconsolata", Font.PLAIN, 15));
 		btnNewGame.setBounds(507, 98, 107, 40);
