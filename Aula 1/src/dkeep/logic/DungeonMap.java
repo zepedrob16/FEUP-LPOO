@@ -69,5 +69,6 @@ public class DungeonMap implements GameMap{
 	public String getName(){
 		return name;
 	}
-	
+
+		
 }

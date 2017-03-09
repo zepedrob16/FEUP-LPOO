@@ -24,7 +24,6 @@ public class OgreMap implements GameMap{
 	public OgreMap(char[][] map){
 		this.gameMap = map;
 	}
-	
 	public int moveTo(int x, int y) {
 		if (gameMap[x][y] == 'X' || gameMap[x][y] == 'I'){
 			return -1; //Returns -1 if the move is invalid (wall or door in the way).

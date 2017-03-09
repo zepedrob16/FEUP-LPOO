@@ -60,13 +60,19 @@ public class GameState {
 				System.out.println("Level complete!\n");
 			}
 		}
-		else if (this.state == State.DEFEAT){
+		if (this.state == State.DEFEAT){
 			System.out.println("\n\nGAME OVER! You got caught, doofus!\n");
 			this.state = State.EXIT;
 		}
-		else if (this.state == State.VICTORY){
+		if (this.state == State.VICTORY){
 			if (this.level == Level.DUNGEON){
 				this.level = Level.OGRE;
+				OgreMap ogreMap = new OgreMap();
+				setGameMap(ogreMap);
+				spawnOgres();
+				spawnEntities();
+				guard = null;
+				drawMap();
 				this.state = State.RUNNING;
 			}
 			else if (this.level == Level.OGRE){
@@ -127,6 +133,8 @@ public class GameState {
 		if (this.hero.getX() == this.keyX && this.hero.getY() == this.keyY){
 			this.map.openDoors();
 			if (this.map instanceof OgreMap){
+				this.keyX = 10;
+				this.keyY = 10;
 				this.hero.setSymbol('K');				
 			}
 		}
@@ -140,17 +148,21 @@ public class GameState {
 		else if (m == -1){
 			stateMachine(Event.INVALID_MOVE);
 		}
-		if (hero.heroSpotted(guard)){
-			stateMachine(Event.HERO_CAUGHT);
+		if (this.map instanceof DungeonMap){
+			if (hero.heroSpotted(guard)){
+				stateMachine(Event.HERO_CAUGHT);
+			}
 		}
 		
 		//TODO: Deveríamos arranjar outro lugar para meter isto...
-		for (int i = 0; i < ogres.size(); i++){
-			if (ogres.get(i).heroAdjacent(hero)){
-				System.out.println("You got caught, doofus!\n");
-				return false;
+		else if(this.map instanceof OgreMap) {
+			for (int i = 0; i < ogres.size(); i++){
+				if (ogres.get(i).heroAdjacent(hero)){
+					System.out.println("You got caught, doofus!\n");
+					return false;
+				}
+				hero.stunOgre(ogres.get(i));
 			}
-			hero.stunOgre(ogres.get(i));
 		}
 		return true;
 	}
@@ -165,6 +177,10 @@ public class GameState {
 	
 	public void setGameMap(GameMap map){
 		this.map = map;
+		if (map instanceof DungeonMap)
+			this.level = Level.DUNGEON;
+		else if (map instanceof OgreMap)
+			this.level = Level.OGRE;
 		spawnEntities();
 	}
 	
@@ -182,12 +198,13 @@ public class GameState {
 					System.out.print(hero.getClubSymbol() + " "); //Display do club do herói
 					continue;
 				}
-				
-				else if (i == guard.getX() && j == guard.getY() && guard.getX() != 0 && guard.getY() != 0){
-					System.out.print(guard.getSymbol() + " ");  //Display do guarda.
-					continue;
+				if(guard!= null) {
+					if (i == guard.getX() && j == guard.getY() && guard.getX() != 0 && guard.getY() != 0){
+						System.out.print(guard.getSymbol() + " ");  //Display do guarda.
+						continue;
+					}
 				}
-				else if (i == this.keyX && j == this.keyY){
+				if (i == this.keyX && j == this.keyY){
 					System.out.print("k ");
 					continue;
 				}

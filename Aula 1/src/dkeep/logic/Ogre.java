@@ -65,19 +65,19 @@ public class Ogre {
 				stunCounter = 0;
 			}
 
-			if (genMove == 0 && gameMap[x-1][y] != 'X' && gameMap[x-1][y] != 'I'){
+			if (genMove == 0 && gameMap[x-1][y] != 'X' && gameMap[x-1][y] != 'I' && gameMap[x-1][y] != 'S'){
 				x--;
 				validMove = true;
 			}
-			else if (genMove == 1 && gameMap[x][y-1] != 'X' && gameMap[x][y-1] != 'I'){
+			else if (genMove == 1 && gameMap[x][y-1] != 'X' && gameMap[x][y-1] != 'I' && gameMap[x][y-1] != 'S'){
 				y--;
 				validMove = true;
 			}
-			else if (genMove == 2 && gameMap[x+1][y] != 'X' && gameMap[x+1][y] != 'I'){
+			else if (genMove == 2 && gameMap[x+1][y] != 'X' && gameMap[x+1][y] != 'I' && gameMap[x+1][y] != 'S'){
 				x++;
 				validMove = true;
 			}
-			else if (genMove == 3 && gameMap[x][y+1] != 'X' && gameMap[x][y+1] != 'I'){
+			else if (genMove == 3 && gameMap[x][y+1] != 'X' && gameMap[x][y+1] != 'I' && gameMap[x][y+1] != 'S'){
 				y++;
 				validMove = true;
 			}
@@ -103,22 +103,22 @@ public class Ogre {
 			int genMove = rnd.nextInt(4);
 			boolean validMove = false;
 			
-			if (genMove == 0 && gameMap[x-1][y] != 'X' && gameMap[x-1][y] != 'I'){
+			if (genMove == 0 && gameMap[x-1][y] != 'X' && gameMap[x-1][y] != 'I' && gameMap[x-1][y] != 'S'){
 				this.clubX = this.x - 1;
 				this.clubY = this.y;
 				validMove = true;
 			}
-			else if (genMove == 1 && gameMap[x][y-1] != 'X' && gameMap[x][y-1] != 'I'){
+			else if (genMove == 1 && gameMap[x][y-1] != 'X' && gameMap[x][y-1] != 'I' && gameMap[x][y-1] != 'S'){
 				this.clubX = this.x;
 				this.clubY = this.y - 1;
 				validMove = true;
 			}
-			else if (genMove == 2 && gameMap[x+1][y] != 'X' && gameMap[x+1][y] != 'I'){
+			else if (genMove == 2 && gameMap[x+1][y] != 'X' && gameMap[x+1][y] != 'I' && gameMap[x+1][y] != 'S'){
 				this.clubX = this.x + 1;
 				this.clubY = this.y;
 				validMove = true;
 			}
-			else if (genMove == 3 && gameMap[x][y+1] != 'X' && gameMap[x][y+1] != 'I'){
+			else if (genMove == 3 && gameMap[x][y+1] != 'X' && gameMap[x][y+1] != 'I' && gameMap[x][y+1] != 'S'){
 				this.clubX = this.x;
 				this.clubY = this.y + 1;
 				validMove = true;
