@@ -22,6 +22,11 @@ public class Hero {
 	
 	public int moveHero(GameMap map, String move){
 		if (move.equals("w")) {
+			if (map.moveTo(x-1, y) == -1 && symbol == 'K') {
+				map.openDoors();
+				return 0;
+			}
+			
 			if (map.moveTo(x-1, y) == 0 || map.moveTo(x-1, y) == 1 || map.moveTo(x-1, y) == 2){ //Valid moves, hero position updated.
 				this.x--;
 				return map.moveTo(x, y);
@@ -34,13 +39,18 @@ public class Hero {
 				return 0;
 			}
 		
-			else if (map.moveTo(x, y-1) == 0 || map.moveTo(x, y-1) == 1 || map.moveTo(x, y-1) == 2){
+			if (map.moveTo(x, y-1) == 0 || map.moveTo(x, y-1) == 1 || map.moveTo(x, y-1) == 2){
 				this.y--;
 				return map.moveTo(x, y);
 			}
 			return map.moveTo(x, y-1);
 		}
 		else if (move.equals("s")){
+			if (map.moveTo(x+1, y) == -1 && symbol == 'K') {
+				map.openDoors();
+				return 0;
+			}
+			
 			if (map.moveTo(x+1, y) == 0 || map.moveTo(x+1, y) == 1 || map.moveTo(x+1, y) == 2){
 				this.x++;
 				return map.moveTo(x, y);
@@ -48,6 +58,11 @@ public class Hero {
 			return map.moveTo(x+1, y);
 		}
 		else if (move.equals("d")){
+			if (map.moveTo(x, y+1) == -1 && symbol == 'K') {
+				map.openDoors();
+				return 0;
+			}
+			
 			if (map.moveTo(x, y+1) == 0 || map.moveTo(x, y+1) == 1 || map.moveTo(x, y+1) == 2){
 				this.y++;
 				return map.moveTo(x, y);

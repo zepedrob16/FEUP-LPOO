@@ -5,6 +5,7 @@ public class GuardRookie extends Guard {
 	public GuardRookie(int x, int y){
 		this.x = x;
 		this.y = y;
+		this.patrolling = true;
 		this.symbol = 'G';
 	}
 	public void moveGuard(){

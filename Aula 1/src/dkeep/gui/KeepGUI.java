@@ -84,7 +84,6 @@ public class KeepGUI {
 		comboBox.addItem("Rookie");
 		comboBox.addItem("Drunk");
 		comboBox.addItem("Suspicious");
-		
 		comboBox.setBounds(194, 44, 171, 22);
 		frame.getContentPane().add(comboBox);
 		

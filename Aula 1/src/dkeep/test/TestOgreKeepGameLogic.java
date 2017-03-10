@@ -32,21 +32,69 @@ public class TestOgreKeepGameLogic {
 	@Test
 	public void testPicksUpKeyAndDoorsOpen(){
 		
+		GameMap gameMap = new OgreMap(map);
+		GameState gameState = new GameState(gameMap);
+		
+		gameState.ogres.get(0).testMode(true);
+		gameState.processMove("w");
+		gameState.processMove("w");
+		gameState.processMove("d");
+		
+		assertEquals('K', gameState.hero.getSymbol());
 	}
 	
 	@Test
 	public void testTriesToOpenDoorWithoutKey(){
 		
+		GameMap gameMap = new OgreMap(map);
+		GameState gameState = new GameState(gameMap);
+		
+		gameState.ogres.get(0).testMode(true);
+		gameState.processMove("d");
+		gameState.processMove("s");
+		gameState.processMove("s");
+		
+		assertEquals(gameState.hero.getX(), 3);
+		assertEquals(gameState.hero.getY(), 2);
 	}
 	
 	@Test
 	public void testOpensDoorWithKey(){
 		
+		GameMap gameMap = new OgreMap(map);
+		GameState gameState = new GameState(gameMap);
+		
+		gameState.ogres.get(0).testMode(true);
+		gameState.processMove("w");
+		gameState.processMove("w");
+		gameState.processMove("d");
+		gameState.processMove("a");
+		gameState.processMove("s");
+		gameState.processMove("s");
+		gameState.processMove("d");
+		gameState.processMove("s");
+		
+		assertEquals('S', gameState.getGameMap().getMap()[4][2]);
 	}
 	
 	@Test
 	public void testExitsOgreKeep(){
 		
+		GameMap gameMap = new OgreMap(map);
+		GameState gameState = new GameState(gameMap);
+		
+		gameState.ogres.get(0).testMode(true);
+		gameState.processMove("w");
+		gameState.processMove("w");
+		gameState.processMove("d");
+		gameState.processMove("a");
+		gameState.processMove("s");
+		gameState.processMove("s");
+		gameState.processMove("d");
+		gameState.processMove("s");
+		gameState.processMove("s");
+		
+		assertEquals(State.VICTORY, gameState.getState());
 	}
 	
 	

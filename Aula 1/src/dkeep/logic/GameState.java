@@ -11,7 +11,7 @@ public class GameState {
 		DUNGEON, OGRE
 	}
 	public enum State {
-		VICTORY, DEFEAT, RUNNING, EXIT
+		VICTORY, DEFEAT, RUNNING
 	}
 	public enum Event {
 		VALID_MOVE, INVALID_MOVE, HERO_CAUGHT, NEXT_LEVEL, LEVEL_COMPLETED, KEEP_COMPLETED
@@ -53,6 +53,7 @@ public class GameState {
 				System.out.println("\nInvalid move!\n");
 			}
 			else if (evt == Event.HERO_CAUGHT){
+				System.out.println("\n\nGAME OVER! You got caught, doofus!\n");
 				this.state = State.DEFEAT;
 			}
 			else if (evt == Event.LEVEL_COMPLETED){
@@ -60,11 +61,7 @@ public class GameState {
 				System.out.println("Level complete!\n");
 			}
 		}
-		if (this.state == State.DEFEAT){
-			System.out.println("\n\nGAME OVER! You got caught, doofus!\n");
-			this.state = State.EXIT;
-		}
-		if (this.state == State.VICTORY){
+		else if (this.state == State.VICTORY){
 			if (this.level == Level.DUNGEON){
 				this.level = Level.OGRE;
 				OgreMap ogreMap = new OgreMap();
@@ -77,11 +74,7 @@ public class GameState {
 			}
 			else if (this.level == Level.OGRE){
 				System.out.println("\n\nYOU WIN! Dungeon Keep cleared.\n");
-				this.state = State.EXIT;
 			}
-		}
-		else if (this.state == State.EXIT){
-			System.exit(0);
 		}
 		return;
 	}
@@ -131,11 +124,12 @@ public class GameState {
 		
 		// Se o herói está na mesma posição da chave/alavanca, abre portas.
 		if (this.hero.getX() == this.keyX && this.hero.getY() == this.keyY){
-			this.map.openDoors();
 			if (this.map instanceof OgreMap){
 				this.keyX = 10;
 				this.keyY = 10;
 				this.hero.setSymbol('K');				
+			}else{
+				this.map.openDoors();
 			}
 		}
 		
@@ -158,8 +152,7 @@ public class GameState {
 		else if(this.map instanceof OgreMap) {
 			for (int i = 0; i < ogres.size(); i++){
 				if (ogres.get(i).heroAdjacent(hero)){
-					System.out.println("You got caught, doofus!\n");
-					return false;
+					stateMachine(Event.HERO_CAUGHT);
 				}
 				hero.stunOgre(ogres.get(i));
 			}
@@ -241,6 +234,18 @@ public class GameState {
 			guard = new GuardDrunk(x,y);
 		}
 		else if (guardGen == 2){
+			guard = new GuardSuspicious(x,y);
+		}
+		return;
+	}
+	public void spawnGuard(int x, int y, String personality){
+		if (personality == "Rookie"){
+			guard = new GuardRookie(x,y);
+		}
+		else if (personality == "Drunk"){
+			guard = new GuardDrunk(x,y);
+		}
+		else if (personality == "Suspicious"){
 			guard = new GuardSuspicious(x,y);
 		}
 		return;

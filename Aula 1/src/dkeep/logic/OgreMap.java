@@ -35,8 +35,8 @@ public class OgreMap implements GameMap{
 	}
 	
 	public void openDoors() {
-		for (int i = 0; i < 9; i++){
-			for (int j = 0; j < 9; j++){
+		for (int i = 0; i < gameMap.length; i++){
+			for (int j = 0; j < gameMap[i].length; j++){
 				if (gameMap[i][j] == 'I') {
 					gameMap[i][j] = 'S';
 				}

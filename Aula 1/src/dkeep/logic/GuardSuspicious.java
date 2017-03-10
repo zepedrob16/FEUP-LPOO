@@ -9,6 +9,7 @@ public class GuardSuspicious extends Guard {
 	public GuardSuspicious(int x, int y){
 		this.x = x;
 		this.y = y;
+		this.patrolling = true;
 		this.symbol = 'G';
 	}
 	public void moveGuard(){

@@ -9,6 +9,7 @@ public class GuardDrunk extends Guard {
 		this.x = x;
 		this.y = y;
 		this.symbol = 'G';
+		this.patrolling = true;
 		this.sleeping = false;
 		this.inversePath = false;
 	}
