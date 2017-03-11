@@ -28,6 +28,8 @@ public class GameState {
 	public int keyX, keyY;
 	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned on the map.
 	
+	public String message;
+	
 	
 	/* METHODS */
 	
@@ -47,16 +49,20 @@ public class GameState {
 		
 		if (this.state == State.RUNNING){
 			if (evt == Event.VALID_MOVE){
-				updateEntities();				
+				this.message = "";
+				updateEntities();
 			}
 			else if (evt == Event.INVALID_MOVE){
+				this.message = "Invalid move!";
 				System.out.println("\nInvalid move!\n");
 			}
 			else if (evt == Event.HERO_CAUGHT){
+				this.message = "GAME OVER!";
 				System.out.println("\n\nGAME OVER! You got caught, doofus!\n");
 				this.state = State.DEFEAT;
 			}
 			else if (evt == Event.LEVEL_COMPLETED){
+				this.message = "Level complete!";
 				this.state = State.VICTORY;
 				System.out.println("Level complete!\n");
 			}
@@ -177,44 +183,54 @@ public class GameState {
 		spawnEntities();
 	}
 	
-	public void drawMap(){
+	public String drawMap(){
 		char[][] currentMap = map.getMap();
+		String map = "";
 		
 		for (int i = 0; i < currentMap.length; i++){
 			resume:
 			for (int j = 0; j < currentMap[i].length; j++){
 				if (i == hero.getX() && j == hero.getY() && hero.getX() != 0 && hero.getY() != 0){
 					System.out.print(hero.getSymbol() + " ");  //Display do herói.
+					map += (hero.getSymbol() + " ");
 					continue;
 				}
 				else if (i == hero.getClubX() && j == hero.getClubY()) {
 					System.out.print(hero.getClubSymbol() + " "); //Display do club do herói
+					map += (hero.getClubSymbol() + " ");
 					continue;
 				}
-				if(guard!= null) {
+				if (guard != null) {
 					if (i == guard.getX() && j == guard.getY() && guard.getX() != 0 && guard.getY() != 0){
 						System.out.print(guard.getSymbol() + " ");  //Display do guarda.
+						map += (guard.getSymbol() + " ");
 						continue;
 					}
 				}
 				if (i == this.keyX && j == this.keyY){
 					System.out.print("k ");
+					map += "k ";
 					continue;
 				}
 				for (int k = 0; k < ogres.size(); k++){  //Verifica se existe um ogre nesta posição.
 					if (ogres.get(k).getX() == i && ogres.get(k).getY() == j){
 						System.out.print(ogres.get(k).getSymbol() + " ");  //Display de um ogre.
+						map += (ogres.get(k).getSymbol() + " ");
 						continue resume;  //Resume a iteração pelo mapa.
 					}
 					else if (ogres.get(k).getClubX() == i && ogres.get(k).getClubY() == j){
 						System.out.print(ogres.get(k).getClubSymbol() + " ");  //Display do club de um ogre.
+						map += (ogres.get(k).getClubSymbol() + " ");
 						continue resume;
 					}
 				}
 				System.out.print(currentMap[i][j] + " ");  //Display da célula da planta (nenhum objeto encontrado).
+				map += (currentMap[i][j] + " ");
 			}
 			System.out.print("\n");
+			map += "\n";
 		}
+		return map;
 	}
 	
 	// SPAWN ENTITIES

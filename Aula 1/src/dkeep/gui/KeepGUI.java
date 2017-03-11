@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
+import java.awt.Component;
+
 import javax.swing.SwingConstants;
 
 import dkeep.logic.DungeonMap;
@@ -61,64 +63,109 @@ public class KeepGUI {
 		
 		JLabel lblNumberOfOgres = new JLabel("Number of Ogres");
 		lblNumberOfOgres.setBounds(22, 13, 160, 19);
-		lblNumberOfOgres.setFont(new Font("Inconsolata", Font.PLAIN, 16));
+		lblNumberOfOgres.setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		lblNumberOfOgres.setHorizontalAlignment(SwingConstants.LEFT);
 		frame.getContentPane().add(lblNumberOfOgres);
 		
 		txtAs = new JTextField();
 		txtAs.setFont(new Font("Inconsolata", Font.PLAIN, 16));
-		txtAs.setBounds(194, 11, 63, 22);
+		txtAs.setBounds(171, 10, 63, 22);
 		txtAs.setHorizontalAlignment(SwingConstants.LEFT);
 		frame.getContentPane().add(txtAs);
 		txtAs.setColumns(2);
 		
 		JLabel lblGuardPersonality = new JLabel("Guard Personality");
 		lblGuardPersonality.setHorizontalAlignment(SwingConstants.LEFT);
-		lblGuardPersonality.setFont(new Font("Inconsolata", Font.PLAIN, 16));
+		lblGuardPersonality.setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		lblGuardPersonality.setBounds(22, 45, 146, 19);
 		frame.getContentPane().add(lblGuardPersonality);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setToolTipText("");
-		comboBox.setFont(new Font("Inconsolata", Font.PLAIN, 16));
+		comboBox.setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		comboBox.addItem("Rookie");
 		comboBox.addItem("Drunk");
 		comboBox.addItem("Suspicious");
-		comboBox.setBounds(194, 44, 171, 22);
+		comboBox.setBounds(171, 45, 171, 22);
 		frame.getContentPane().add(comboBox);
+		
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setFont(new Font("Inconsolata", Font.PLAIN, 30));
+		textArea.setBounds(22, 99, 400, 360);
+		frame.getContentPane().add(textArea);
+		
+		JLabel lblNewLabel = new JLabel("You may start a new game.");
+		lblNewLabel.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		lblNewLabel.setBounds(22, 472, 200, 16);
+		frame.getContentPane().add(lblNewLabel);
 		
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DungeonMap map = new DungeonMap();
-				state.setGameMap(map);
+				GameState gameState = new GameState(map);
+				state = gameState;
 				
-				state.spawnOgres(Integer.parseInt(lblNumberOfOgres.getText()));
-;			}
+				textArea.setText(state.drawMap());
+				lblNewLabel.setText(null);
+			}
 			
 		});
-		btnNewGame.setFont(new Font("Inconsolata", Font.PLAIN, 15));
+		btnNewGame.setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		btnNewGame.setBounds(507, 98, 107, 40);
 		frame.getContentPane().add(btnNewGame);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(22, 99, 400, 400);
-		frame.getContentPane().add(textArea);
+		JButton btnUp = new JButton("UP");
+		btnUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0){
+				state.processMove("w");
+				lblNewLabel.setText(state.message);
+				textArea.setText(state.drawMap());
+			}
+		});
+		btnUp.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		btnUp.setBounds(522, 209, 73, 25);
+		frame.getContentPane().add(btnUp);
 		
-		JButton btnRight = new JButton("RIGHT");
-		btnRight.setFont(new Font("Inconsolata", Font.PLAIN, 15));
-		btnRight.setBounds(586, 262, 84, 25);
-		frame.getContentPane().add(btnRight);
+		JButton btnLeft = new JButton("LEFT");
+		btnLeft.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				state.processMove("a");
+				lblNewLabel.setText(state.message);
+				textArea.setText(state.drawMap());
+			}
+		});
+		btnLeft.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		btnLeft.setBounds(448, 262, 84, 25);
+		frame.getContentPane().add(btnLeft);
 		
 		JButton btnDown = new JButton("DOWN");
-		btnDown.setFont(new Font("Inconsolata", Font.PLAIN, 15));
+		btnDown.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				state.processMove("s");
+				lblNewLabel.setText(state.message);
+				textArea.setText(state.drawMap());
+			}
+		});
+		btnDown.setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		btnDown.setBounds(522, 314, 73, 25);
 		frame.getContentPane().add(btnDown);
 		
-		JButton btnUp = new JButton("UP");
-		btnUp.setFont(new Font("Inconsolata", Font.PLAIN, 15));
-		btnUp.setBounds(522, 209, 73, 25);
-		frame.getContentPane().add(btnUp);
+		JButton btnRight = new JButton("RIGHT");
+		btnRight.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				state.processMove("d");
+				lblNewLabel.setText(state.message);
+				textArea.setText(state.drawMap());
+			}
+		});
+		btnRight.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		btnRight.setBounds(586, 262, 84, 25);
+		frame.getContentPane().add(btnRight);
+		
+		
+		
 		
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
@@ -126,13 +173,10 @@ public class KeepGUI {
 				System.exit(0);
 			}
 		});
-		btnExit.setFont(new Font("Inconsolata", Font.PLAIN, 15));
+		btnExit.setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		btnExit.setBounds(507, 459, 107, 40);
 		frame.getContentPane().add(btnExit);
 		
-		JButton btnLeft = new JButton("LEFT");
-		btnLeft.setFont(new Font("Inconsolata", Font.PLAIN, 15));
-		btnLeft.setBounds(448, 262, 84, 25);
-		frame.getContentPane().add(btnLeft);
+		
 	}
 }
