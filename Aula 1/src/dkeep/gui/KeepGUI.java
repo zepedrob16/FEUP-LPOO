@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 
@@ -11,6 +13,8 @@ import javax.swing.SwingConstants;
 
 import dkeep.logic.DungeonMap;
 import dkeep.logic.GameState;
+import dkeep.logic.GameState.State;
+import dkeep.logic.OgreMap;
 
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -28,6 +32,11 @@ public class KeepGUI {
 	private JTextField txtAs;
 	
 	GameState state;
+	private JLabel lblNewLabel;
+	private JTextArea textArea;
+	private JComboBox comboBox;
+	
+	private int numberOgres;
 
 	/**
 	 * Launch the application.
@@ -52,23 +61,39 @@ public class KeepGUI {
 		initialize();
 	}
 
+	private void play(String direction) {
+		if (state.getState() == State.DEFEAT){
+			return;
+		}
+		state.processMove(direction);
+		lblNewLabel.setText(state.message);
+		textArea.setText(state.drawMap());
+		
+		if (state.getState() == State.VICTORY){
+			textArea.setText("");
+			state.spawnOgres(Integer.parseInt(txtAs.getText()));
+		}
+		return;
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 700, 600);
+		frame.getContentPane().setFont(new Font("Lucida Sans", Font.PLAIN, 13));
+		frame.setBounds(100, 100, 700, 546);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNumberOfOgres = new JLabel("Number of Ogres");
 		lblNumberOfOgres.setBounds(22, 13, 160, 19);
-		lblNumberOfOgres.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		lblNumberOfOgres.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		lblNumberOfOgres.setHorizontalAlignment(SwingConstants.LEFT);
 		frame.getContentPane().add(lblNumberOfOgres);
 		
 		txtAs = new JTextField();
-		txtAs.setFont(new Font("Inconsolata", Font.PLAIN, 16));
+		txtAs.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		txtAs.setBounds(171, 10, 63, 22);
 		txtAs.setHorizontalAlignment(SwingConstants.LEFT);
 		frame.getContentPane().add(txtAs);
@@ -76,13 +101,13 @@ public class KeepGUI {
 		
 		JLabel lblGuardPersonality = new JLabel("Guard Personality");
 		lblGuardPersonality.setHorizontalAlignment(SwingConstants.LEFT);
-		lblGuardPersonality.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		lblGuardPersonality.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		lblGuardPersonality.setBounds(22, 45, 146, 19);
 		frame.getContentPane().add(lblGuardPersonality);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setToolTipText("");
-		comboBox.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		comboBox.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		comboBox.addItem("Rookie");
 		comboBox.addItem("Drunk");
 		comboBox.addItem("Suspicious");
@@ -90,77 +115,77 @@ public class KeepGUI {
 		frame.getContentPane().add(comboBox);
 		
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setFont(new Font("Inconsolata", Font.PLAIN, 30));
-		textArea.setBounds(22, 99, 400, 360);
+		textArea = new JTextArea();
+		textArea.setFont(new Font("Courier New", Font.PLAIN, 30));
+		textArea.setBounds(22, 84, 400, 375);
 		frame.getContentPane().add(textArea);
 		
-		JLabel lblNewLabel = new JLabel("You may start a new game.");
-		lblNewLabel.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		lblNewLabel = new JLabel("You may start a new game.");
+		lblNewLabel.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		lblNewLabel.setBounds(22, 472, 200, 16);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				if (txtAs.getText().equals("") || Integer.parseInt(txtAs.getText()) > 5 || Integer.parseInt(txtAs.getText()) < 1){
+					JOptionPane.showMessageDialog(frame, "Invalid number of ogres!");
+					return;
+				}
+				
+				
+				
+				
 				DungeonMap map = new DungeonMap();
 				GameState gameState = new GameState(map);
 				state = gameState;
+				
+				
+				state.spawnGuard(state.guard.getX(), state.guard.getY(), (String)comboBox.getSelectedItem());
 				
 				textArea.setText(state.drawMap());
 				lblNewLabel.setText(null);
 			}
 			
 		});
-		btnNewGame.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		btnNewGame.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnNewGame.setBounds(507, 98, 107, 40);
 		frame.getContentPane().add(btnNewGame);
 		
 		JButton btnUp = new JButton("UP");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0){
-				state.processMove("w");
-				lblNewLabel.setText(state.message);
-				textArea.setText(state.drawMap());
-			}
-		});
-		btnUp.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+				play("w");
+			}});
+		btnUp.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnUp.setBounds(522, 209, 73, 25);
 		frame.getContentPane().add(btnUp);
 		
 		JButton btnLeft = new JButton("LEFT");
 		btnLeft.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				state.processMove("a");
-				lblNewLabel.setText(state.message);
-				textArea.setText(state.drawMap());
-			}
-		});
-		btnLeft.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+				play("a");
+		}});
+		btnLeft.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnLeft.setBounds(448, 262, 84, 25);
 		frame.getContentPane().add(btnLeft);
 		
 		JButton btnDown = new JButton("DOWN");
 		btnDown.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				state.processMove("s");
-				lblNewLabel.setText(state.message);
-				textArea.setText(state.drawMap());
-			}
-		});
-		btnDown.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+				play("s");
+		}});
+		btnDown.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnDown.setBounds(522, 314, 73, 25);
 		frame.getContentPane().add(btnDown);
 		
 		JButton btnRight = new JButton("RIGHT");
 		btnRight.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				state.processMove("d");
-				lblNewLabel.setText(state.message);
-				textArea.setText(state.drawMap());
-			}
-		});
-		btnRight.setFont(new Font("Inconsolata", Font.PLAIN, 14));
+				play("d");
+		}});
+		btnRight.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnRight.setBounds(586, 262, 84, 25);
 		frame.getContentPane().add(btnRight);
 		
@@ -173,8 +198,8 @@ public class KeepGUI {
 				System.exit(0);
 			}
 		});
-		btnExit.setFont(new Font("Inconsolata", Font.PLAIN, 14));
-		btnExit.setBounds(507, 459, 107, 40);
+		btnExit.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
+		btnExit.setBounds(507, 419, 107, 40);
 		frame.getContentPane().add(btnExit);
 		
 		

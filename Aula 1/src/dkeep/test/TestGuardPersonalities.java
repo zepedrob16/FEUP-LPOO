@@ -27,7 +27,7 @@ public class TestGuardPersonalities {
 		GameMap gameMap = new DungeonMap(map);
 		GameState gameState = new GameState(gameMap);
 		
-		gameState.guard.testMode(false);
+		//gameState.guard.testMode(false);
 		gameState.spawnGuard(1, 8, "Rookie");
 		gameState.processMove("d");
 		gameState.processMove("d");

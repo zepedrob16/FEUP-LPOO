@@ -51,7 +51,7 @@ public class TestDungeonGameLogic {
 		GameMap gameMap = new DungeonMap(map);
 		GameState gameState = new GameState(gameMap);
 		
-		gameState.guard.testMode(true);  //Disables the guard's patrol route.
+		//gameState.guard.testMode(true);  //Disables the guard's patrol route.
 		gameState.processMove("d");
 		
 		assertEquals(State.DEFEAT, gameState.getState());

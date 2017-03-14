@@ -9,15 +9,15 @@ public class GuardDrunk extends Guard {
 		this.x = x;
 		this.y = y;
 		this.symbol = 'G';
-		this.patrolling = true;
+		//this.patrolling = true;
 		this.sleeping = false;
 		this.inversePath = false;
 	}
 	
 	public void moveGuard(){
-		if (!this.patrolling){
+		/*if (!this.patrolling){
 			return;
-		}
+		}*/
 		
 		if (this.sleeping){
 			if (!wakeUp()){

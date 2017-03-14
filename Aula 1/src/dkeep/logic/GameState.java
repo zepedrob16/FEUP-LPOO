@@ -41,6 +41,14 @@ public class GameState {
 	public GameState(GameMap map) {
 		super();
 		this.map = map;
+		
+		if (map instanceof DungeonMap){
+			this.level = Level.DUNGEON;
+		}
+		else if (map instanceof OgreMap){
+			this.level = Level.OGRE;
+		}
+		
 		this.state = State.RUNNING;
 		spawnEntities();
 	}
@@ -72,7 +80,7 @@ public class GameState {
 				this.level = Level.OGRE;
 				OgreMap ogreMap = new OgreMap();
 				setGameMap(ogreMap);
-				spawnOgres();
+				//spawnOgres();
 				spawnEntities();
 				guard = null;
 				drawMap();
