@@ -6,10 +6,12 @@ import javax.swing.JPanel;
 
 public class Graphic extends JPanel {
 	
+	public Graphic(){
+		
+	}
+	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.setColor(Color.BLUE);
-		g.fillRect(2, 3, 10, 20);
 	}
 }

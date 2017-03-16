@@ -5,8 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.SwingConstants;
@@ -42,6 +44,7 @@ public class KeepGUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -75,16 +78,21 @@ public class KeepGUI {
 		}
 		return;
 	}
-	
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Dungeon Keep");
 		frame.getContentPane().setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		frame.setBounds(100, 100, 700, 546);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		/*
+		JPanel panel = new Graphic();
+		frame.getContentPane().add(panel);
+		frame.pack();
+		frame.setVisible(true);
+		panel.requestFocusInWindow();
+		*/
 		
 		JLabel lblNumberOfOgres = new JLabel("Number of Ogres");
 		lblNumberOfOgres.setBounds(22, 13, 160, 19);
@@ -134,7 +142,7 @@ public class KeepGUI {
 					return;
 				}
 				
-				
+					
 				
 				
 				DungeonMap map = new DungeonMap();

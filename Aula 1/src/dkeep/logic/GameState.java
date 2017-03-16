@@ -281,7 +281,7 @@ public class GameState {
 		int ogresToGenerate = rnd.nextInt(4) + 1;
 		
 		for (int i = 0; i < ogresToGenerate; i++){
-			int xPosition = rnd.nextInt(9), yPosition = rnd.nextInt(9);
+			int xPosition = rnd.nextInt(6) + 1, yPosition = rnd.nextInt(6) + 1;
 			
 			if (this.hero.getX() != xPosition && this.hero.getY() != yPosition && this.getGameMap().getMap()[xPosition][yPosition] == ' '){
 				Ogre ogre = new Ogre(xPosition, yPosition);
@@ -298,7 +298,7 @@ public class GameState {
 		Random rnd = new Random();
 		
 		for (int i = 0; i < generations; i++){
-			int xPosition = rnd.nextInt(9), yPosition = rnd.nextInt(9);
+			int xPosition = rnd.nextInt(6) + 1, yPosition = rnd.nextInt(6) + 1;
 			
 			if (this.hero.getX() != xPosition && this.hero.getY() != yPosition && this.getGameMap().getMap()[xPosition][yPosition] == ' '){
 				Ogre ogre = new Ogre(xPosition, yPosition);
