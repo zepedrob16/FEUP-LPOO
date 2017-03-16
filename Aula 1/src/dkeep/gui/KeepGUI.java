@@ -27,10 +27,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class KeepGUI {
 
 	private JFrame frame;
+	private JPanel panel;
 	private JTextField txtAs;
 	
 	GameState state;
@@ -60,7 +62,7 @@ public class KeepGUI {
 	/**
 	 * Create the application.
 	 */
-	public KeepGUI() {
+	public KeepGUI() throws IOException {
 		initialize();
 	}
 
@@ -79,15 +81,15 @@ public class KeepGUI {
 		return;
 	}
 
-	private void initialize() {
+	private void initialize() throws IOException {
 		frame = new JFrame("Dungeon Keep");
 		frame.getContentPane().setFont(new Font("Lucida Sans", Font.PLAIN, 13));
-		frame.setBounds(100, 100, 700, 546);
+		frame.setBounds(100, 100, 711, 547);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		/*
-		JPanel panel = new Graphic();
+		panel = new GamePanel();
 		frame.getContentPane().add(panel);
 		frame.pack();
 		frame.setVisible(true);
