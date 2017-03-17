@@ -11,6 +11,9 @@ public class GameGUI {
 
 	private JFrame frame;
 	private JPanel panel;
+	
+	private PanelMainMenu panelMainMenu = new PanelMainMenu();
+	private PanelGame panelGame = new PanelGame();
 
 	/**
 	 * Launch the application.
@@ -33,28 +36,25 @@ public class GameGUI {
 	 * @throws IOException 
 	 */
 	public GameGUI() throws IOException {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 * @throws IOException 
-	 */
-	private void initialize() throws IOException {
 		frame = new JFrame("Dungeon Keep");
-		frame.setBounds(100, 100, 900, 700);
+		frame.setBounds(100, 100, 1280, 800);
+		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		panel = new GamePanel();
-		panel.setBounds(12, 13, 550, 550);
-		frame.getContentPane().add(panel);
+		/*
+		panelMainMenu.setBounds(0, 0, 1280, 800);
+		frame.getContentPane().add(panelMainMenu);
 		//frame.pack();
-		frame.setVisible(true);
-		panel.requestFocusInWindow();
+		panelMainMenu.requestFocusInWindow();
+		*/
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(12, 576, 56, 16);
-		frame.getContentPane().add(lblNewLabel);
+		frame.setBounds(100, 100, 850, 850);
+		panelGame.setBounds(0, 0, 850, 850);
+		frame.getContentPane().add(panelGame);
+		panelGame.requestFocusInWindow();
+		
+		
 	}
+
 }
