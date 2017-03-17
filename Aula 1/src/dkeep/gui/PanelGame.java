@@ -9,7 +9,7 @@ import dkeep.logic.GameState;
 import javax.swing.JButton;
 
 public class PanelGame extends JPanel implements ActionListener {
-
+	
 	private Utilities u;
 	
 	private GameState gameState;
@@ -18,7 +18,6 @@ public class PanelGame extends JPanel implements ActionListener {
 	public int ogreNumber;
 	public String guardPersonality;
 	
-	private int WIDTH, HEIGHT;
 	
 	public PanelGame() {
 		gameState = new GameState();
