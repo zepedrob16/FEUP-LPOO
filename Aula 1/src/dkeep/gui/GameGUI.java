@@ -13,7 +13,7 @@ public class GameGUI {
 	private JPanel panel;
 	
 	private PanelMainMenu panelMainMenu = new PanelMainMenu();
-	private PanelGame panelGame = new PanelGame();
+	private PanelGame panelGame;
 
 	/**
 	 * Launch the application.
@@ -50,6 +50,7 @@ public class GameGUI {
 		*/
 		
 		frame.setBounds(100, 100, 850, 850);
+		panelGame = new PanelGame(850,850);
 		panelGame.setBounds(0, 0, 850, 850);
 		frame.getContentPane().add(panelGame);
 		panelGame.requestFocusInWindow();

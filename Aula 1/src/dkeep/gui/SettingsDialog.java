@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JToggleButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class SettingsDialog extends JDialog {
@@ -29,8 +30,8 @@ public class SettingsDialog extends JDialog {
 		}
 	}
 
-	public SettingsDialog() {
-		this.gamePanel = new PanelGame();
+	public SettingsDialog() throws IOException {
+		this.gamePanel = new PanelGame(850,850);
 		
 		this.setTitle("Create New Game");
 		setBounds(100, 100, 453, 475);
