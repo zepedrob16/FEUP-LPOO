@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -29,7 +30,8 @@ public class PanelGame extends JPanel implements ActionListener {
 	public int ogreNumber;
 	public String guardPersonality;
 	
-	private BufferedImage dFloorTile, heroS;
+	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dFloorGrass2, dFloorWater, dFloorBarricade, dWall;
+	private BufferedImage heroS;
 	
 	public PanelGame(int windowW, int windowH) throws IOException {
 		this.windowW = windowW;
@@ -44,7 +46,13 @@ public class PanelGame extends JPanel implements ActionListener {
 	}
 	
 	public void loadImages() throws IOException{
-		this.dFloorTile = ImageIO.read(new File("res/sprites/static/floortile.png"));
+		this.dFloor = ImageIO.read(new File("res/sprites/static/dfloor.png"));
+		this.dFloorBlood = ImageIO.read(new File("res/sprites/static/dfloorblood.png"));
+		this.dFloorGrass1 = ImageIO.read(new File("res/sprites/static/dfloorgrass1.png"));
+		this.dFloorGrass2 = ImageIO.read(new File("res/sprites/static/dfloorgrass2.png"));
+		this.dFloorWater = ImageIO.read(new File("res/sprites/static/dfloorwater.png"));
+		this.dFloorBarricade = ImageIO.read(new File("res/sprites/static/dfloorbarricade.png"));
+		this.dWall = ImageIO.read(new File("res/sprites/static/dwall.png"));
 		this.heroS = ImageIO.read(new File("res/sprites/hero/0.png"));
 	}
 	
@@ -56,13 +64,32 @@ public class PanelGame extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+
+		Random rnd = new Random();
 		
-		for (int i = 0; i < this.windowW; i += this.offsetW){
-			for (int j = 0; j < this.windowH; j += this.offsetH){
-				g.drawImage(dFloorTile, i, j, this);
+		for (int i = 0; i < this.gridW; i++){
+			for (int j = 0; j < this.gridH; j++){
+				if (i == 0 || j == 0 || i == this.gridW - 1 || j == this.gridH - 1){
+					g.drawImage(dWall, i * this.offsetW, j * this.offsetH, this);
+					continue;
+				}
+				
+				int genGrass = rnd.nextInt(5);
+				int genBlood = rnd.nextInt(25);
+				
+				
+				if (genGrass == 0){
+					g.drawImage(dFloorGrass1, i * this.offsetW, j * this.offsetH, this);					
+				}
+				else if (genBlood == 0){
+					g.drawImage(dFloorBlood, i * this.offsetW, j * this.offsetH, this);
+				}
+				else{
+					g.drawImage(dFloor, i * this.offsetW, j * this.offsetH, this);
+				}
 			}
 		}
-		g.drawImage(this.heroS, 0, 0, this);
+		g.drawImage(this.heroS, 100, 100, this);
 				
 	}
 	
@@ -72,7 +99,13 @@ public class PanelGame extends JPanel implements ActionListener {
 		this.offsetW = Math.round(this.windowW / this.gridW);
 		this.offsetH = Math.round(this.windowH / this.gridH);
 		
-		this.dFloorTile = Scalr.resize(this.dFloorTile, this.offsetH);
+		this.dFloor = Scalr.resize(this.dFloor, this.offsetH);
+		this.dFloorBlood = Scalr.resize(this.dFloorBlood, this.offsetH);
+		this.dFloorGrass1 = Scalr.resize(this.dFloorGrass1, this.offsetH);
+		this.dFloorGrass2 = Scalr.resize(this.dFloorGrass2, this.offsetH);
+		this.dFloorWater = Scalr.resize(this.dFloorWater, this.offsetH);
+		this.dFloorBarricade = Scalr.resize(this.dFloorBarricade, this.offsetH);
+		this.dWall = Scalr.resize(this.dWall, this.offsetH);
 		this.heroS = Scalr.resize(this.heroS, 70);
 		
 		//System.out.println(this.gridW + " " + this.gridH + " " + this.offsetW + " " + this.offsetH);
