@@ -26,6 +26,7 @@ public class GameState {
 	public Hero hero;
 	public Guard guard;
 	public int keyX, keyY;
+	public boolean leverOn;
 	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned on the map.
 	
 	public String message;
@@ -41,6 +42,7 @@ public class GameState {
 	public GameState(GameMap map) {
 		super();
 		this.map = map;
+		this.leverOn = false;
 		
 		if (map instanceof DungeonMap){
 			this.level = Level.DUNGEON;
@@ -141,9 +143,10 @@ public class GameState {
 			if (this.map instanceof OgreMap){
 				this.keyX = 10;
 				this.keyY = 10;
-				this.hero.setSymbol('K');				
+				this.hero.setSymbol('K');	
 			}else{
 				this.map.openDoors();
+				this.leverOn = true;
 			}
 		}
 		
