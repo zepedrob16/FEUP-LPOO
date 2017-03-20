@@ -42,7 +42,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			btnLevelEditor.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 			btnLevelEditor.setForeground(new Color(255, 255, 255));
 			btnLevelEditor.setBackground(new Color(51, 51, 0));
-			btnLevelEditor.setBounds(698, 513, 132, 37);
+			btnLevelEditor.setBounds(76, 534, 231, 37);
 			add(btnLevelEditor);
 			
 			JButton btnExit = new JButton("Exit");
@@ -54,7 +54,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			btnExit.setForeground(Color.WHITE);
 			btnExit.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 			btnExit.setBackground(new Color(51, 51, 0));
-			btnExit.setBounds(698, 563, 132, 37);
+			btnExit.setBounds(76, 634, 231, 37);
 			add(btnExit);
 			
 			JButton btnNewGame = new JButton("New Game");
@@ -64,10 +64,21 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 				}
 			});
 			btnNewGame.setForeground(Color.WHITE);
-			btnNewGame.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+			btnNewGame.setFont(new Font("Cooper Black", Font.PLAIN, 24));
 			btnNewGame.setBackground(new Color(51, 51, 0));
-			btnNewGame.setBounds(698, 463, 132, 37);
+			btnNewGame.setBounds(76, 456, 231, 65);
 			add(btnNewGame);
+			
+			JButton btnLoadGame = new JButton("Load Game");
+			btnLoadGame.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
+			btnLoadGame.setForeground(Color.WHITE);
+			btnLoadGame.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+			btnLoadGame.setBackground(new Color(51, 51, 0));
+			btnLoadGame.setBounds(76, 584, 231, 37);
+			add(btnLoadGame);
 		} catch (IOException ex){
 			//Add exception.
 		}
@@ -76,7 +87,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 	public void playMusic(){
 		JFXPanel fxPanel = new JFXPanel();
 
-		Media hit = new Media(new File("res/title_screen_song.mp3").toURI().toString());
+		Media hit = new Media(new File("res/sound/title_screen_song.mp3").toURI().toString());
 		mediaPlayer = new MediaPlayer(hit);
 		mediaPlayer.setVolume(0.05);
 		mediaPlayer.play();

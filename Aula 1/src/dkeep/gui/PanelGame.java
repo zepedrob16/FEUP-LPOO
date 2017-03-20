@@ -18,6 +18,10 @@ import org.imgscalr.Scalr;
 import dkeep.logic.DungeonMap;
 import dkeep.logic.GameState;
 import dkeep.logic.GameState.State;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import dkeep.logic.OgreMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -34,12 +38,16 @@ public class PanelGame extends JPanel implements KeyListener {
 	private BufferedImage[][] gameImages = new BufferedImage[10][10];
 	
 	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dFloorGrass2, dFloorWater, dFloorBarricade, dWall, dDoor, dDoorOpen, dLeverOn, dLeverOff;
-	private BufferedImage heroS, guardS;
+	private BufferedImage heroS, guardS, sOgre, sBarrel;
 	private BufferedImage key;
 	
+	private static MediaPlayer mediaPlayer;
+	private Media doorOpen;
+	
+	private boolean soundPlayed = false;
+	
 	public PanelGame(int windowW, int windowH) throws IOException {
-		
-		
+	
 		gameState = new GameState();
 		gameState.setGameMap(new DungeonMap());
 		this.windowW = windowW;
@@ -69,21 +77,31 @@ public class PanelGame extends JPanel implements KeyListener {
 		this.dDoorOpen = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddooropen.png")), this.offsetH);
 		this.dLeverOn = Scalr.resize(ImageIO.read(new File("res/sprites/static/dleveron.png")), this.offsetH);
 		this.dLeverOff = Scalr.resize(ImageIO.read(new File("res/sprites/static/dleveroff.png")), this.offsetH);
-		this.key = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), this.offsetH);
+		this.key = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), this.offsetH - 10);
 		
 		//ENTITIES
 		this.heroS = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offsetH);
 		this.guardS = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offsetH);
+		this.sOgre = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/0.png")), this.offsetH);
+		this.sBarrel = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/158.png")), this.offsetH);
+		
+		//SOUNDS
+		this.doorOpen = new Media(new File("res/sound/open_door.mp3").toURI().toString());
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
+		if (gameState.getState() == State.VICTORY){
+			this.soundPlayed = false;
+		}
+		
+		
 		super.paintComponent(g);
 
 		char[][] map = this.gameState.getGameMap().getMap();
 		
-		for (int i = 0; i < this.gridW; i++) {
-			for (int j = 0; j < this.gridH; j++) {
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
 				
 				if (map[i][j] == 'X'){
 					g.drawImage(dWall, j * this.offsetW, i * this.offsetH, this);
@@ -93,26 +111,53 @@ public class PanelGame extends JPanel implements KeyListener {
 				}
 				else if (map[i][j] == 'S'){
 					g.drawImage(dDoorOpen, j * this.offsetW, i * this.offsetH, this);
+					
+					if (!soundPlayed){
+						playSound(doorOpen);
+						soundPlayed = true;
+					}
 				}
 				else if (map[i][j] == ' '){
 					g.drawImage(gameImages[i][j], j * this.offsetW, i * this.offsetH, this);
 				}
-
-				if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
-					g.drawImage(dLeverOn, j * this.offsetW, i * this.offsetH, this);
-				}
-				else if (i == gameState.keyX && j == gameState.keyY && !gameState.leverOn){
-					g.drawImage(dLeverOff, j * this.offsetW, i * this.offsetH, this);
-				} 
 				
+				if (this.gameState.getGameMap() instanceof DungeonMap){
+					if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
+						g.drawImage(dLeverOn, j * this.offsetW, i * this.offsetH, this);
+					}
+					else if (i == gameState.keyX && j == gameState.keyY && !gameState.leverOn){
+						g.drawImage(dLeverOff, j * this.offsetW, i * this.offsetH, this);
+					} 
+					if (i == gameState.guard.getX() && j == gameState.guard.getY()){
+						g.drawImage(this.guardS, j * offsetW, i * offsetH, this);
+					}
+				}
+				else if (this.gameState.getGameMap() instanceof OgreMap){
+					if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
+						g.drawImage(key, j * this.offsetW, i * this.offsetH, this);
+					}
+					for (int k = 0; i < gameState.ogres.size(); i++){
+						if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY()){
+							g.drawImage(sOgre, j * offsetW, i * offsetH, this);
+						}
+						else if (i == gameState.ogres.get(k).getClubX() && j == gameState.ogres.get(k).getClubY()){
+							g.drawImage(sBarrel, j * offsetW, i * offsetH, this);
+						}
+					}
+				}
 				if (i == this.gameState.hero.getX() && j == this.gameState.hero.getY()){
 					g.drawImage(this.heroS, j * this.offsetW, i * this.offsetH, this);
-				}
-				else if (i == gameState.guard.getX() && j == gameState.guard.getY()){
-					g.drawImage(this.guardS, j * offsetW, i * offsetH, this);
-				}	
+				}				
 			}
 		}
+	}
+	
+	public void playSound(Media media){
+		JFXPanel fxPanel = new JFXPanel();
+		
+		mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.setVolume(0.20);
+		mediaPlayer.play();
 	}
 	
 	public void setFloor() {

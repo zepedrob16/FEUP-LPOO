@@ -1,6 +1,7 @@
 package dkeep.gui;
 
 import java.awt.EventQueue;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -14,10 +15,8 @@ public class GameGUI {
 	
 	private PanelMainMenu panelMainMenu = new PanelMainMenu();
 	private PanelGame panelGame;
+	private PanelLevelEditor panelLevelEditor;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -31,10 +30,6 @@ public class GameGUI {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 * @throws IOException 
-	 */
 	public GameGUI() throws IOException {
 		frame = new JFrame("Dungeon Keep");
 		frame.setBounds(100, 100, 1280, 800);
@@ -45,9 +40,8 @@ public class GameGUI {
 		/*
 		panelMainMenu.setBounds(0, 0, 1280, 800);
 		frame.getContentPane().add(panelMainMenu);
-		//frame.pack();
 		panelMainMenu.requestFocusInWindow();
-		*/
+		
 		
 		frame.setBounds(100, 100, 700, 700);
 		panelGame = new PanelGame(700, 700);
@@ -56,6 +50,16 @@ public class GameGUI {
 		panelGame.addKeyListener(panelGame);
 		panelGame.setFocusable(true);
 		panelGame.requestFocusInWindow();
+		*/
+		
+		frame.setBounds(100, 100, 900, 700);
+		frame.getContentPane().add(panelLevelEditor);
+		panelLevelEditor = new PanelLevelEditor(700, 700);
+		panelLevelEditor.setBounds(0, 0, 900, 700);
+		panelLevelEditor.addKeyListener((KeyListener) panelLevelEditor);
+		panelLevelEditor.setFocusable(true);
+		panelGame.requestFocusInWindow();
+		
 		
 	}
 
