@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,10 +20,9 @@ import dkeep.logic.GameState;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
-public class PanelGame extends JPanel implements ActionListener {
-	
-	private Utilities u;
+public class PanelGame extends JPanel implements KeyListener {
 	
 	private GameState gameState;
 	
@@ -33,103 +34,72 @@ public class PanelGame extends JPanel implements ActionListener {
 	
 	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dFloorGrass2, dFloorWater, dFloorBarricade, dWall, dDoor;
 	private BufferedImage heroS, guardS;
+	private BufferedImage key;
 	
 	public PanelGame(int windowW, int windowH) throws IOException {
-		this.windowW = windowW;
-		this.windowH = windowH;
 		
-		this.loadImages();
 		
 		gameState = new GameState();
 		gameState.setGameMap(new DungeonMap());
-		this.setDimensions();
-		this.setMap();
-		setLayout(null);
-	}
-	
-	public void loadImages() throws IOException{
-		this.dFloor = ImageIO.read(new File("res/sprites/static/dfloor.png"));
-		this.dFloorBlood = ImageIO.read(new File("res/sprites/static/dfloorblood.png"));
-		this.dFloorGrass1 = ImageIO.read(new File("res/sprites/static/dfloorgrass1.png"));
-		this.dFloorGrass2 = ImageIO.read(new File("res/sprites/static/dfloorgrass2.png"));
-		this.dFloorWater = ImageIO.read(new File("res/sprites/static/dfloorwater.png"));
-		this.dFloorBarricade = ImageIO.read(new File("res/sprites/static/dfloorbarricade.png"));
-		this.dWall = ImageIO.read(new File("res/sprites/static/dwall.png"));
-		this.dDoor = ImageIO.read(new File("res/sprites/static/ddoor.png"));
-		this.heroS = ImageIO.read(new File("res/sprites/hero/0.png"));
-		this.guardS = ImageIO.read(new File("res/sprites/guard/0.png"));
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		this.repaint();
-	}
-	
-	@Override
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		g.drawImage(this.heroS, this.heroX, this.heroY, this);
-		g.drawImage(this.guardS, this.guardX, this.guardY, this);
-
-		Random rnd = new Random();
-		for (int i = 0; i < this.gameImages.length; i++) {
-			for (int j = 0; j < this.gameImages[0].length; j++) {
-				if (i == this.heroX/this.offsetW && j == this.heroY/this.offsetH){
-					g.drawImage(dFloor, this.heroX, this.heroY, this);
-					g.drawImage(this.heroS, this.heroX, this.heroY, this);
-					continue;
-				}
-				else if (i == this.guardX/this.offsetW && j == this.guardY/this.offsetH){
-					g.drawImage(dFloor, this.guardX, this.guardY, this);
-					g.drawImage(this.guardS, this.guardX, this.guardY, this);
-					continue;
-				}
-				else if (gameImages[i][j] == dFloor) {
-					int genGrass = rnd.nextInt(5);
-					int genBlood = rnd.nextInt(25);
-					
-					
-					if (genGrass == 0){
-						g.drawImage(dFloorGrass1, i * this.offsetW, j * this.offsetH, this);					
-					}
-					else if (genBlood == 0){
-						g.drawImage(dFloorBlood, i * this.offsetW, j * this.offsetH, this);
-					}
-					else{
-						g.drawImage(dFloor, i * this.offsetW, j * this.offsetH, this);
-					}
-				}
-				else 
-					g.drawImage(gameImages[i][j], i*this.offsetW, j*this.offsetW, this);
-			}
-		}
-
-	}
-	
-	public void setDimensions(){
+		this.windowW = windowW;
+		this.windowH = windowH;
 		this.gridW = this.gameState.getGameMap().getMap().length;
 		this.gridH = this.gameState.getGameMap().getMap()[0].length;
 		this.offsetW = Math.round(this.windowW / this.gridW);
 		this.offsetH = Math.round(this.windowH / this.gridH);
 		
-		this.dFloor = Scalr.resize(this.dFloor, this.offsetH);
-		this.dFloorBlood = Scalr.resize(this.dFloorBlood, this.offsetH);
-		this.dFloorGrass1 = Scalr.resize(this.dFloorGrass1, this.offsetH);
-		this.dFloorGrass2 = Scalr.resize(this.dFloorGrass2, this.offsetH);
-		this.dFloorWater = Scalr.resize(this.dFloorWater, this.offsetH);
-		this.dFloorBarricade = Scalr.resize(this.dFloorBarricade, this.offsetH);
-		this.dWall = Scalr.resize(this.dWall, this.offsetH);
-		this.dDoor = Scalr.resize(this.dDoor, this.offsetH);
-		this.heroS = Scalr.resize(this.heroS, 70);
-		this.guardS = Scalr.resize(this.guardS, 70);
+		this.loadImages();
 		
-		//System.out.println(this.gridW + " " + this.gridH + " " + this.offsetW + " " + this.offsetH);
+		this.setMap();
+		setLayout(null);
 	}
 	
-	public void setMap() {		
+	public void loadImages() throws IOException{
+		
+		//STATIC IMAGES
+		this.dFloor = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloor.png")), this.offsetH);
+		this.dFloorBlood = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorblood.png")), this.offsetH);
+		this.dFloorGrass1 = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorgrass1.png")), this.offsetH);
+		this.dFloorGrass2 = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorgrass2.png")), this.offsetH);
+		this.dFloorWater = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorwater.png")), this.offsetH);
+		this.dFloorBarricade = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorbarricade.png")), this.offsetH);
+		this.dWall = Scalr.resize(ImageIO.read(new File("res/sprites/static/dwall.png")), this.offsetH);
+		this.dDoor = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddoor.png")), this.offsetH);
+		this.key = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), this.offsetH);
+		
+		//ENTITIES
+		this.heroS = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offsetH);
+		this.guardS = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offsetH);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+
+		for (int i = 0; i < this.gameImages.length; i++) {
+			for (int j = 0; j < this.gameImages[0].length; j++) {
+				g.drawImage(gameImages[i][j], i * this.offsetW, j * this.offsetH, this);
+				
+				if (i == this.gameState.hero.getX() && j == this.gameState.hero.getY()){
+					System.out.println( this.gameState.hero.getX() + j*this.offsetW + " " + this.gameState.hero.getY() + i*this.offsetH);
+		
+					g.drawImage(this.heroS, j * this.offsetW, i * this.offsetH, this);
+					continue;
+				}
+				else if (i == gameState.guard.getX() && j == gameState.guard.getY()){
+					g.drawImage(this.guardS, i * offsetW, j * offsetH, this);
+					continue;
+				}
+			}
+		}
+	}
+	
+	
+	public void setMap() {
+		Random rnd = new Random();
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				if(this.gameState.getGameMap().getMap()[i][j] == 'X'){
+				if (this.gameState.getGameMap().getMap()[i][j] == 'X'){
 					gameImages[j][i] = dWall;
 					continue;
 				}
@@ -138,8 +108,19 @@ public class PanelGame extends JPanel implements ActionListener {
 					continue;
 				}
 				else if (this.gameState.getGameMap().getMap()[i][j] == ' ') {
-					gameImages[j][i] = dFloor;
-					continue;
+						int genGrass = rnd.nextInt(4);
+						int genBlood = rnd.nextInt(20);
+						
+						
+						if (genGrass == 0){
+							gameImages[j][i] = dFloorGrass1;					
+						}
+						else if (genBlood == 0){
+							gameImages[j][i] = dFloorBlood;
+						}
+						else{
+							gameImages[j][i] = dFloor;
+						}
 				}
 			}
 		}
@@ -147,6 +128,51 @@ public class PanelGame extends JPanel implements ActionListener {
 		this.heroY = this.offsetH;
 		this.guardX = 7 * this.offsetW;
 		this.guardY = this.offsetH;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		
+		if (key == 38 || key == 87){
+			this.gameState.processMove("w");
+			repaint();
+		}
+		else if (key == 37 || key == 65){
+			this.gameState.processMove("a");
+			repaint();
+		}
+		else if (key == 40 || key == 83){
+			this.gameState.processMove("s");
+			repaint();
+		}
+		else if (key == 39 || key == 68){
+			this.gameState.processMove("d");
+			repaint();
+		}
+		else if (key == 27){
+			JOptionPane jop = new JOptionPane();
+			String options[] = {"Yes", "No"};
+			int select = JOptionPane.showOptionDialog(this, "Return to main menu?\n(Unsaved progress will be lost!)", "Return to Main Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+			
+			if (select == 0){
+				this.setVisible(false);
+			}
+		}
+		else if (key == 27 && e.isShiftDown()){
+			System.exit(0);	
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		return;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		return;
 	}
 
 }

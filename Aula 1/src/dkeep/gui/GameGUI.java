@@ -42,19 +42,20 @@ public class GameGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		
-		/*panelMainMenu.setBounds(0, 0, 700, 700);
+		/*
+		panelMainMenu.setBounds(0, 0, 1280, 800);
 		frame.getContentPane().add(panelMainMenu);
 		//frame.pack();
-		panelMainMenu.requestFocusInWindow();*/
+		panelMainMenu.requestFocusInWindow();
+		*/
 		
-		
-		frame.setBounds(100, 100, 850, 850);
-		panelGame = new PanelGame(600,600);
-		panelGame.setBounds(0, 0, 850, 850);
+		frame.setBounds(100, 100, 700, 700);
+		panelGame = new PanelGame(700, 700);
+		panelGame.setBounds(0, 0, 700, 700);
 		frame.getContentPane().add(panelGame);
+		panelGame.addKeyListener(panelGame);
+		panelGame.setFocusable(true);
 		panelGame.requestFocusInWindow();
-		
 		
 	}
 

@@ -10,6 +10,11 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
+
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
@@ -23,8 +28,10 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 	
 	private BufferedImage titleScreen;
 	private JDialog settings;
+	private static MediaPlayer mediaPlayer;
 	
 	public PanelMainMenu() throws IOException {
+		//playMusic();
 		try{
 			this.settings = new SettingsDialog();
 			
@@ -64,6 +71,15 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 		} catch (IOException ex){
 			//Add exception.
 		}
+	}
+	
+	public void playMusic(){
+		JFXPanel fxPanel = new JFXPanel();
+
+		Media hit = new Media(new File("res/title_screen_song.mp3").toURI().toString());
+		mediaPlayer = new MediaPlayer(hit);
+		mediaPlayer.setVolume(0.05);
+		mediaPlayer.play();
 	}
 	
 	@Override
