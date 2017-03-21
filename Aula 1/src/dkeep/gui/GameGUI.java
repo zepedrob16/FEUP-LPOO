@@ -55,7 +55,7 @@ public class GameGUI {
 		pmm.requestFocusInWindow();
 		
 		
-		frame.setBounds(100, 100, 700, 700);
+		//frame.setBounds(100, 100, 700, 700);
 		pg.setBounds(0, 0, 700, 700);
 		frame.getContentPane().add(pg);
 		pg.addKeyListener(pg);
@@ -63,7 +63,7 @@ public class GameGUI {
 		pg.requestFocusInWindow();
 		
 		
-		frame.setBounds(100, 100, 900, 700);
+		//frame.setBounds(100, 100, 900, 700);
 		frame.getContentPane().add(ple);
 		ple.setBounds(0, 0, 900, 700);
 		ple.setFocusable(true);
