@@ -31,7 +31,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 	private static MediaPlayer mediaPlayer;
 	
 	public PanelMainMenu() throws IOException {
-		//playMusic();
+		playMusic();
 		try{
 			this.settings = new SettingsDialog();
 			

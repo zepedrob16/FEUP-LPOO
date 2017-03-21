@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class GuardDrunk extends Guard {
 	
-	private boolean sleeping, inversePath;
+	private boolean inversePath;
 	
 	public GuardDrunk(int x, int y){
 		this.x = x;
@@ -109,5 +109,4 @@ public class GuardDrunk extends Guard {
 		}
 		return false;
 	}
-	
 }

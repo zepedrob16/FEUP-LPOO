@@ -4,6 +4,7 @@ public class Guard {
 	protected int x, y, movementIterator;
 	protected char symbol, patrolRoute[] = {'A','S','S','S','S','A','A','A','A','A','A','S','D','D','D','D','D','D','D','W','W','W','W','W'};
 	//protected boolean patrolling;
+	protected boolean sleeping;
 	
 	public Guard(){}
 	
@@ -13,6 +14,7 @@ public class Guard {
 		
 		this.symbol = 'G';
 		//this.patrolling = true;
+		this.sleeping = false;
 		this.movementIterator = 0;
 	}
 	
@@ -47,4 +49,8 @@ public class Guard {
 	public void setSymbol(char symbol){
 		this.symbol = symbol;
 	}
+	public boolean getSleeping() {
+		return this.sleeping;
+	}
+	
 }

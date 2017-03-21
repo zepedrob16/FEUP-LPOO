@@ -49,9 +49,9 @@ public class GameGUI {
 		frame.getContentPane().add(panelGame);
 		panelGame.addKeyListener(panelGame);
 		panelGame.setFocusable(true);
-		panelGame.requestFocusInWindow();
+		panelGame.requestFocusInWindow();*/
 		
-		*/
+		
 		frame.setBounds(100, 100, 1000, 700);
 		panelLevelEditor = new PanelLevelEditor(700, 700);
 		frame.getContentPane().add(panelLevelEditor);

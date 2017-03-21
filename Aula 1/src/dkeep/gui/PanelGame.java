@@ -19,6 +19,7 @@ import org.imgscalr.Scalr;
 import dkeep.logic.DungeonMap;
 import dkeep.logic.GameState;
 import dkeep.logic.GameState.State;
+import dkeep.logic.GuardDrunk;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -40,7 +41,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dFloorGrass2, dFloorWater, dFloorBarricade, dWall, dDoor, dDoorOpen, dLeverOn, dLeverOff;
 	private BufferedImage sDonkey, guardS, sOgre, sBarrel;
-	private BufferedImage[] fDonkey; 
+	private BufferedImage[] fDonkey, fGuard;
 	private int fDonkeyIter;
 	private BufferedImage key;
 	
@@ -92,7 +93,10 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		this.fDonkey[0] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offsetH);
 		this.fDonkey[1] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/2.png")), this.offsetH);
 		this.sDonkey = this.fDonkey[0];
-		this.guardS = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offsetH);
+		this.fGuard = new BufferedImage[2];
+		this.fGuard[0] = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offsetH);
+		this.fGuard[1] = Scalr.resize(ImageIO.read(new File("res/sprites/guard/36.png")), this.offsetH);
+		this.guardS = this.fGuard[0];
 		this.sOgre = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/0.png")), this.offsetH);
 		this.sBarrel = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/158.png")), this.offsetH);
 		
@@ -102,10 +106,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	@Override
 	public void paintComponent(Graphics g){
-		if (gameState.getState() == State.VICTORY){
+		if (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof DungeonMap){
 			this.soundPlayed = false;
-		}
-		
+		}		
 		
 		super.paintComponent(g);
 
@@ -123,7 +126,11 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 				else if (map[i][j] == 'S'){
 					g.drawImage(dDoorOpen, j * this.offsetW, i * this.offsetH, this);
 					
-					if (!soundPlayed){
+					if (!soundPlayed && this.gameState.getGameMap() instanceof OgreMap){
+						playSound(doorOpen);
+						soundPlayed = true;
+					}
+					else if (!soundPlayed && this.gameState.getGameMap() instanceof DungeonMap && i != this.gameState.hero.getX() && j != this.gameState.hero.getY()){
 						playSound(doorOpen);
 						soundPlayed = true;
 					}
@@ -139,8 +146,11 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 					else if (i == gameState.keyX && j == gameState.keyY && !gameState.leverOn){
 						g.drawImage(dLeverOff, j * this.offsetW, i * this.offsetH, this);
 					} 
-					if (i == gameState.guard.getX() && j == gameState.guard.getY()){
-						g.drawImage(this.guardS, j * offsetW, i * offsetH, this);
+					if (i == gameState.guard.getX() && j == gameState.guard.getY() && this.gameState.guard.getSleeping()){
+						g.drawImage(this.fGuard[1], j * offsetW, i * offsetH, this);
+					}
+					else if (i == gameState.guard.getX() && j == gameState.guard.getY() && !this.gameState.guard.getSleeping()) {
+						g.drawImage(this.fGuard[0], j * offsetW, i * offsetH, this);
 					}
 				}
 				else if (this.gameState.getGameMap() instanceof OgreMap){
@@ -161,6 +171,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 				}				
 			}
 		}
+		
 	}
 	
 	public void playSound(Media media){
@@ -193,7 +204,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (gameState.getState() == State.DEFEAT){
+		if (gameState.getState() == State.DEFEAT || (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof OgreMap)){
 			return;
 		}
 		
