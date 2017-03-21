@@ -7,16 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-
 import javax.swing.SwingConstants;
 
 import dkeep.logic.DungeonMap;
 import dkeep.logic.GameState;
 import dkeep.logic.GameState.State;
-import dkeep.logic.OgreMap;
 
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -25,8 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class KeepGUI {
@@ -38,7 +31,7 @@ public class KeepGUI {
 	GameState state;
 	private JLabel lblNewLabel;
 	private JTextArea textArea;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	
 	private int numberOgres;
 
@@ -115,7 +108,7 @@ public class KeepGUI {
 		lblGuardPersonality.setBounds(22, 45, 146, 19);
 		frame.getContentPane().add(lblGuardPersonality);
 		
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<String>();
 		comboBox.setToolTipText("");
 		comboBox.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		comboBox.addItem("Rookie");

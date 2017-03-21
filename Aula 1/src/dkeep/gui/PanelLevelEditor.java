@@ -10,35 +10,69 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import org.imgscalr.Scalr;
+
+import dkeep.logic.GameState;
+
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 
 public class PanelLevelEditor extends JPanel {
-
+	
+	GameState state;
+	
 	//IMAGES
 	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dWall, dDoor, dLeverOn, key;
 	private BufferedImage heroS, guardS, sOgre;
 	
 	//JCOMPONENTS
-	private JSlider gridX, gridY;
+	private JSlider grid;
 	
 	//MATH VARIABLES
-	private int offsetW, offsetH; 
+	private int offsetW, offsetH;
+	private int windowW, windowH;
 	
-	public PanelLevelEditor(int windowW, int windowH) {
+	class SliderListener implements ChangeListener{
+		
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			offsetW = Math.round(windowW / grid.getValue());
+			offsetH = Math.round(windowH / grid.getValue());
+			try {
+				loadImages();
+			} catch (IllegalArgumentException | ImagingOpException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			repaint();
+		}	
+	}
+	
+	public PanelLevelEditor(int windowW, int windowH) throws IllegalArgumentException, ImagingOpException, IOException {
+		state = new GameState();
 		setLayout(null);
 		
-		gridX = new JSlider();
-		gridX.setBounds(818, 230, 200, 26);
-		add(gridX);
+		this.windowW = windowW;
+		this.windowH = windowH;
 		
-		gridY = new JSlider();
-		gridY.setBounds(818, 124, 200, 26);
-		add(gridY);
+		grid = new JSlider();
+		grid.setBounds(720, 133, 153, 52);
+		grid.setMinimum(5);
+		grid.setMaximum(25);
+		grid.setMajorTickSpacing(5);
+		grid.setPaintLabels(true);
+		grid.setPaintTicks(true);
+		grid.addChangeListener(new SliderListener());
+		add(grid);
 		
-		this.offsetW = Math.round(windowW / gridX.getValue());
-		this.offsetH = Math.round(windowH / gridY.getValue());		
+		this.offsetW = Math.round(windowW / grid.getValue());
+		this.offsetH = Math.round(windowW / grid.getValue());
+		
+		loadImages();
 				
 	}
+	
 	public void loadImages() throws IllegalArgumentException, ImagingOpException, IOException{
 
 		//STATIC IMAGES
@@ -59,6 +93,11 @@ public class PanelLevelEditor extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		
+		for (int i = 0; i < grid.getValue(); i++){
+			for (int j = 0; j < grid.getValue(); j++){
+				g.drawImage(dFloor, i * offsetH, j * offsetW, this);
+			}
+		}
 	}
 
 }

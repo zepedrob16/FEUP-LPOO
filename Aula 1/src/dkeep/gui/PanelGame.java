@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import org.imgscalr.Scalr;
 
@@ -27,7 +28,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-public class PanelGame extends JPanel implements KeyListener {
+public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	private GameState gameState;
 	
@@ -38,11 +39,15 @@ public class PanelGame extends JPanel implements KeyListener {
 	private BufferedImage[][] gameImages = new BufferedImage[10][10];
 	
 	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dFloorGrass2, dFloorWater, dFloorBarricade, dWall, dDoor, dDoorOpen, dLeverOn, dLeverOff;
-	private BufferedImage heroS, guardS, sOgre, sBarrel;
+	private BufferedImage sDonkey, guardS, sOgre, sBarrel;
+	private BufferedImage[] fDonkey; 
+	private int fDonkeyIter;
 	private BufferedImage key;
 	
 	private static MediaPlayer mediaPlayer;
 	private Media doorOpen;
+	
+	private Timer fps;
 	
 	private boolean soundPlayed = false;
 	
@@ -59,6 +64,9 @@ public class PanelGame extends JPanel implements KeyListener {
 		
 		this.loadImages();
 		this.setFloor();
+		
+		fps = new Timer(500, this);
+		fps.start();
 		
 		setLayout(null);
 	}
@@ -80,7 +88,10 @@ public class PanelGame extends JPanel implements KeyListener {
 		this.key = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), this.offsetH - 10);
 		
 		//ENTITIES
-		this.heroS = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offsetH);
+		this.fDonkey = new BufferedImage[2];
+		this.fDonkey[0] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offsetH);
+		this.fDonkey[1] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/2.png")), this.offsetH);
+		this.sDonkey = this.fDonkey[0];
 		this.guardS = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offsetH);
 		this.sOgre = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/0.png")), this.offsetH);
 		this.sBarrel = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/158.png")), this.offsetH);
@@ -146,7 +157,7 @@ public class PanelGame extends JPanel implements KeyListener {
 					}
 				}
 				if (i == this.gameState.hero.getX() && j == this.gameState.hero.getY()){
-					g.drawImage(this.heroS, j * this.offsetW, i * this.offsetH, this);
+					g.drawImage(sDonkey, j * offsetW, i * offsetH, this);
 				}				
 			}
 		}
@@ -228,6 +239,16 @@ public class PanelGame extends JPanel implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		return;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		this.fDonkeyIter++;
+		if (this.fDonkeyIter == 2){
+			this.fDonkeyIter = 0;
+		}
+		this.sDonkey = this.fDonkey[this.fDonkeyIter];
+		repaint();
 	}
 
 }
