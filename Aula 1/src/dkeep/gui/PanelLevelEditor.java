@@ -23,6 +23,7 @@ import java.awt.Font;
 public class PanelLevelEditor extends JPanel {
 	
 	GameState state;
+	private PanelManager pm;
 	
 	//IMAGES
 	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dWall, dDoor, dLeverOn, key;
@@ -52,6 +53,7 @@ public class PanelLevelEditor extends JPanel {
 	}
 	
 	public PanelLevelEditor(int windowW, int windowH) throws IllegalArgumentException, ImagingOpException, IOException {
+		this.setVisible(false);
 		state = new GameState();
 		setLayout(null);
 		
@@ -116,5 +118,9 @@ public class PanelLevelEditor extends JPanel {
 		g.drawImage(dDoor, 790, 480, this);
 		g.drawImage(dLeverOn, 750, 520, this);
 		g.drawImage(key, 790, 520, this);
+	}
+	
+	public void setPanelManager(PanelManager pm){
+		this.pm = pm;
 	}
 }

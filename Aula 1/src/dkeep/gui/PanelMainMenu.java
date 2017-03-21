@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
 
+import dkeep.gui.PanelManager.Event;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -27,18 +28,24 @@ import java.awt.Font;
 public class PanelMainMenu extends JPanel implements ActionListener {
 	
 	private BufferedImage titleScreen;
-	private JDialog settings;
+	private SettingsDialog settings;
 	private static MediaPlayer mediaPlayer;
 	
+	private PanelManager pm;
+	
 	public PanelMainMenu() throws IOException {
+		
 		playMusic();
 		try{
-			this.settings = new SettingsDialog();
-			
 			this.titleScreen = ImageIO.read(new File("res/title_screen_c64.png"));	
 			setLayout(null);
 			
 			JButton btnLevelEditor = new JButton("Level Editor");
+			btnLevelEditor.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					pm.stateMachine(Event.EDIT_GAME);
+				}
+			});
 			btnLevelEditor.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 			btnLevelEditor.setForeground(new Color(255, 255, 255));
 			btnLevelEditor.setBackground(new Color(51, 51, 0));
@@ -60,6 +67,13 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			JButton btnNewGame = new JButton("New Game");
 			btnNewGame.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					try {
+						settings = new SettingsDialog();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					settings.setPanelManager(pm);
 					settings.setVisible(true);
 				}
 			});
@@ -91,6 +105,10 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 		mediaPlayer = new MediaPlayer(hit);
 		mediaPlayer.setVolume(0.05);
 		mediaPlayer.play();
+	}
+	
+	public void setPanelManager(PanelManager pm){
+		this.pm = pm;
 	}
 	
 	@Override

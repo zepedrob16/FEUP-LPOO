@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import dkeep.gui.PanelManager.Event;
+
 import javax.swing.JLabel;
 
 public class GameGUI {
@@ -13,9 +16,9 @@ public class GameGUI {
 	private JFrame frame;
 	private JPanel panel;
 	
-	private PanelMainMenu panelMainMenu = new PanelMainMenu();
-	private PanelGame panelGame;
-	private PanelLevelEditor panelLevelEditor;
+	private PanelMainMenu pmm;
+	private PanelGame pg;
+	private PanelLevelEditor ple;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -31,35 +34,41 @@ public class GameGUI {
 	}
 
 	public GameGUI() throws IOException {
+		
+		pmm = new PanelMainMenu();
+		pg = new PanelGame(700, 700);
+		ple = new PanelLevelEditor(700, 700);
+		
+		PanelManager pm = new PanelManager(pg, ple, pmm);
+		pmm.setPanelManager(pm);
+		pg.setPanelManager(pm);
+		
 		frame = new JFrame("Dungeon Keep");
 		frame.setBounds(100, 100, 1280, 800);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		/*
-		panelMainMenu.setBounds(0, 0, 1280, 800);
-		frame.getContentPane().add(panelMainMenu);
-		panelMainMenu.requestFocusInWindow();
-		*/
+		
+		pmm.setBounds(0, 0, 1280, 800);
+		frame.getContentPane().add(pmm);
+		pmm.requestFocusInWindow();
+		
 		
 		frame.setBounds(100, 100, 700, 700);
-		panelGame = new PanelGame(700, 700);
-		panelGame.setBounds(0, 0, 700, 700);
-		frame.getContentPane().add(panelGame);
-		panelGame.addKeyListener(panelGame);
-		panelGame.setFocusable(true);
-		panelGame.requestFocusInWindow();
+		pg.setBounds(0, 0, 700, 700);
+		frame.getContentPane().add(pg);
+		pg.addKeyListener(pg);
+		pg.setFocusable(true);
+		pg.requestFocusInWindow();
 		
-		/*
+		
 		frame.setBounds(100, 100, 900, 700);
-		panelLevelEditor = new PanelLevelEditor(700, 700);
-		frame.getContentPane().add(panelLevelEditor);
-		panelLevelEditor.setBounds(0, 0, 900, 700);
-		//panelLevelEditor.addKeyListener(panelLevelEditor);
-		panelLevelEditor.setFocusable(true);
-		panelGame.requestFocusInWindow();
-		*/
+		frame.getContentPane().add(ple);
+		ple.setBounds(0, 0, 900, 700);
+		ple.setFocusable(true);
+		ple.requestFocusInWindow();
+		
 		
 	}
 

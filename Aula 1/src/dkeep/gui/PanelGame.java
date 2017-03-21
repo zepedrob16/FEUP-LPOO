@@ -16,6 +16,7 @@ import javax.swing.Timer;
 
 import org.imgscalr.Scalr;
 
+import dkeep.gui.PanelManager.Event;
 import dkeep.logic.DungeonMap;
 import dkeep.logic.GameState;
 import dkeep.logic.GameState.State;
@@ -53,8 +54,11 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	private boolean soundPlayed = false;
 	
-	public PanelGame(int windowW, int windowH) throws IOException {
+	private PanelManager pm;
 	
+	public PanelGame(int windowW, int windowH) throws IOException {
+		this.setVisible(false);
+		
 		gameState = new GameState();
 		gameState.setGameMap(new DungeonMap());
 		this.windowW = windowW;
@@ -250,6 +254,10 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 	}
+	
+	public void setPanelManager(PanelManager pm){
+		this.pm = pm;
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -283,9 +291,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			JOptionPane jop = new JOptionPane();
 			String options[] = {"Yes", "No"};
 			int select = JOptionPane.showOptionDialog(this, "Return to main menu?\n(Unsaved progress will be lost!)", "Return to Main Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-			
 			if (select == 0){
-				this.setVisible(false);
+				pm.stateMachine(Event.EXIT_TO_MENU);
+				System.out.println(pm.getState());
 			}
 		}
 		

@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dkeep.gui.PanelManager.Event;
+
 import javax.swing.JSlider;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -19,6 +22,8 @@ public class SettingsDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private PanelGame gamePanel;
+	
+	private PanelManager pm;
 
 	public static void main(String[] args) {
 		try {
@@ -31,7 +36,6 @@ public class SettingsDialog extends JDialog {
 	}
 
 	public SettingsDialog() throws IOException {
-		this.gamePanel = new PanelGame(850,850);
 		
 		this.setTitle("Create New Game");
 		setBounds(100, 100, 453, 475);
@@ -72,10 +76,8 @@ public class SettingsDialog extends JDialog {
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gamePanel.guardPersonality = (String)comboBox.getSelectedItem();
-				gamePanel.ogreNumber = slider.getValue();
-				gamePanel.setVisible(true);
-				dispose();				
+				pm.stateMachine(Event.START_GAME);
+				dispose();
 			}
 		});
 		okButton.setActionCommand("OK");
@@ -91,5 +93,8 @@ public class SettingsDialog extends JDialog {
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 		
+	}
+	public void setPanelManager(PanelManager pm){
+		this.pm = pm;
 	}
 }
