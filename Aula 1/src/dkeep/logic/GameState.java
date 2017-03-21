@@ -82,7 +82,7 @@ public class GameState {
 				this.level = Level.OGRE;
 				OgreMap ogreMap = new OgreMap();
 				setGameMap(ogreMap);
-				//spawnOgres();
+				spawnOgres();
 				spawnEntities();
 				guard = null;
 				drawMap();
@@ -102,7 +102,6 @@ public class GameState {
 		}
 		else if (level == Level.OGRE){
 			moveEveryOgre();
-			hero.moveHeroClub(this);
 		}
 		drawMap();
 		return;
@@ -206,11 +205,6 @@ public class GameState {
 					map += (hero.getSymbol() + " ");
 					continue;
 				}
-				else if (i == hero.getClubX() && j == hero.getClubY()) {
-					System.out.print(hero.getClubSymbol() + " "); //Display do club do herói
-					map += (hero.getClubSymbol() + " ");
-					continue;
-				}
 				if (guard != null) {
 					if (i == guard.getX() && j == guard.getY() && guard.getX() != 0 && guard.getY() != 0){
 						System.out.print(guard.getSymbol() + " ");  //Display do guarda.
@@ -252,7 +246,7 @@ public class GameState {
 	
 	public void spawnGuard(int x, int y){
 		Random rnd = new Random();
-		int guardGen = rnd.nextInt(3);
+		int guardGen = 0;//rnd.nextInt(3);
 		
 		if (guardGen == 0){
 			guard = new GuardRookie(x,y);

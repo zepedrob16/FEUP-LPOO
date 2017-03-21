@@ -19,9 +19,8 @@ public class Ogre {
 		if (hero.getX() == this.x && hero.getY() == this.y){	//Caso estejam na mesma célula.
 			return true;
 		}
-		else if ((hero.getX() == this.x - 1 && hero.getY() == this.y) || (hero.getX() == this.x + 1 && hero.getY() == this.y) || (hero.getY() == this.y - 1 && hero.getX() == this.x) || (hero.getY() == this.y + 1 && hero.getX() == this.x)){
+		else if(hero.getX() == this.clubX && hero.getY() == this.clubY)
 			return true;
-		}
 		else if ((hero.getX() == this.clubX - 1 && hero.getY() == this.clubY) || (hero.getX() == this.clubX + 1 && hero.getY() == this.clubY) || (hero.getY() == this.clubY - 1 && hero.getX() == this.clubX) || (hero.getY() == this.clubY + 1 && hero.getX() == this.clubX)){
 			return true;
 		}
@@ -58,6 +57,7 @@ public class Ogre {
 			boolean validMove = false;
 			if (stunned && stunCounter < 2){
 				stunCounter++;
+				moveClub(gameState);
 				break;
 			}
 			if (stunCounter == 2) {
@@ -154,5 +154,8 @@ public class Ogre {
 	}
 	public char getClubSymbol(){
 		return clubSymbol;
+	}
+	public boolean getStunned(){
+		return stunned;
 	}
 }

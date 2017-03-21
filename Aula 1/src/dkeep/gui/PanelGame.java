@@ -41,8 +41,8 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	private BufferedImage[][] gameImages = new BufferedImage[10][10];
 	
 	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dFloorGrass2, dFloorWater, dFloorBarricade, dWall, dDoor, dDoorOpen, dLeverOn, dLeverOff;
-	private BufferedImage sDonkey, guardS, sOgre, sBarrel;
-	private BufferedImage[] fDonkey, fGuard;
+	private BufferedImage sDonkey, sBarrel;
+	private BufferedImage[] fDonkey, fGuard, fOgre;
 	private int fDonkeyIter;
 	private BufferedImage key;
 	
@@ -141,8 +141,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		this.fGuard = new BufferedImage[2];
 		this.fGuard[0] = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offsetH);
 		this.fGuard[1] = Scalr.resize(ImageIO.read(new File("res/sprites/guard/36.png")), this.offsetH);
-		this.guardS = this.fGuard[0];
-		this.sOgre = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/0.png")), this.offsetH);
+		this.fOgre = new BufferedImage[2];
+		this.fOgre[0] = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/209.png")), this.offsetH); 
+		this.fOgre[1] = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/116.png")), this.offsetH); 
 		this.sBarrel = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/158.png")), this.offsetH);
 		
 		//SOUNDS
@@ -202,9 +203,12 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 					if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
 						g.drawImage(key, j * this.offsetW, i * this.offsetH, this);
 					}
-					for (int k = 0; i < gameState.ogres.size(); i++){
-						if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY()){
-							g.drawImage(sOgre, j * offsetW, i * offsetH, this);
+					for (int k = 0; k < gameState.ogres.size(); k++){
+						if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && gameState.ogres.get(k).getStunned()){
+							g.drawImage(fOgre[1], j * offsetW, i * offsetH, this);
+						}
+						else if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && !gameState.ogres.get(k).getStunned()){
+							g.drawImage(fOgre[0], j * offsetW, i * offsetH, this);
 						}
 						else if (i == gameState.ogres.get(k).getClubX() && j == gameState.ogres.get(k).getClubY()){
 							g.drawImage(sBarrel, j * offsetW, i * offsetH, this);
