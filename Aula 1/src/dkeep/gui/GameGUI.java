@@ -41,7 +41,7 @@ public class GameGUI {
 		panelMainMenu.setBounds(0, 0, 1280, 800);
 		frame.getContentPane().add(panelMainMenu);
 		panelMainMenu.requestFocusInWindow();
-		
+		*/
 		
 		frame.setBounds(100, 100, 700, 700);
 		panelGame = new PanelGame(700, 700);
@@ -49,17 +49,17 @@ public class GameGUI {
 		frame.getContentPane().add(panelGame);
 		panelGame.addKeyListener(panelGame);
 		panelGame.setFocusable(true);
-		panelGame.requestFocusInWindow();*/
+		panelGame.requestFocusInWindow();
 		
-		
-		frame.setBounds(100, 100, 1000, 700);
+		/*
+		frame.setBounds(100, 100, 900, 700);
 		panelLevelEditor = new PanelLevelEditor(700, 700);
 		frame.getContentPane().add(panelLevelEditor);
-		panelLevelEditor.setBounds(0, 0, 1000, 700);
+		panelLevelEditor.setBounds(0, 0, 900, 700);
 		//panelLevelEditor.addKeyListener(panelLevelEditor);
 		panelLevelEditor.setFocusable(true);
 		panelGame.requestFocusInWindow();
-		
+		*/
 		
 	}
 

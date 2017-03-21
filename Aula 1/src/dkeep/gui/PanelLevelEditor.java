@@ -16,6 +16,8 @@ import dkeep.logic.GameState;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 
 public class PanelLevelEditor extends JPanel {
@@ -57,7 +59,7 @@ public class PanelLevelEditor extends JPanel {
 		this.windowH = windowH;
 		
 		grid = new JSlider();
-		grid.setBounds(720, 133, 153, 52);
+		grid.setBounds(719, 72, 147, 52);
 		grid.setMinimum(5);
 		grid.setMaximum(25);
 		grid.setMajorTickSpacing(5);
@@ -68,6 +70,16 @@ public class PanelLevelEditor extends JPanel {
 		
 		this.offsetW = Math.round(windowW / grid.getValue());
 		this.offsetH = Math.round(windowW / grid.getValue());
+		
+		JLabel lblGridDimension = new JLabel("Grid dimension");
+		lblGridDimension.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		lblGridDimension.setBounds(726, 35, 120, 30);
+		add(lblGridDimension);
+		
+		JLabel lblElements = new JLabel("Components");
+		lblElements.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		lblElements.setBounds(727, 140, 120, 30);
+		add(lblElements);
 		
 		loadImages();
 				
@@ -85,9 +97,9 @@ public class PanelLevelEditor extends JPanel {
 		this.key = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), this.offsetH - 10);
 		
 		//ENTITIES
-		this.heroS = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offsetH);
-		this.guardS = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offsetH);
-		this.sOgre = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/0.png")), this.offsetH);
+		this.heroS = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), 90);
+		this.guardS = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), 85);
+		this.sOgre = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/209.png")), 80);
 	}
 	
 	public void paintComponent(Graphics g){
@@ -98,6 +110,11 @@ public class PanelLevelEditor extends JPanel {
 				g.drawImage(dFloor, i * offsetH, j * offsetW, this);
 			}
 		}
+		g.drawImage(heroS, 750, 180, this);
+		g.drawImage(sOgre, 750, 280, this);
+		g.drawImage(dWall, 750, 480, this);
+		g.drawImage(dDoor, 790, 480, this);
+		g.drawImage(dLeverOn, 750, 520, this);
+		g.drawImage(key, 790, 520, this);
 	}
-
 }

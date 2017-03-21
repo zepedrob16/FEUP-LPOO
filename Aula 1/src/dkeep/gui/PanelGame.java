@@ -28,6 +28,7 @@ import dkeep.logic.OgreMap;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import java.awt.Font;
 
 public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
@@ -70,6 +71,50 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		fps.start();
 		
 		setLayout(null);
+		
+		JButton btnUp = new JButton("\u25B2");
+		btnUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				requestFocusInWindow();
+				gameState.processMove("w");
+				repaint();
+			}
+		});
+		btnUp.setBounds(58, 497, 48, 48);
+		add(btnUp);
+		
+		JButton btnLeft = new JButton("\u25C0");
+		btnLeft.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				requestFocusInWindow();
+				gameState.processMove("a");
+				repaint();
+			}
+		});
+		btnLeft.setBounds(12, 543, 48, 48);
+		add(btnLeft);
+		
+		JButton btnRight = new JButton("\u25B6");
+		btnRight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				requestFocusInWindow();
+				gameState.processMove("d");
+				repaint();
+			}
+		});
+		btnRight.setBounds(104, 543, 48, 48);
+		add(btnRight);
+		
+		JButton btnDown = new JButton("\u25BC");
+		btnDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				requestFocusInWindow();
+				gameState.processMove("s");
+				repaint();
+			}
+		});
+		btnDown.setBounds(58, 589, 48, 48);
+		add(btnDown);
 	}
 	
 	public void loadImages() throws IOException{
@@ -261,5 +306,4 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		this.sDonkey = this.fDonkey[this.fDonkeyIter];
 		repaint();
 	}
-
 }
