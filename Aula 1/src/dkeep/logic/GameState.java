@@ -32,7 +32,7 @@ public class GameState {
 	public String message;
 	
 	/* LOADED MAP */
-	private OgreMap oMap;
+	private OgreMap oMap = new OgreMap();
 	
 	/* METHODS */
 	

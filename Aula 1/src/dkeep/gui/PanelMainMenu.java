@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import dkeep.gui.PanelManager.Event;
+import dkeep.logic.OgreMap;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -133,20 +134,26 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 		
 		for (int i = 0; i < gridSize; i++){
 			char[] tiles = new char[gridSize];
-			bufferedReader.readLine().getChars(0, gridSize, tiles, 0);
-			for (int h = 0; h < tiles.length; h++){
-				System.out.println(tiles[h]);
+			//bufferedReader.readLine().getChars(0, gridSize, tiles, 0);
 			}
-			
 			selMap[i] = tiles;
 		}
-		for (int i = 0; i < selMap.length; i++){
+		/*for (int h = 0; h < tiles.length; h++){
+			System.out.println("what");
+			System.out.println(tiles[h]);
+		}*/
+		/*for (int i = 0; i < selMap.length; i++){
 			for (int j = 0; j < selMap.length; j++){
-				System.out.println(selMap[i][j]);
+				//System.out.println(selMap[i][j]);
 			}
-			System.out.print("\n");
+			//System.out.print("\n");
 		}
+		*/
+		OgreMap mapss = new OgreMap(selMap);
+		pm.stateMachine(Event.START_GAME);
 		
+		//settings.setPanelManager(pm);
+		//settings.setVisible(true);
 	}
 	
 	public void playMusic(){
