@@ -18,6 +18,7 @@ import org.imgscalr.Scalr;
 
 import dkeep.gui.PanelManager.Event;
 import dkeep.logic.DungeonMap;
+import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
 import dkeep.logic.GameState.State;
 import dkeep.logic.GuardDrunk;
@@ -246,6 +247,10 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			
 			g.drawImage(screenGameOver, 30, 220, this);
 		}
+		
+	}
+	
+	public void setOgreMap(GameMap gm){
 		
 	}
 	

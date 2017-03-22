@@ -231,14 +231,14 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 			repaint();
 			ogreSelected = false;
 		}
-		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && wallSelected) {
+		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && wallSelected) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'X';
 			repaint();
 			wallSelected = false;
 		}
-		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && doorSelected) {
+		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && doorSelected) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'I';

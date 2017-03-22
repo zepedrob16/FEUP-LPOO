@@ -31,6 +31,8 @@ public class GameState {
 	
 	public String message;
 	
+	/* LOADED MAP */
+	private OgreMap oMap;
 	
 	/* METHODS */
 	
@@ -80,7 +82,7 @@ public class GameState {
 		else if (this.state == State.VICTORY){
 			if (this.level == Level.DUNGEON){
 				this.level = Level.OGRE;
-				OgreMap ogreMap = new OgreMap();
+				OgreMap ogreMap = new OgreMap(oMap.getMap());
 				setGameMap(ogreMap);
 				spawnOgres();
 				spawnEntities();

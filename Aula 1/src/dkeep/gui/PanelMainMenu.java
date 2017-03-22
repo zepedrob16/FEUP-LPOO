@@ -2,8 +2,11 @@ package dkeep.gui;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,6 +21,7 @@ import javafx.scene.media.MediaPlayer;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -86,6 +90,15 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			JButton btnLoadGame = new JButton("Load Game");
 			btnLoadGame.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					try {
+						loadMap();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 			btnLoadGame.setForeground(Color.WHITE);
@@ -96,6 +109,44 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 		} catch (IOException ex){
 			//Add exception.
 		}
+	}
+
+	public void loadMap() throws IOException{
+		File folder = new File("res/saves");
+		File[] saves = folder.listFiles();
+		String[] saveNames = new String[saves.length];
+		
+		for (int i = 0; i < saves.length; i++){
+			saveNames[i] = (saves[i].getName().replaceAll(".txt", ""));
+		}
+		String res = (String) JOptionPane.showInputDialog(null, "Select a save file", "Load Game", JOptionPane.QUESTION_MESSAGE, null, saveNames, saveNames[0]);
+		File sel = new File("res/saves/" + res + ".txt");
+		
+		FileReader fileReader = new FileReader(sel);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);	//Wrap for efficiency.
+		char[][] selMap;
+		
+		int gridSize = bufferedReader.readLine().length(); //Saves the grid size.
+		selMap = new char[gridSize][gridSize];
+		bufferedReader.mark(0);
+		bufferedReader.reset();
+		
+		for (int i = 0; i < gridSize; i++){
+			char[] tiles = new char[gridSize];
+			bufferedReader.readLine().getChars(0, gridSize, tiles, 0);
+			for (int h = 0; h < tiles.length; h++){
+				System.out.println(tiles[h]);
+			}
+			
+			selMap[i] = tiles;
+		}
+		for (int i = 0; i < selMap.length; i++){
+			for (int j = 0; j < selMap.length; j++){
+				System.out.println(selMap[i][j]);
+			}
+			System.out.print("\n");
+		}
+		
 	}
 	
 	public void playMusic(){

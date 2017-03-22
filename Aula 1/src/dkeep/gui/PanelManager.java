@@ -2,6 +2,8 @@ package dkeep.gui;
 
 import javax.swing.JPanel;
 
+import dkeep.logic.GameMap;
+
 public class PanelManager {
 	
 	//STATE MACHINE VARIABLES
@@ -42,6 +44,10 @@ public class PanelManager {
 				activatePanel(pmm);
 			}
 		}
+	}
+	
+	public void setOgreMap(GameMap gm){
+		
 	}
 	
 	public void closeAllPanels(){
