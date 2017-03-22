@@ -135,6 +135,9 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 		for (int i = 0; i < gridSize; i++){
 			char[] tiles = new char[gridSize];
 			//bufferedReader.readLine().getChars(0, gridSize, tiles, 0);
+			String line = bufferedReader.readLine();
+			for (int j=0; j < line.length(); j++) {
+				tiles[j] = line.charAt(j);
 			}
 			selMap[i] = tiles;
 		}
