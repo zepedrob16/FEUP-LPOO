@@ -217,43 +217,43 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 			keySelected = true;
 		
 		
-		if (e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && heroSelected) {
-			int i = Math.round(e.getXOnScreen()/offsetW);
-			int j = Math.round(e.getYOnScreen()/offsetH);
+		if (e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && heroSelected) {
+			int i = Math.round(e.getX()/offsetW);
+			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'H';
 			repaint();
 			heroSelected = false;
 		}
-		else if(e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && ogreSelected) {
-			int i = Math.round(e.getXOnScreen()/offsetW);
-			int j = Math.round(e.getYOnScreen()/offsetH);
+		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && ogreSelected) {
+			int i = Math.round(e.getX()/offsetW);
+			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'O';
 			repaint();
 			ogreSelected = false;
 		}
-		else if(e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && wallSelected) {
-			int i = Math.round(e.getXOnScreen()/offsetW);
-			int j = Math.round(e.getYOnScreen()/offsetH);
+		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && wallSelected) {
+			int i = Math.round(e.getX()/offsetW);
+			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'X';
 			repaint();
 			wallSelected = false;
 		}
-		else if(e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && doorSelected) {
-			int i = Math.round(e.getXOnScreen()/offsetW);
-			int j = Math.round(e.getYOnScreen()/offsetH);
+		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && doorSelected) {
+			int i = Math.round(e.getX()/offsetW);
+			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'I';
 			repaint();
 			doorSelected = false;
 		}
-		else if(e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && keySelected) {
-			int i = Math.round(e.getXOnScreen()/offsetW);
-			int j = Math.round(e.getYOnScreen()/offsetH);
+		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && keySelected) {
+			int i = Math.round(e.getX()/offsetW);
+			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'k';
 			repaint();
 			keySelected = false;
 		}
 		else {
-			System.out.println(e.getXOnScreen() + " " + e.getYOnScreen());
+			System.out.println(e.getX() + " " + e.getY());
 		}
     }
 	@Override
