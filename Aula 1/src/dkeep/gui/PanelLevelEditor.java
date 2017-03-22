@@ -35,7 +35,7 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 	GameState state;
 	private PanelManager pm;
 	
-	//BOOLEANS FOR THE MOUSE
+	//MOUSE BOOLEANS
 	private boolean heroSelected = false, ogreSelected = false, doorSelected = false, wallSelected = false, keySelected = false;
 	
 	//IMAGES

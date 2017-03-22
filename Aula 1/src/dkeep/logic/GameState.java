@@ -32,7 +32,7 @@ public class GameState {
 	public String message;
 	
 	/* LOADED MAP */
-	private OgreMap oMap = new OgreMap();
+	private GameMap oMap = new OgreMap();
 	
 	/* METHODS */
 	
@@ -238,6 +238,10 @@ public class GameState {
 			map += "\n";
 		}
 		return map;
+	}
+	
+	public void setOgreMap(GameMap oMap){
+		this.oMap = oMap;
 	}
 	
 	// SPAWN ENTITIES

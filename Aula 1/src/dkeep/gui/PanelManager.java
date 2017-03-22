@@ -1,5 +1,8 @@
 package dkeep.gui;
 
+import java.awt.Frame;
+
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import dkeep.logic.GameMap;
@@ -15,12 +18,14 @@ public class PanelManager {
 	private PanelGame pg;
 	private PanelLevelEditor ple;
 	private PanelMainMenu pmm;
+	private JFrame frame;
 	
-	public PanelManager(PanelGame pg, PanelLevelEditor ple, PanelMainMenu pmm){
+	public PanelManager(PanelGame pg, PanelLevelEditor ple, PanelMainMenu pmm, JFrame frame){
 		state = Panel.MAIN_MENU;
 		this.pg = pg;
 		this.ple = ple;
 		this.pmm = pmm;
+		this.frame = frame;
 	}
 	
 	public void stateMachine(Event evt){
@@ -31,11 +36,11 @@ public class PanelManager {
 			}
 			else if (evt == Event.EDIT_GAME){
 				state = Panel.LEVEL_EDITOR;
+				setResolution(900, 740);
 				activatePanel(ple);
 			}
 			else if (evt == Event.LOAD_GAME){
 				state = Panel.GAME;
-				//TODO: idk.
 			}
 		}
 		else if (state == Panel.GAME){
@@ -46,8 +51,12 @@ public class PanelManager {
 		}
 	}
 	
+	public void setResolution(int x, int y){
+		frame.setSize(x, y);
+	}
+	
 	public void setOgreMap(GameMap gm){
-		
+		pg.setOgreMap(gm);
 	}
 	
 	public void closeAllPanels(){

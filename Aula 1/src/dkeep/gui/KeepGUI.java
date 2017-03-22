@@ -25,7 +25,6 @@ import java.io.IOException;
 public class KeepGUI {
 
 	private JFrame frame;
-	private JPanel panel;
 	private JTextField txtAs;
 	
 	GameState state;
@@ -33,11 +32,7 @@ public class KeepGUI {
 	private JTextArea textArea;
 	private JComboBox<String> comboBox;
 	
-	private int numberOgres;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {

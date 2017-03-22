@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
@@ -121,46 +122,29 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			saveNames[i] = (saves[i].getName().replaceAll(".txt", ""));
 		}
 		String res = (String) JOptionPane.showInputDialog(null, "Select a save file", "Load Game", JOptionPane.QUESTION_MESSAGE, null, saveNames, saveNames[0]);
-		File sel = new File("res/saves/" + res + ".txt");
 		
-		FileReader fileReader = new FileReader(sel);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);	//Wrap for efficiency.
+		
 		char[][] selMap;
 		
-		bufferedReader.mark(0);
-		bufferedReader.reset();
-		int gridSize = bufferedReader.readLine().length(); //Saves the grid size.
+		Scanner s1 = new Scanner(new File("res/saves/" + res + ".txt"));
+		int gridSize = s1.nextLine().length();
 		selMap = new char[gridSize][gridSize];
+		s1.close();
 		
+		Scanner s2 = new Scanner(new File("res/saves/" + res + ".txt"));
 		for (int i = 0; i < gridSize; i++){
-			char[] tiles = new char[gridSize];
-			//bufferedReader.readLine().getChars(0, gridSize, tiles, 0);
-			String line = bufferedReader.readLine();
-			for (int j=0; j < line.length(); j++) {
-				System.out.print(line.charAt(j));
-			}
-			selMap[i] = tiles;
+			selMap[i] = s2.nextLine().toCharArray();
+			System.out.println(selMap[i]);
 		}
-		/*for (int h = 0; h < tiles.length; h++){
-			System.out.println("what");
-			System.out.println(tiles[h]);
-		}*/
-		/*for (int i = 0; i < selMap.length; i++){
-			for (int j = 0; j < selMap.length; j++){
-				//System.out.println(selMap[i][j]);
-			}
-			//System.out.print("\n");
-		}
-		*/
-		OgreMap mapss = new OgreMap(selMap);
+		s2.close();
+
+		pm.setOgreMap(new OgreMap(selMap));
 		pm.stateMachine(Event.START_GAME);
-		
-		//settings.setPanelManager(pm);
-		//settings.setVisible(true);
 	}
 	
 	public void playMusic(){
-		JFXPanel fxPanel = new JFXPanel();
+		@SuppressWarnings("unused")
+		JFXPanel fxPanel = new JFXPanel(); // Initializes the JavaFX toolkit.
 
 		Media hit = new Media(new File("res/sound/title_screen_song.mp3").toURI().toString());
 		mediaPlayer = new MediaPlayer(hit);

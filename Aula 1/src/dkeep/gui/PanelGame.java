@@ -40,7 +40,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	public int ogreNumber;
 	public String guardPersonality;
-	private BufferedImage[][] gameImages = new BufferedImage[10][10];
+	private BufferedImage[][] gameImages;
 	
 	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dFloorGrass2, dFloorWater, dFloorBarricade, dWall, dDoor, dDoorOpen, dLeverOn, dLeverOff;
 	private BufferedImage sDonkey, sBarrel;
@@ -59,6 +59,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	private PanelManager pm;
 	
 	public PanelGame(int windowW, int windowH) throws IOException {
+		gameImages = new BufferedImage[10][10];
 		this.setVisible(false);
 		
 		gameState = new GameState();
@@ -250,8 +251,10 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		
 	}
 	
-	public void setOgreMap(GameMap gm){
-		
+	public void setOgreMap(GameMap oMap){
+		gameState.setOgreMap(oMap);
+		gameImages = new BufferedImage[oMap.getMap().length][oMap.getMap().length];
+		setFloor();
 	}
 	
 	public void playSound(Media media){
@@ -264,8 +267,10 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	public void setFloor() {
 		Random rnd = new Random();
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		int gridSize = this.gameState.getGameMap().getMap().length;
+		
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
 				int genGrass = rnd.nextInt(4);
 				int genBlood = rnd.nextInt(20);
 
