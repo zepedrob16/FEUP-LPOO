@@ -46,6 +46,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	private BufferedImage[] fDonkey, fGuard, fOgre;
 	private int fDonkeyIter;
 	private BufferedImage key;
+	private BufferedImage screenGameOver, screenKeepComplete, screenLevelComplete;
 	
 	private static MediaPlayer mediaPlayer;
 	private Media doorOpen;
@@ -137,6 +138,11 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		this.dLeverOff = Scalr.resize(ImageIO.read(new File("res/sprites/static/dleveroff.png")), this.offsetH);
 		this.key = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), this.offsetH - 10);
 		
+		//SCREENS
+		this.screenLevelComplete = Scalr.resize(ImageIO.read(new File("res/level_complete_screen.png")), 600);
+		this.screenKeepComplete = Scalr.resize(ImageIO.read(new File("res/keep_complete_screen.png")), 600);
+		this.screenGameOver = Scalr.resize(ImageIO.read(new File("res/game_over_screen.png")), 600);
+		
 		//ENTITIES
 		this.fDonkey = new BufferedImage[2];
 		this.fDonkey[0] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offsetH);
@@ -156,9 +162,6 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	@Override
 	public void paintComponent(Graphics g){
-		if (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof DungeonMap){
-			this.soundPlayed = false;
-		}		
 		
 		super.paintComponent(g);
 
@@ -223,6 +226,25 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 					g.drawImage(sDonkey, j * offsetW, i * offsetH, this);
 				}				
 			}
+		}
+		if (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof DungeonMap){
+			g.setColor(new Color(0, 0, 0, 140));
+			g.fillRect(0, 0, this.windowH, this.windowW);
+			
+			g.drawImage(screenLevelComplete, 30, 220, this);
+			this.soundPlayed = false;
+		}
+		else if (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof OgreMap){
+			g.setColor(new Color(0, 0, 0, 140));
+			g.fillRect(0, 0, this.windowH, this.windowW);
+			
+			g.drawImage(screenKeepComplete, 30, 220, this);
+		}
+		else if (gameState.getState() == State.DEFEAT){
+			g.setColor(new Color(0, 0, 0, 140));
+			g.fillRect(0, 0, this.windowH, this.windowW);
+			
+			g.drawImage(screenGameOver, 30, 220, this);
 		}
 		
 	}
