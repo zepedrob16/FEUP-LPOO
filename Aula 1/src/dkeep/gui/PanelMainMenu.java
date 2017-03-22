@@ -127,17 +127,17 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 		BufferedReader bufferedReader = new BufferedReader(fileReader);	//Wrap for efficiency.
 		char[][] selMap;
 		
-		int gridSize = bufferedReader.readLine().length(); //Saves the grid size.
-		selMap = new char[gridSize][gridSize];
 		bufferedReader.mark(0);
 		bufferedReader.reset();
+		int gridSize = bufferedReader.readLine().length(); //Saves the grid size.
+		selMap = new char[gridSize][gridSize];
 		
 		for (int i = 0; i < gridSize; i++){
 			char[] tiles = new char[gridSize];
 			//bufferedReader.readLine().getChars(0, gridSize, tiles, 0);
 			String line = bufferedReader.readLine();
 			for (int j=0; j < line.length(); j++) {
-				tiles[j] = line.charAt(j);
+				System.out.print(line.charAt(j));
 			}
 			selMap[i] = tiles;
 		}
