@@ -25,13 +25,18 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 
 
-public class PanelLevelEditor extends JPanel {
+public class PanelLevelEditor extends JPanel implements MouseListener{
 	
 	GameState state;
 	private PanelManager pm;
+	
+	//BOOLEANS FOR THE MOUSE
+	private boolean heroSelected = false, ogreSelected = false, doorSelected = false, wallSelected = false, keySelected = false;
 	
 	//IMAGES
 	private BufferedImage dFloor, dWall, dDoor, key;
@@ -64,7 +69,8 @@ public class PanelLevelEditor extends JPanel {
 		}	
 	}
 	
-	public PanelLevelEditor(int windowW, int windowH) throws IllegalArgumentException, ImagingOpException, IOException {
+	public PanelLevelEditor(int windowW, int windowH) throws IllegalArgumentException, ImagingOpException, IOException{
+		addMouseListener(this);
 		
 		this.setVisible(false);
 		state = new GameState();
@@ -146,7 +152,7 @@ public class PanelLevelEditor extends JPanel {
 		
 		for (int i = 0; i < grid.getValue(); i++){
 			for (int j = 0; j < grid.getValue(); j++){
-				out.print(map[i][j]);
+				out.print(map[j][i]);
 			}
 			out.println();
 		}
@@ -173,6 +179,22 @@ public class PanelLevelEditor extends JPanel {
 				if (map[i][j] == ' '){
 					g.drawImage(dFloor, i * offsetW, j * offsetH, this);
 				}
+				else if (map[i][j] == 'H'){
+					g.drawImage(dFloor, i * offsetW, j * offsetH, this);
+					g.drawImage(heroS, i * offsetW, j * offsetH, this);
+				}
+				else if (map[i][j] == 'O'){
+					g.drawImage(dFloor, i * offsetW, j * offsetH, this);
+					g.drawImage(sOgre, i * offsetW, j * offsetH, this);
+				}
+				else if (map[i][j] == 'I'){
+					g.drawImage(dFloor, i * offsetW, j * offsetH, this);
+					g.drawImage(dDoor, i * offsetW, j * offsetH, this);
+				}
+				else if (map[i][j] == 'k'){
+					g.drawImage(dFloor, i * offsetW, j * offsetH, this);
+					g.drawImage(key, i * offsetW, j * offsetH, this);
+				}
 				else if (map[i][j] == 'X'){
 					g.drawImage(dWall, i * offsetW, j * offsetH, this);
 				}
@@ -181,6 +203,64 @@ public class PanelLevelEditor extends JPanel {
 		paintSidebar(g);
 	}
 	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 260 && e.getY() >= 180)
+			heroSelected = true;
+		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 360 && e.getY() >= 280) 		
+			ogreSelected = true;
+		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 440 && e.getY() >= 380) 	
+			wallSelected = true;
+		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 520 && e.getY() >= 460) 	
+			doorSelected = true;
+		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 600 && e.getY() >= 540) 	
+			keySelected = true;
+		
+		
+		if (e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && heroSelected) {
+			int i = Math.round(e.getXOnScreen()/offsetW);
+			int j = Math.round(e.getYOnScreen()/offsetH);
+			map[i][j] = 'H';
+			repaint();
+			heroSelected = false;
+		}
+		else if(e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && ogreSelected) {
+			int i = Math.round(e.getXOnScreen()/offsetW);
+			int j = Math.round(e.getYOnScreen()/offsetH);
+			map[i][j] = 'O';
+			repaint();
+			ogreSelected = false;
+		}
+		else if(e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && wallSelected) {
+			int i = Math.round(e.getXOnScreen()/offsetW);
+			int j = Math.round(e.getYOnScreen()/offsetH);
+			map[i][j] = 'X';
+			repaint();
+			wallSelected = false;
+		}
+		else if(e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && doorSelected) {
+			int i = Math.round(e.getXOnScreen()/offsetW);
+			int j = Math.round(e.getYOnScreen()/offsetH);
+			map[i][j] = 'I';
+			repaint();
+			doorSelected = false;
+		}
+		else if(e.getXOnScreen() >= offsetW && e.getXOnScreen() <= (grid.getValue()-1)*offsetW && e.getYOnScreen() >= offsetW && e.getYOnScreen() <= (grid.getValue()-1)*offsetW && keySelected) {
+			int i = Math.round(e.getXOnScreen()/offsetW);
+			int j = Math.round(e.getYOnScreen()/offsetH);
+			map[i][j] = 'k';
+			repaint();
+			keySelected = false;
+		}
+		else {
+			System.out.println(e.getXOnScreen() + " " + e.getYOnScreen());
+		}
+    }
+	@Override
+	 public void mouseReleased(MouseEvent e) {
+		
+	        System.out.println("Mouse released");
+	    }
 	public void paintSidebar(Graphics g){
 		g.drawImage(sideHero, 750, 180, this);
 		g.drawImage(sideOgre, 750, 280, this);
@@ -191,5 +271,21 @@ public class PanelLevelEditor extends JPanel {
 	
 	public void setPanelManager(PanelManager pm){
 		this.pm = pm;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		System.out.println("Mouse clicked");
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		System.out.println("Mouse Entered");
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		System.out.println("Mouse Exited");
 	}
 }
