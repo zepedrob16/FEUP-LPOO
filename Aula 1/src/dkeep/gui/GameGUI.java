@@ -42,6 +42,7 @@ public class GameGUI {
 		PanelManager pm = new PanelManager(pg, ple, pmm, frame);
 		pmm.setPanelManager(pm);
 		pg.setPanelManager(pm);
+		ple.setPanelManager(pm);
 		
 		frame.setBounds(100, 100, 1280, 800);
 		frame.setVisible(true);

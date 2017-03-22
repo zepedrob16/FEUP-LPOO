@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import org.imgscalr.Scalr;
 
+import dkeep.gui.PanelManager.Event;
 import dkeep.logic.GameState;
 
 
@@ -22,15 +23,16 @@ import javax.swing.event.ChangeListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.ActionEvent;
 
-
-public class PanelLevelEditor extends JPanel implements MouseListener{
+public class PanelLevelEditor extends JPanel implements MouseListener, MouseMotionListener{
 	
 	GameState state;
 	private PanelManager pm;
@@ -41,7 +43,8 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 	//IMAGES
 	private BufferedImage dFloor, dWall, dDoor, key;
 	private BufferedImage heroS, sOgre;
-	private BufferedImage sideHero, sideOgre, sideFloor, sideWall, sideDoor, sideLever, sideKey;
+	private BufferedImage sideHero, sideOgre, sideFloor, sideWall, sideDoor, sideKey;
+	private BufferedImage itemSelected;
 	
 	//JCOMPONENTS
 	private JSlider grid;
@@ -49,6 +52,7 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 	//OTHER VARIABLES
 	private int offsetW, offsetH, windowW, windowH;
 	private char[][] map;
+	private int selX, selY;
 	
 	class SliderListener implements ChangeListener{
 		
@@ -71,6 +75,8 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 	
 	public PanelLevelEditor(int windowW, int windowH) throws IllegalArgumentException, ImagingOpException, IOException{
 		addMouseListener(this);
+		addMouseMotionListener(this);
+		
 		
 		this.setVisible(false);
 		state = new GameState();
@@ -78,6 +84,9 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 		
 		this.windowW = windowW;
 		this.windowH = windowH;
+		
+		this.selX = -1;
+		this.selY = -1;
 		
 		grid = new JSlider();
 		grid.setBounds(719, 72, 147, 52);
@@ -115,13 +124,26 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 			}
 		});
 		btnSaveMap.setFont(new Font("Cooper Black", Font.PLAIN, 16));
-		btnSaveMap.setBounds(726, 631, 112, 52);
+		btnSaveMap.setBounds(730, 616, 112, 36);
 		add(btnSaveMap);
+		
+		JButton btnReturnToMain = new JButton("Return");
+		btnReturnToMain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pm.stateMachine(Event.EXIT_TO_MENU);
+			}
+		});
+		btnReturnToMain.setFont(new Font("Cooper Black", Font.PLAIN, 13));
+		btnReturnToMain.setBounds(730, 657, 112, 23);
+		add(btnReturnToMain);
 		
 		loadImages();
 				
 		map = new char[grid.getValue()][grid.getValue()];
 		resetMap();
+	}
+	public void checkRequisites(){
+		
 	}
 	
 	public void loadImages() throws IllegalArgumentException, ImagingOpException, IOException{
@@ -143,7 +165,9 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 		this.sideWall = Scalr.resize(ImageIO.read(new File("res/sprites/static/dwall.png")), 60);
 		this.sideDoor = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddoor.png")), 60);
 		this.sideKey = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), 60);
-	
+		
+		//OTHERS
+		this.itemSelected = Scalr.resize(ImageIO.read(new File("res/sprites/other/selected_item.png")), 90);
 	}
 	
 	public void saveMap() throws FileNotFoundException {
@@ -201,72 +225,105 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 			}
 		}
 		paintSidebar(g);
+		paintSelSquare(g);
+	}
+	
+	public void paintSelSquare(Graphics g){
+		if (selX != -1 && selY != -1){
+			g.setColor(new Color(0, 255, 0, 127));
+			g.fillRect(selX * offsetW, selY * offsetH, offsetW, offsetH);
+		}
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 260 && e.getY() >= 180)
+		if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 260 && e.getY() >= 180){
+			resetSidebarSel();
 			heroSelected = true;
-		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 360 && e.getY() >= 280) 		
-			ogreSelected = true;
-		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 440 && e.getY() >= 380) 	
-			wallSelected = true;
-		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 520 && e.getY() >= 460) 	
-			doorSelected = true;
-		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 600 && e.getY() >= 540) 	
-			keySelected = true;
-		
+		}
+		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 360 && e.getY() >= 280){
+			resetSidebarSel();
+			ogreSelected = true;			
+		}
+		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 440 && e.getY() >= 380){
+			resetSidebarSel();
+			wallSelected = true;			
+		}
+		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 520 && e.getY() >= 460){
+			resetSidebarSel();
+			doorSelected = true;			
+		}
+		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 600 && e.getY() >= 540){
+			resetSidebarSel();
+			keySelected = true;			
+		}
 		
 		if (e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && heroSelected) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'H';
-			repaint();
-			heroSelected = false;
 		}
 		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && ogreSelected) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'O';
-			repaint();
-			ogreSelected = false;
 		}
 		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && wallSelected) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'X';
-			repaint();
-			wallSelected = false;
 		}
 		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && doorSelected) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'I';
-			repaint();
-			doorSelected = false;
 		}
 		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && keySelected) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'k';
-			repaint();
-			keySelected = false;
 		}
 		else {
 			System.out.println(e.getX() + " " + e.getY());
 		}
+		repaint();
     }
+	
+	public void resetSidebarSel(){
+		heroSelected = false;
+		ogreSelected = false;
+		wallSelected = false;
+		doorSelected = false;
+		keySelected = false;
+	}
+	
 	@Override
-	 public void mouseReleased(MouseEvent e) {
-		
-	        System.out.println("Mouse released");
-	    }
+	public void mouseReleased(MouseEvent e) {
+		System.out.println("Mouse released");
+	}
+	
 	public void paintSidebar(Graphics g){
 		g.drawImage(sideHero, 750, 180, this);
 		g.drawImage(sideOgre, 750, 280, this);
 		g.drawImage(sideWall, 750, 380, this);
 		g.drawImage(sideDoor, 750, 460, this);
-		g.drawImage(sideKey, 750, 540, this);		
+		g.drawImage(sideKey, 750, 540, this);
+
+		if (heroSelected){
+			g.drawImage(itemSelected, 745, 180, this);
+		}
+		else if (ogreSelected){
+			g.drawImage(itemSelected, 740, 270, this);
+		}
+		else if (wallSelected){
+			g.drawImage(itemSelected, 735, 360, this);
+		}
+		else if (doorSelected){
+			g.drawImage(itemSelected, 735, 445, this);
+		}
+		else if (keySelected){
+			g.drawImage(itemSelected, 735, 520, this);
+		}
 	}
 	
 	public void setPanelManager(PanelManager pm){
@@ -279,13 +336,29 @@ public class PanelLevelEditor extends JPanel implements MouseListener{
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		System.out.println("Mouse Entered");
-		
+	public void mouseEntered(MouseEvent e) {
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		System.out.println("Mouse Exited");
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if (e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW){
+			this.selX = Math.round(e.getX()/offsetW);
+			this.selY = Math.round(e.getY()/offsetH);
+			System.out.println(selX + " " + selY);
+			repaint();
+		}else{
+			this.selX = -1;
+			this.selY = -1;
+		}
+		
 	}
 }

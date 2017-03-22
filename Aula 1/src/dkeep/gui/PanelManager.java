@@ -43,9 +43,17 @@ public class PanelManager {
 				state = Panel.GAME;
 			}
 		}
+		else if (state == Panel.LEVEL_EDITOR){
+			if (evt == Event.EXIT_TO_MENU){
+				state = Panel.MAIN_MENU;
+				setResolution(1280, 800);
+				activatePanel(pmm);
+			}
+		}
 		else if (state == Panel.GAME){
 			if (evt == Event.EXIT_TO_MENU){
 				state = Panel.MAIN_MENU;
+				setResolution(1280, 800);
 				activatePanel(pmm);
 			}
 		}
