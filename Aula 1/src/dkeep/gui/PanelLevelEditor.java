@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import org.imgscalr.Scalr;
 
 import dkeep.gui.PanelManager.Event;
-import dkeep.logic.GameState;
 
 
 import javax.swing.JSlider;
@@ -34,7 +33,6 @@ import java.awt.event.ActionEvent;
 
 public class PanelLevelEditor extends JPanel implements MouseListener, MouseMotionListener{
 	
-	GameState state;
 	private PanelManager pm;
 	
 	//MOUSE BOOLEANS
@@ -65,7 +63,6 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 			try {
 				loadImages();
 			} catch (IllegalArgumentException | ImagingOpException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			resetMap();
@@ -77,9 +74,7 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		
-		
 		this.setVisible(false);
-		state = new GameState();
 		setLayout(null);
 		
 		this.windowW = windowW;
@@ -119,7 +114,6 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 					try {
 						saveMap();
 					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -312,29 +306,22 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 			keySelected = true;			
 		}
 		
+		int i = Math.round(e.getX()/offsetW);
+		int j = Math.round(e.getY()/offsetH);
+		
 		if (e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && heroSelected && checkRequisites('P')) {
-			int i = Math.round(e.getX()/offsetW);
-			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'H';
 		}
 		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && ogreSelected && checkRequisites('P')) {
-			int i = Math.round(e.getX()/offsetW);
-			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'O';
 		}
 		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && wallSelected && checkRequisites('P')) {
-			int i = Math.round(e.getX()/offsetW);
-			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'X';
 		}
 		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && doorSelected && checkRequisites('P')) {
-			int i = Math.round(e.getX()/offsetW);
-			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'I';
 		}
 		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && keySelected) {
-			int i = Math.round(e.getX()/offsetW);
-			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'k';
 		}
 		repaint();

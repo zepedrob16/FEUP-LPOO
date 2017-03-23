@@ -69,7 +69,6 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 					try {
 						settings = new SettingsDialog();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					settings.setPanelManager(pm);
@@ -84,17 +83,14 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 					try {
 						loadMap();
 					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			});
 			styleButton(btnLoadGame, 76, 584, 231, 37, 15);
 		} catch (IOException ex){
-			//Add exception.
 		}
 	}
 	
@@ -141,7 +137,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 
 		Media hit = new Media(new File("res/sound/title_screen_song.mp3").toURI().toString());
 		mediaPlayer = new MediaPlayer(hit);
-		mediaPlayer.setVolume(0.05);
+		mediaPlayer.setVolume(0.00);
 		mediaPlayer.play();
 	}
 	
