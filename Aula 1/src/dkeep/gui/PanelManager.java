@@ -36,6 +36,7 @@ public class PanelManager {
 		if (state == Panel.MAIN_MENU){
 			if (evt == Event.START_GAME){
 				state = Panel.GAME;
+				setResolution(715, 740);
 				activatePanel(pg);
 			}
 			else if (evt == Event.EDIT_GAME){

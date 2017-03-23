@@ -36,18 +36,14 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	private GameState gameState;
 	
-	private int gridW, gridH, windowW, windowH, offsetW, offsetH, heroX, heroY, guardX, guardY;
-	
+	private int gridW, gridH, windowW, windowH, offsetW, offsetH, fDonkeyIter;
 	public int ogreNumber;
 	public String guardPersonality;
+	
+	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dWall, dDoor, dDoorOpen, dLeverOn, dLeverOff, sDonkey, sBarrel, key, screenGameOver, screenKeepComplete, screenLevelComplete;
+	private BufferedImage[] fDonkey, fGuard, fOgre;
 	private BufferedImage[][] gameImages;
 	
-	private BufferedImage dFloor, dFloorBlood, dFloorGrass1, dFloorGrass2, dFloorWater, dFloorBarricade, dWall, dDoor, dDoorOpen, dLeverOn, dLeverOff;
-	private BufferedImage sDonkey, sBarrel;
-	private BufferedImage[] fDonkey, fGuard, fOgre;
-	private int fDonkeyIter;
-	private BufferedImage key;
-	private BufferedImage screenGameOver, screenKeepComplete, screenLevelComplete;
 	
 	private static MediaPlayer mediaPlayer;
 	private Media doorOpen;
@@ -64,6 +60,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		
 		gameState = new GameState();
 		gameState.setGameMap(new DungeonMap());
+		
 		this.windowW = windowW;
 		this.windowH = windowH;
 		this.gridW = this.gameState.getGameMap().getMap().length;
@@ -130,9 +127,6 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		this.dFloor = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloor.png")), this.offsetH);
 		this.dFloorBlood = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorblood.png")), this.offsetH);
 		this.dFloorGrass1 = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorgrass1.png")), this.offsetH);
-		this.dFloorGrass2 = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorgrass2.png")), this.offsetH);
-		this.dFloorWater = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorwater.png")), this.offsetH);
-		this.dFloorBarricade = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorbarricade.png")), this.offsetH);
 		this.dWall = Scalr.resize(ImageIO.read(new File("res/sprites/static/dwall.png")), this.offsetH);
 		this.dDoor = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddoor.png")), this.offsetH);
 		this.dDoorOpen = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddooropen.png")), this.offsetH);
@@ -180,15 +174,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 				}
 				else if (map[i][j] == 'S'){
 					g.drawImage(dDoorOpen, j * this.offsetW, i * this.offsetH, this);
-					
-					if (!soundPlayed && this.gameState.getGameMap() instanceof OgreMap){
-						playSound(doorOpen);
-						soundPlayed = true;
-					}
-					else if (!soundPlayed && this.gameState.getGameMap() instanceof DungeonMap && i != this.gameState.hero.getX() && j != this.gameState.hero.getY()){
-						playSound(doorOpen);
-						soundPlayed = true;
-					}
+					checkSound(g, i, j);
 				}
 				else if (map[i][j] == ' '){
 					g.drawImage(gameImages[i][j], j * this.offsetW, i * this.offsetH, this);
@@ -232,6 +218,17 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		displayStatePanels(g);
 		
 	}
+	public void checkSound(Graphics g, int i, int j){
+		if (!soundPlayed && this.gameState.getGameMap() instanceof OgreMap){
+			playSound(doorOpen);
+			soundPlayed = true;
+		}
+		else if (!soundPlayed && this.gameState.getGameMap() instanceof DungeonMap && i != this.gameState.hero.getX() && j != this.gameState.hero.getY()){
+			playSound(doorOpen);
+			soundPlayed = true;
+		}
+	}
+	
 	public void displayStatePanels(Graphics g){
 		if (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof DungeonMap){
 			g.setColor(new Color(0, 0, 0, 140));

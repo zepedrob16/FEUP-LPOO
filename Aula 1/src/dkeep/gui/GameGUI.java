@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 public class GameGUI {
 
 	private JFrame frame;
-	
 	private PanelMainMenu pmm;
 	private PanelGame pg;
 	private PanelLevelEditor ple;
@@ -59,12 +58,10 @@ public class GameGUI {
 		pg.setFocusable(true);
 		pg.requestFocusInWindow();
 		
-		frame.getContentPane().add(ple);
 		ple.setBounds(0, 0, 900, 700);
+		frame.getContentPane().add(ple);
 		ple.setFocusable(true);
 		ple.requestFocusInWindow();
-		
-		
 	}
 
 }

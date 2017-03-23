@@ -43,7 +43,7 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 	//IMAGES
 	private BufferedImage dFloor, dWall, dDoor, key;
 	private BufferedImage heroS, sOgre;
-	private BufferedImage sideHero, sideOgre, sideFloor, sideWall, sideDoor, sideKey;
+	private BufferedImage sideHero, sideOgre, sideWall, sideDoor, sideKey;
 	private BufferedImage itemSelected;
 	
 	//JCOMPONENTS
@@ -211,7 +211,6 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		//SIDEBAR ENTITIES
 		this.sideHero = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), 90);
 		this.sideOgre = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/209.png")), 80);
-		this.sideFloor = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloor.png")), 60);
 		this.sideWall = Scalr.resize(ImageIO.read(new File("res/sprites/static/dwall.png")), 60);
 		this.sideDoor = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddoor.png")), 60);
 		this.sideKey = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), 60);
