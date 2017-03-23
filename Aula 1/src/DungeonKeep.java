@@ -188,6 +188,11 @@ public class DungeonKeep {
 		
 		return false;
 	}
+	public static boolean playableOgre(int x, int y) {
+		if (gameMap[x][y] != 'X' && gameMap[x][y] != 'I')
+			return true;
+		return false;
+	}
 	public static boolean won(int x, int y) {
 		if (gameMap[x][y] == 'S'){
 			return true;
@@ -313,6 +318,38 @@ public class DungeonKeep {
 		}
 	}
 
+	private static void checkOgreSymbol() {
+		if (ogrePosition[0] == leverPosition[0] && ogrePosition[1] == leverPosition[1] && !keyStolen){
+			gameMap[ogrePosition[0]][ogrePosition[1]] = '$';
+		}else{
+			gameMap[ogrePosition[0]][ogrePosition[1]] = 'O';
+			if (!keyStolen){
+				gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
+			}
+		}
+	}
+	private static void moveOgreU() {
+		gameMap[ogrePosition[0]][ogrePosition[1]] = ' ';
+		ogrePosition[0]--;
+		checkOgreSymbol();
+	}
+	
+	private static void moveOgreL() {
+		gameMap[ogrePosition[0]][ogrePosition[1]] = ' ';
+		ogrePosition[1]--;
+		checkOgreSymbol();
+	}
+	
+	private static void moveOgreD() {
+		gameMap[ogrePosition[0]][ogrePosition[1]] = ' ';
+		ogrePosition[0]++;
+		checkOgreSymbol();
+	}
+	private static void moveOgreR() {
+		gameMap[ogrePosition[0]][ogrePosition[1]] = ' ';
+		ogrePosition[1]++;
+		checkOgreSymbol();
+	}
 	private static void moveOgre() {
 		Random rnd = new Random();
 		
@@ -320,72 +357,76 @@ public class DungeonKeep {
 			int genMove = rnd.nextInt(4);
 			
 			if (genMove == 0){
-				if (gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'I'){
-					gameMap[ogrePosition[0]][ogrePosition[1]] = ' ';
-					ogrePosition[0]--;
-					
-					if (ogrePosition[0] == leverPosition[0] && ogrePosition[1] == leverPosition[1] && !keyStolen){
-						gameMap[ogrePosition[0]][ogrePosition[1]] = '$';
-					}else{
-						gameMap[ogrePosition[0]][ogrePosition[1]] = 'O';
-						if (!keyStolen){
-							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
-						}
-					}
+				if (playableOgre(ogrePosition[0]-1, ogrePosition[1])){
+					moveOgreU();
 					moveClub();
 					break;
 				}
 			}
 			else if (genMove == 1){
-				if (gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'I'){
-					gameMap[ogrePosition[0]][ogrePosition[1]] = ' ';
-					ogrePosition[1]--;
-					if (ogrePosition[0] == leverPosition[0] && ogrePosition[1] == leverPosition[1] && !keyStolen){
-						gameMap[ogrePosition[0]][ogrePosition[1]] = '$';
-					}else{
-						gameMap[ogrePosition[0]][ogrePosition[1]] = 'O';
-						if (!keyStolen){
-							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
-						}
-					}
+				if (playable(ogrePosition[0],ogrePosition[1] - 1)){
+					moveOgreL();
 					moveClub();
 					break;
 				}
 			}
 			else if (genMove == 2){
-				if (gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'I'){
-					gameMap[ogrePosition[0]][ogrePosition[1]] = ' ';
-					ogrePosition[0]++;
-					if (ogrePosition[0] == leverPosition[0] && ogrePosition[1] == leverPosition[1] && !keyStolen){
-						gameMap[ogrePosition[0]][ogrePosition[1]] = '$';
-					}else{
-						gameMap[ogrePosition[0]][ogrePosition[1]] = 'O';
-						if (!keyStolen){
-							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
-						}
-					}
+				if (playable(ogrePosition[0] + 1,ogrePosition[1])){
+					moveOgreD();
 					moveClub();
 					break;
 				}
 			}
 			else if (genMove == 3){
-				if (gameMap[ogrePosition[0]][ogrePosition[1] + 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] + 1] != 'I'){
-					gameMap[ogrePosition[0]][ogrePosition[1]] = ' ';
-					ogrePosition[1]++;
-					if (ogrePosition[0] == leverPosition[0] && ogrePosition[1] == leverPosition[1] && !keyStolen){
-						gameMap[ogrePosition[0]][ogrePosition[1]] = '$';
-					}else{
-						gameMap[ogrePosition[0]][ogrePosition[1]] = 'O';
-						if (!keyStolen){
-							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
-						}
-					}
+				if (playable(ogrePosition[0],ogrePosition[1] + 1)){
+					moveOgreR();
 					moveClub();
 					break;
 				}
 			}
 		}
 		return;
+	}
+	
+	private static void checkClubSymbol() {
+		if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
+			gameMap[clubPosition[0]][clubPosition[1]] = '$';
+		}else{
+			gameMap[clubPosition[0]][clubPosition[1]] = '*';
+			if (!keyStolen){
+				gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
+			}
+		}
+	}
+	
+	private static void clubCrashOgre() {
+		if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
+			gameMap[clubPosition[0]][clubPosition[1]] = ' ';
+		}
+	}
+	private static void moveClubU() {
+		clubCrashOgre();
+		clubPosition[0] = ogrePosition[0] - 1;
+		clubPosition[1] = ogrePosition[1];
+		checkClubSymbol();
+	}
+	private static void moveClubL() {
+		clubCrashOgre();
+		clubPosition[0] = ogrePosition[0];
+		clubPosition[1] = ogrePosition[1] - 1;	
+		checkClubSymbol();
+	}
+	private static void moveClubS() {
+		clubCrashOgre();
+		clubPosition[0] = ogrePosition[0] + 1;
+		clubPosition[1] = ogrePosition[1];
+		checkClubSymbol();
+	}
+	private static void moveClubR() {
+		clubCrashOgre();
+		clubPosition[1] = ogrePosition[1] + 1;
+		clubPosition[0] = ogrePosition[0];
+		checkClubSymbol();
 	}
 	
 	private static void moveClub() {
@@ -395,75 +436,26 @@ public class DungeonKeep {
 			int genMove = rnd.nextInt(4);
 			
 			if (genMove == 0){
-				if (gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] - 1][ogrePosition[1]] != 'I'){
-					if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
-						gameMap[clubPosition[0]][clubPosition[1]] = ' ';
-					}
-					clubPosition[0] = ogrePosition[0] - 1;
-					clubPosition[1] = ogrePosition[1];
-					
-					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
-						gameMap[clubPosition[0]][clubPosition[1]] = '$';
-					}else{
-						gameMap[clubPosition[0]][clubPosition[1]] = '*';
-						if (!keyStolen){
-							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
-						}
-					}
+				if (playable(ogrePosition[0] - 1,ogrePosition[1])){
+					moveClubU();				
 					break;
 				}
 			}
 			else if (genMove == 1){
-				if (gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] - 1] != 'I'){
-					if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
-						gameMap[clubPosition[0]][clubPosition[1]] = ' ';
-					}
-					clubPosition[1] = (ogrePosition[1] - 1);
-					clubPosition[0] = ogrePosition[0];
-					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
-						gameMap[clubPosition[0]][clubPosition[1]] = '$';
-					}else{
-						gameMap[clubPosition[0]][clubPosition[1]] = '*';
-						if (!keyStolen){
-							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
-						}
-					}
+				if (playable(ogrePosition[0],ogrePosition[1] - 1)){
+					moveClubL();
 					break;
 				}
 			}
 			else if (genMove == 2){
-				if (gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'X' && gameMap[ogrePosition[0] + 1][ogrePosition[1]] != 'I'){
-					if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
-						gameMap[clubPosition[0]][clubPosition[1]] = ' ';
-					}
-					clubPosition[0] = ogrePosition[0] + 1;
-					clubPosition[1] = ogrePosition[1];
-					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
-						gameMap[clubPosition[0]][clubPosition[1]] = '$';
-					}else{
-						gameMap[clubPosition[0]][clubPosition[1]] = '*';
-						if (!keyStolen){
-							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
-						}
-					}
+				if (playable(ogrePosition[0]+1,ogrePosition[1])){
+					moveClubS();
 					break;
 				}
 			}
 			else if (genMove == 3){
-				if (gameMap[ogrePosition[0]][ogrePosition[1] + 1] != 'X' && gameMap[ogrePosition[0]][ogrePosition[1] + 1] != 'I'){
-					if(gameMap[clubPosition[0]][clubPosition[1]] != 'O' && gameMap[clubPosition[0]][clubPosition[1]] != '$') {
-						gameMap[clubPosition[0]][clubPosition[1]] = ' ';
-					}
-					clubPosition[1] = ogrePosition[1] + 1;
-					clubPosition[0] = ogrePosition[0];
-					if (clubPosition[0] == leverPosition[0] && clubPosition[1] == leverPosition[1] && !keyStolen){
-						gameMap[clubPosition[0]][clubPosition[1]] = '$';
-					}else{
-						gameMap[clubPosition[0]][clubPosition[1]] = '*';
-						if (!keyStolen){
-							gameMap[leverPosition[0]][leverPosition[1]] = 'k';							
-						}
-					}
+				if (playable(ogrePosition[0],ogrePosition[1] + 1)){
+					moveClubR();
 					break;
 				}
 			}
