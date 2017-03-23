@@ -16,10 +16,6 @@ public class DungeonKeep {
 	
 	static char gameMap[][] = new char[MAP_ROWS][MAP_COLS];
 	
-	private void play(String direction) {
-		
-	}
-	
 	//Initially loads every element of the first map.
 	public static void loadMap1(){
 		for (int i = 0; i < MAP_COLS; i++){
@@ -211,12 +207,12 @@ public class DungeonKeep {
 	}
 	
 	public static void moveLeft() {
-		gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-		heroPosition[1]--;
 		if (currentMap == 2 && keyStolen && gameMap[heroPosition[0]][heroPosition[1] - 1] == 'I') {
 			openDoors();
-			drawMap();
-	}
+			return;
+		}
+		gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+		heroPosition[1]--;
 		
 		if (!keyStolen){
 			gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
@@ -246,89 +242,66 @@ public class DungeonKeep {
 		}
 	}
 	//Moves the hero according to the keypress.
+	public static void moveEntities(){
+		if (currentMap == 1){
+			moveGuard();					
+			leverStepped();
+		}else{
+			moveOgre();
+			keyPicked();
+		}
+	}
+	
 	public static boolean moveHero(String move){
-		
-		boolean levelComplete = false;
 		
 		if (move.equals("w") || move.equals("W")){
 			if (playable(heroPosition[0] - 1,heroPosition[1])){
 				
 				//Checks whether the next cell is an exit cell.
 				
-				if (currentMap == 1){
-					moveGuard();					
-					leverStepped();
-				}else{
-					moveOgre();
-					keyPicked();
-				}				
+				moveEntities();				
 				moveUp();
 				drawMap();
 				
-				if (won(heroPosition[0],heroPosition[1])){
-					levelComplete = true;
+				if (won(heroPosition[0],heroPosition[1]))
 					return true;
-				}
 			}
 		}
 		else if (move.equals("a") || move.equals("A")){
 			if (playable(heroPosition[0],heroPosition[1] - 1)){
 				//Checks whether the next cell is an exit cell.
-				if (won(heroPosition[0],heroPosition[1] - 1))
-					levelComplete = true;
+				if (won(heroPosition[0],heroPosition[1] - 1)) {
+					return true;
+				}
 				
-				if (currentMap == 1){
-					moveGuard();					
-					leverStepped();
-				}else{
-					moveOgre();
-					keyPicked();
-				}			
+				moveEntities();
 				moveLeft();
 				drawMap();
 				
-				if (levelComplete)
-					return true;
 			}
 		}
 		else if (move.equals("s") || move.equals("S")){
 			if (playable(heroPosition[0] + 1,heroPosition[1])){
 				
 				//Checks whether the next cell is an exit cell.
-				if (currentMap == 1){
-					moveGuard();					
-					leverStepped();
-				}else{
-					moveOgre();
-					keyPicked();
-				}
-				
+				moveEntities();
+				moveDown();
 				drawMap();
 				
-				if (won(heroPosition[0],heroPosition[1])){
-					levelComplete = true;
+				if (won(heroPosition[0],heroPosition[1]))
 					return true;
-				}
 			}
 		}
 		else if (move.equals("d") || move.equals("D")){
 			if (playable(heroPosition[0],heroPosition[1] + 1)){
 				
 				//Checks whether the next cell is an exit cell.
-				if (currentMap == 1){
-					moveGuard();					
-					leverStepped();
-				}else{
-					moveOgre();
-					keyPicked();
-				}
-				
+				moveEntities();
+				moveRight();
 				drawMap();
 				
-				if (won(heroPosition[0],heroPosition[1])){
-					levelComplete = true;
+				if (won(heroPosition[0],heroPosition[1]))
 					return true;
-				}
 			}
 		}
 		return false;
