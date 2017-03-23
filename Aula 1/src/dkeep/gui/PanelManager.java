@@ -72,10 +72,13 @@ public class PanelManager {
 		pg.setOgreMap(gm);
 	}
 	public void setOgreNum(int num){
-		this.ogreNum = num;
+		pg.ogreNumber = num;
 	}
 	public void setGuardPers(String pers){
-		this.guardPers = pers;
+		pg.guardPersonality = pers;
+	}
+	public void start(){
+		pg.startGame();
 	}
 	
 	public void closeAllPanels(){

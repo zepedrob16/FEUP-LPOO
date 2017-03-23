@@ -52,6 +52,7 @@ public class SettingsDialog extends JDialog {
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
 		
+		
 		contentPanel.add(slider);
 		
 		JLabel lblNumberOfOgres = new JLabel("Number of Ogres");
@@ -79,6 +80,7 @@ public class SettingsDialog extends JDialog {
 				pm.stateMachine(Event.START_GAME);
 				pm.setGuardPers((String)comboBox.getSelectedItem());
 				pm.setOgreNum(slider.getValue());
+				pm.start();
 				dispose();
 			}
 		});

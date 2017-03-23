@@ -4,6 +4,7 @@ public class OgreMap implements GameMap{
 	
 	private String name = "CRAZY OGRE";
 	private char[][] gameMap;
+	private int nOgres;
 	
 	public OgreMap(){
 		System.out.println("\nLoading CRAZY OGRE level...\n");
@@ -50,7 +51,7 @@ public class OgreMap implements GameMap{
 	public String getName(){
 		return name;
 	}
-
+	
 	public void setMap(char[][] map) {
 		this.gameMap = map;
 	}

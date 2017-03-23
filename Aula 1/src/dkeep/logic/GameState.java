@@ -25,9 +25,10 @@ public class GameState {
 	private GameMap map;
 	public Hero hero;
 	public Guard guard;
-	public int keyX, keyY;
+	public int keyX, keyY, nogres;
 	public boolean leverOn;
 	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned on the map.
+	public String pers;
 	
 	public String message;
 	
@@ -84,7 +85,7 @@ public class GameState {
 				this.level = Level.OGRE;
 				OgreMap ogreMap = new OgreMap(oMap.getMap());
 				setGameMap(ogreMap);
-				spawnOgres();
+				spawnOgres(nogres);
 				spawnEntities();
 				guard = null;
 				drawMap();
@@ -120,7 +121,7 @@ public class GameState {
 				}
 				else if (thisMap[i][j] == 'G'){
 					thisMap[i][j] = ' ';
-					spawnGuard(i, j);
+					spawnGuard(i, j, pers);
 				}
 				else if (thisMap[i][j] == 'k'){
 					thisMap[i][j] = ' ';
@@ -325,5 +326,10 @@ public class GameState {
 		}
 		return;
 	}
-	
+	public void setOgres(int num) {
+		this.nogres = num;
+	}
+	public void setPers(String p) {
+		this.pers = p;
+	}
 }

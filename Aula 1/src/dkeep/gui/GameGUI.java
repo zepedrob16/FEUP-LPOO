@@ -34,7 +34,7 @@ public class GameGUI {
 	public GameGUI() throws IOException {
 		
 		pmm = new PanelMainMenu();
-		pg = new PanelGame(700, 700);
+		pg = new PanelGame(300, 300);
 		ple = new PanelLevelEditor(700, 700);
 		frame = new JFrame("Dungeon Keep");
 		

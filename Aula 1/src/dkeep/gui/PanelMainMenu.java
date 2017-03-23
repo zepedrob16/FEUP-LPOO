@@ -130,7 +130,8 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			System.out.println(selMap[i]);
 		}
 		s2.close();
-
+		pm.setGuardPers("Rookie");
+		pm.start();
 		pm.setOgreMap(new OgreMap(selMap));
 		pm.stateMachine(Event.START_GAME);
 	}

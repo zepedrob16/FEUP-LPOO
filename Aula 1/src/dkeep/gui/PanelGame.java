@@ -17,6 +17,7 @@ import javax.swing.Timer;
 import org.imgscalr.Scalr;
 
 import dkeep.gui.PanelManager.Event;
+import dkeep.gui.PanelManager.Panel;
 import dkeep.logic.DungeonMap;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
@@ -59,6 +60,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		this.setVisible(false);
 		
 		gameState = new GameState();
+
 		gameState.setGameMap(new DungeonMap());
 		
 		this.windowW = windowW;
@@ -187,10 +189,10 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 					else if (i == gameState.keyX && j == gameState.keyY && !gameState.leverOn){
 						g.drawImage(dLeverOff, j * this.offsetW, i * this.offsetH, this);
 					} 
-					if (i == gameState.guard.getX() && j == gameState.guard.getY() && this.gameState.guard.getSleeping()){
+					if (this.gameState.guard != null && i == gameState.guard.getX() && j == gameState.guard.getY() && this.gameState.guard.getSleeping()){
 						g.drawImage(this.fGuard[1], j * offsetW, i * offsetH, this);
 					}
-					else if (i == gameState.guard.getX() && j == gameState.guard.getY() && !this.gameState.guard.getSleeping()) {
+					else if (this.gameState.guard != null && i == gameState.guard.getX() && j == gameState.guard.getY() && !this.gameState.guard.getSleeping()) {
 						g.drawImage(this.fGuard[0], j * offsetW, i * offsetH, this);
 					}
 				}
@@ -253,6 +255,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	public void setOgreMap(GameMap oMap){
 		gameState.setOgreMap(oMap);
+		gameState.setOgres(ogreNumber);
 		gameImages = new BufferedImage[oMap.getMap().length][oMap.getMap().length];
 		setFloor();
 	}
@@ -294,6 +297,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (gameState.getState() == State.DEFEAT || (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof OgreMap)){
+			pm.stateMachine(Event.EXIT_TO_MENU);
 			return;
 		}
 		
@@ -340,7 +344,14 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	public void keyTyped(KeyEvent e) {
 		return;
 	}
-
+	public void startGame() {
+		gameState = new GameState();
+		gameState.setGameMap(new DungeonMap());
+		gameState.setPers(guardPersonality);
+		gameState.setGameMap(new DungeonMap());
+		gameState.setOgres(ogreNumber);
+		
+	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.fDonkeyIter++;
