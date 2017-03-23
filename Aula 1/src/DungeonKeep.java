@@ -16,6 +16,10 @@ public class DungeonKeep {
 	
 	static char gameMap[][] = new char[MAP_ROWS][MAP_COLS];
 	
+	private void play(String direction) {
+		
+	}
+	
 	//Initially loads every element of the first map.
 	public static void loadMap1(){
 		for (int i = 0; i < MAP_COLS; i++){
@@ -182,104 +186,115 @@ public class DungeonKeep {
 		return;
 	}
 	
+	public static boolean playable(int x, int y) {
+		if ((gameMap[x][y] != 'X' && gameMap[x][y] != 'I' && currentMap == 1) || (gameMap[x][y] == 'I' && currentMap==2) || (currentMap == 2 && gameMap[x][y] != 'X'))
+			return true;
+		
+		return false;
+	}
+	public static boolean won(int x, int y) {
+		if (gameMap[x][y] == 'S'){
+			return true;
+		}
+		return false;
+	}
+	
+	public static void moveUp() {
+		gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+		heroPosition[0]--;
+		
+		if (!keyStolen){
+			gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
+		}else{
+			gameMap[heroPosition[0]][heroPosition[1]] = 'K';
+		}
+	}
+	
+	public static void moveLeft() {
+		gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+		heroPosition[1]--;
+		if (currentMap == 2 && keyStolen && gameMap[heroPosition[0]][heroPosition[1] - 1] == 'I') {
+			openDoors();
+			drawMap();
+	}
+		
+		if (!keyStolen){
+			gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
+		}else{
+			gameMap[heroPosition[0]][heroPosition[1]] = 'K';
+		}
+	}
+	public static void moveRight() {
+		gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+		heroPosition[1]++;
+		
+		
+		if (!keyStolen){
+			gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
+		}else{
+			gameMap[heroPosition[0]][heroPosition[1]] = 'K';
+		}
+	}
+	public static void moveDown() {
+		gameMap[heroPosition[0]][heroPosition[1]] = ' ';
+		heroPosition[0]++;
+		
+		if (!keyStolen){
+			gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
+		}else{
+			gameMap[heroPosition[0]][heroPosition[1]] = 'K';
+		}
+	}
 	//Moves the hero according to the keypress.
 	public static boolean moveHero(String move){
 		
 		boolean levelComplete = false;
 		
 		if (move.equals("w") || move.equals("W")){
-			if (gameMap[heroPosition[0] - 1][heroPosition[1]] != 'X'){
-				
-				if (currentMap == 1 && gameMap[heroPosition[0] - 1][heroPosition[1]] == 'I'){
-					return false;
-				}
+			if (playable(heroPosition[0] - 1,heroPosition[1])){
 				
 				//Checks whether the next cell is an exit cell.
-				if (gameMap[heroPosition[0] - 1][heroPosition[1]] == 'S'){
-					levelComplete = true;
-				}
+				
 				if (currentMap == 1){
 					moveGuard();					
 					leverStepped();
 				}else{
 					moveOgre();
 					keyPicked();
-				}
-				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-				heroPosition[0]--;
-				
-				if (!keyStolen){
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
-				}else{
-					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
-				}
-				
+				}				
+				moveUp();
 				drawMap();
 				
-				if (levelComplete){
+				if (won(heroPosition[0],heroPosition[1])){
+					levelComplete = true;
 					return true;
 				}
 			}
 		}
 		else if (move.equals("a") || move.equals("A")){
-			if (gameMap[heroPosition[0]][heroPosition[1] - 1] != 'X'){
-				
-				if (currentMap == 1 && gameMap[heroPosition[0]][heroPosition[1] - 1] == 'I'){
-					return false;
-				}
-
+			if (playable(heroPosition[0],heroPosition[1] - 1)){
 				//Checks whether the next cell is an exit cell.
-				if (gameMap[heroPosition[0]][heroPosition[1] - 1] == 'S'){
+				if (won(heroPosition[0],heroPosition[1] - 1))
 					levelComplete = true;
-				}
-				if (currentMap == 2 && keyStolen) {
-					if (gameMap[heroPosition[0]][heroPosition[1] - 1] == 'I') {
-						openDoors();
-						drawMap();
-						return false;
-					}
-				}
-				if (currentMap == 2 && !keyStolen) {
-					if (gameMap[heroPosition[0]][heroPosition[1] - 1] == 'I') {
-						return false;
-					}
-				}
+				
 				if (currentMap == 1){
 					moveGuard();					
 					leverStepped();
 				}else{
 					moveOgre();
 					keyPicked();
-				}
-				
-				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-				heroPosition[1]--;
-				
-				if (!keyStolen){
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
-				}else{
-					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
-				}
-				
-				
+				}			
+				moveLeft();
 				drawMap();
 				
-				if (levelComplete){
+				if (levelComplete)
 					return true;
-				}
 			}
 		}
 		else if (move.equals("s") || move.equals("S")){
-			if (gameMap[heroPosition[0] + 1][heroPosition[1]] != 'X'){
-				
-				if (currentMap == 1 && gameMap[heroPosition[0] + 1][heroPosition[1]] == 'I'){
-					return false;
-				}
+			if (playable(heroPosition[0] + 1,heroPosition[1])){
 				
 				//Checks whether the next cell is an exit cell.
-				if (gameMap[heroPosition[0] + 1][heroPosition[1]] == 'S'){
-					levelComplete = true;
-				}
 				if (currentMap == 1){
 					moveGuard();					
 					leverStepped();
@@ -288,33 +303,18 @@ public class DungeonKeep {
 					keyPicked();
 				}
 				
-				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-				heroPosition[0]++;
-				
-				if (!keyStolen){
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
-				}else{
-					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
-				}
-				
 				drawMap();
 				
-				if (levelComplete){
+				if (won(heroPosition[0],heroPosition[1])){
+					levelComplete = true;
 					return true;
 				}
 			}
 		}
 		else if (move.equals("d") || move.equals("D")){
-			if (gameMap[heroPosition[0]][heroPosition[1] + 1] != 'X'){
-
-				if (currentMap == 1 && gameMap[heroPosition[0]][heroPosition[1] + 1] == 'I'){
-					return false;
-				}
+			if (playable(heroPosition[0],heroPosition[1] + 1)){
 				
 				//Checks whether the next cell is an exit cell.
-				if (gameMap[heroPosition[0]][heroPosition[1] + 1] == 'S'){
-					levelComplete = true;
-				}
 				if (currentMap == 1){
 					moveGuard();					
 					leverStepped();
@@ -322,19 +322,11 @@ public class DungeonKeep {
 					moveOgre();
 					keyPicked();
 				}
-				gameMap[heroPosition[0]][heroPosition[1]] = ' ';
-				heroPosition[1]++;
-				
-				
-				if (!keyStolen){
-					gameMap[heroPosition[0]][heroPosition[1]] = 'H';					
-				}else{
-					gameMap[heroPosition[0]][heroPosition[1]] = 'K';
-				}
 				
 				drawMap();
 				
-				if (levelComplete){
+				if (won(heroPosition[0],heroPosition[1])){
+					levelComplete = true;
 					return true;
 				}
 			}
