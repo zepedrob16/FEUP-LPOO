@@ -338,9 +338,6 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'k';
 		}
-		else {
-			System.out.println(e.getX() + " " + e.getY());
-		}
 		repaint();
     }
 	

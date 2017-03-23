@@ -52,11 +52,8 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 					pm.stateMachine(Event.EDIT_GAME);
 				}
 			});
-			btnLevelEditor.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-			btnLevelEditor.setForeground(new Color(255, 255, 255));
-			btnLevelEditor.setBackground(new Color(51, 51, 0));
-			btnLevelEditor.setBounds(76, 534, 231, 37);
-			add(btnLevelEditor);
+			styleButton(btnLevelEditor, 76, 534, 231, 37, 15);
+			
 			
 			JButton btnExit = new JButton("Exit");
 			btnExit.addActionListener(new ActionListener() {
@@ -64,11 +61,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 					System.exit(0);
 				}
 			});
-			btnExit.setForeground(Color.WHITE);
-			btnExit.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-			btnExit.setBackground(new Color(51, 51, 0));
-			btnExit.setBounds(76, 634, 231, 37);
-			add(btnExit);
+			styleButton(btnExit, 76, 634, 231, 37, 15);
 			
 			JButton btnNewGame = new JButton("New Game");
 			btnNewGame.addActionListener(new ActionListener() {
@@ -83,11 +76,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 					settings.setVisible(true);
 				}
 			});
-			btnNewGame.setForeground(Color.WHITE);
-			btnNewGame.setFont(new Font("Cooper Black", Font.PLAIN, 24));
-			btnNewGame.setBackground(new Color(51, 51, 0));
-			btnNewGame.setBounds(76, 456, 231, 65);
-			add(btnNewGame);
+			styleButton(btnNewGame, 76, 456, 231, 65, 24);
 			
 			JButton btnLoadGame = new JButton("Load Game");
 			btnLoadGame.addActionListener(new ActionListener() {
@@ -103,14 +92,18 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 					}
 				}
 			});
-			btnLoadGame.setForeground(Color.WHITE);
-			btnLoadGame.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-			btnLoadGame.setBackground(new Color(51, 51, 0));
-			btnLoadGame.setBounds(76, 584, 231, 37);
-			add(btnLoadGame);
+			styleButton(btnLoadGame, 76, 584, 231, 37, 15);
 		} catch (IOException ex){
 			//Add exception.
 		}
+	}
+	
+	public void styleButton(JButton btn, int x1, int x2, int x3, int x4, int size){
+		btn.setFont(new Font("Cooper Black", Font.PLAIN, size));
+		btn.setForeground(Color.WHITE);
+		btn.setBackground(new Color(51, 51, 0));
+		btn.setBounds(x1, x2, x3, x4);
+		add(btn);
 	}
 
 	public void loadMap() throws IOException{

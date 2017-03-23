@@ -47,9 +47,6 @@ public class KeepGUI {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public KeepGUI() throws IOException {
 		initialize();
 	}
@@ -131,10 +128,6 @@ public class KeepGUI {
 					JOptionPane.showMessageDialog(frame, "Invalid number of ogres!");
 					return;
 				}
-				
-					
-				
-				
 				DungeonMap map = new DungeonMap();
 				GameState gameState = new GameState(map);
 				state = gameState;
@@ -186,10 +179,7 @@ public class KeepGUI {
 		btnRight.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnRight.setBounds(586, 262, 84, 25);
 		frame.getContentPane().add(btnRight);
-		
-		
-		
-		
+
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

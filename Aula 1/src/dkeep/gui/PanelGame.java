@@ -229,6 +229,10 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 				}				
 			}
 		}
+		displayStatePanels(g);
+		
+	}
+	public void displayStatePanels(Graphics g){
 		if (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof DungeonMap){
 			g.setColor(new Color(0, 0, 0, 140));
 			g.fillRect(0, 0, this.windowH, this.windowW);
@@ -248,7 +252,6 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			
 			g.drawImage(screenGameOver, 30, 220, this);
 		}
-		
 	}
 	
 	public void setOgreMap(GameMap oMap){
