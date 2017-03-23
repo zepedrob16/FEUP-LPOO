@@ -63,12 +63,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 
 		gameState.setGameMap(new DungeonMap());
 		
-		this.windowW = windowW;
-		this.windowH = windowH;
-		this.gridW = this.gameState.getGameMap().getMap().length;
-		this.gridH = this.gameState.getGameMap().getMap()[0].length;
-		this.offsetW = Math.round(this.windowW / this.gridW);
-		this.offsetH = Math.round(this.windowH / this.gridH);
+		setUpVariables(windowW, windowH);
 		
 		this.loadImages();
 		this.setFloor();
@@ -77,7 +72,19 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		fps.start();
 		
 		setLayout(null);
-		
+		setUpButtons();
+	}
+	
+	public void setUpVariables(int windowW,int windowH) {
+		this.windowW = windowW;
+		this.windowH = windowH;
+		this.gridW = this.gameState.getGameMap().getMap().length;
+		this.gridH = this.gameState.getGameMap().getMap()[0].length;
+		this.offsetW = Math.round(this.windowW / this.gridW);
+		this.offsetH = Math.round(this.windowH / this.gridH);
+	}
+	
+	public void setButtonUp(){
 		JButton btnUp = new JButton("\u25B2");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -88,7 +95,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		});
 		btnUp.setBounds(58, 497, 48, 48);
 		add(btnUp);
-		
+	}
+	
+	public void setButtonLeft(){
 		JButton btnLeft = new JButton("\u25C0");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -99,7 +108,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		});
 		btnLeft.setBounds(12, 543, 48, 48);
 		add(btnLeft);
-		
+	}
+	
+	public void setButtonRight() {
 		JButton btnRight = new JButton("\u25B6");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -110,7 +121,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		});
 		btnRight.setBounds(104, 543, 48, 48);
 		add(btnRight);
-		
+	}
+	
+	public void setButtonDown() {
 		JButton btnDown = new JButton("\u25BC");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,6 +134,13 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		});
 		btnDown.setBounds(58, 589, 48, 48);
 		add(btnDown);
+	}
+	
+	public void setUpButtons() {
+		setButtonUp();
+		setButtonLeft();
+		setButtonRight();
+		setButtonDown();
 	}
 	
 	public void loadImages() throws IOException{

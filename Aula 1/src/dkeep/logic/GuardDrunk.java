@@ -14,63 +14,56 @@ public class GuardDrunk extends Guard {
 		this.inversePath = false;
 	}
 	
+	public void checkMovement() {
+		if (patrolRoute[movementIterator] == 'W'){
+			if (!this.inversePath){
+				this.x--;				
+			}else
+				this.x++;
+		}
+		else if (patrolRoute[movementIterator] == 'A'){
+			if (!this.inversePath){
+				this.y--;				
+			}else
+				this.y++;
+		}
+		else if (patrolRoute[movementIterator] == 'S'){
+			if (!this.inversePath){
+				this.x++;				
+			}else
+				this.x--;
+		}
+		else if (patrolRoute[movementIterator] == 'D'){
+			if (!this.inversePath){
+				this.y++;				
+			}else
+				this.y--;
+		}
+	}
+	
 	public void moveGuard(){
 		/*if (!this.patrolling){
 			return;
 		}*/
 		
-		if (this.sleeping){
-			if (!wakeUp()){
+		if (this.sleeping)
+			if (!wakeUp())
 				return;
-			}
-		}
 		
-		if (patrolRoute[movementIterator] == 'W'){
-			if (!this.inversePath){
-				this.x--;				
-			}else{
-				this.x++;
-			}
-		}
-		else if (patrolRoute[movementIterator] == 'A'){
-			if (!this.inversePath){
-				this.y--;				
-			}else{
-				this.y++;
-			}
-		}
-		else if (patrolRoute[movementIterator] == 'S'){
-			if (!this.inversePath){
-				this.x++;				
-			}else{
-				this.x--;
-			}
-		}
-		else if (patrolRoute[movementIterator] == 'D'){
-			if (!this.inversePath){
-				this.y++;				
-			}else{
-				this.y--;
-			}
-		}
-		System.out.println(patrolRoute[movementIterator]);
-		
-		if (!sleeping){
+		checkMovement();
+		if (!sleeping)
 			if (!changeDirection()){
-				if (!this.inversePath && !this.sleeping){
+				if (!this.inversePath && !this.sleeping)
 					movementIterator++;			
-				}
-				else if (this.inversePath && !this.sleeping){
+				else if (this.inversePath && !this.sleeping)
 					movementIterator--;
-				}
 			}
-		}
-		if (movementIterator == patrolRoute.length && !this.inversePath && !this.sleeping){
+		
+		if (movementIterator == patrolRoute.length && !this.inversePath && !this.sleeping)
 			movementIterator = 0;	
-		}
-		else if (movementIterator == -1 && this.inversePath && !this.sleeping){
+		else if (movementIterator == -1 && this.inversePath && !this.sleeping)
 			movementIterator = (patrolRoute.length - 1);
-		}
+		
 		fallAsleep();
 	}
 	public boolean fallAsleep(){

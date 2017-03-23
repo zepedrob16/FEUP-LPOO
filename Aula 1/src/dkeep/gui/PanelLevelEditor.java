@@ -70,19 +70,7 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		}	
 	}
 	
-	public PanelLevelEditor(int windowW, int windowH) throws IllegalArgumentException, ImagingOpException, IOException{
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		
-		this.setVisible(false);
-		setLayout(null);
-		
-		this.windowW = windowW;
-		this.windowH = windowH;
-		
-		this.selX = -1;
-		this.selY = -1;
-		
+	public void setUpGrid() {
 		grid = new JSlider();
 		grid.setBounds(719, 72, 147, 52);
 		grid.setValue(10);
@@ -93,20 +81,23 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		grid.setPaintTicks(true);
 		grid.addChangeListener(new SliderListener());
 		add(grid);
-		
-		this.offsetW = Math.round(windowW / grid.getValue());
-		this.offsetH = Math.round(windowW / grid.getValue());
-		
+	}
+	
+	public void setDimLabel() {
 		JLabel lblGridDimension = new JLabel("Grid dimension");
 		lblGridDimension.setFont(new Font("Cooper Black", Font.PLAIN, 17));
 		lblGridDimension.setBounds(726, 34, 147, 30);
 		add(lblGridDimension);
-		
+	}
+	
+	public void setComLabel() {
 		JLabel lblElements = new JLabel("Components");
 		lblElements.setFont(new Font("Cooper Black", Font.PLAIN, 17));
 		lblElements.setBounds(739, 142, 120, 30);
 		add(lblElements);
-		
+	}
+	
+	public void setMapButton() {
 		JButton btnSaveMap = new JButton("Save Map");
 		btnSaveMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -122,7 +113,9 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		btnSaveMap.setFont(new Font("Cooper Black", Font.PLAIN, 16));
 		btnSaveMap.setBounds(730, 616, 112, 36);
 		add(btnSaveMap);
-		
+	}
+	
+	public void setRetButton() {
 		JButton btnReturnToMain = new JButton("Return");
 		btnReturnToMain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -132,7 +125,31 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		btnReturnToMain.setFont(new Font("Cooper Black", Font.PLAIN, 13));
 		btnReturnToMain.setBounds(730, 657, 112, 23);
 		add(btnReturnToMain);
+	}
+	
+	public void setVariables(int windowW, int windowH) {
+		this.windowW = windowW;
+		this.windowH = windowH;
+		this.selX = -1;
+		this.selY = -1;
+		this.offsetW = Math.round(windowW / grid.getValue());
+		this.offsetH = Math.round(windowW / grid.getValue());
+	}
+	
+	public PanelLevelEditor(int windowW, int windowH) throws IllegalArgumentException, ImagingOpException, IOException{
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		this.setVisible(false);
+		setLayout(null);
 		
+		setUpGrid();
+		
+		setVariables(windowW, windowH);
+		
+		setDimLabel();
+		setComLabel();
+		setMapButton();
+		setRetButton();
 		loadImages();
 				
 		map = new char[grid.getValue()][grid.getValue()];
