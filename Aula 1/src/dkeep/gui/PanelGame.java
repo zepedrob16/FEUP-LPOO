@@ -200,17 +200,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 					if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
 						g.drawImage(key, j * this.offsetW, i * this.offsetH, this);
 					}
-					for (int k = 0; k < gameState.ogres.size(); k++){
-						if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && gameState.ogres.get(k).getStunned()){
-							g.drawImage(fOgre[1], j * offsetW, i * offsetH, this);
-						}
-						else if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && !gameState.ogres.get(k).getStunned()){
-							g.drawImage(fOgre[0], j * offsetW, i * offsetH, this);
-						}
-						else if (i == gameState.ogres.get(k).getClubX() && j == gameState.ogres.get(k).getClubY()){
-							g.drawImage(sBarrel, j * offsetW, i * offsetH, this);
-						}
-					}
+					checkOgres(g, i, j);
 				}
 				if (i == this.gameState.hero.getX() && j == this.gameState.hero.getY()){
 					g.drawImage(sDonkey, j * offsetW, i * offsetH, this);
@@ -220,6 +210,20 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		displayStatePanels(g);
 		
 	}
+	public void checkOgres(Graphics g, int i, int j){
+		for (int k = 0; k < gameState.ogres.size(); k++){
+			if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && gameState.ogres.get(k).getStunned()){
+				g.drawImage(fOgre[1], j * offsetW, i * offsetH, this);
+			}
+			else if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && !gameState.ogres.get(k).getStunned()){
+				g.drawImage(fOgre[0], j * offsetW, i * offsetH, this);
+			}
+			else if (i == gameState.ogres.get(k).getClubX() && j == gameState.ogres.get(k).getClubY()){
+				g.drawImage(sBarrel, j * offsetW, i * offsetH, this);
+			}
+		}
+	}
+	
 	public void checkSound(Graphics g, int i, int j){
 		if (!soundPlayed && this.gameState.getGameMap() instanceof OgreMap){
 			playSound(doorOpen);
