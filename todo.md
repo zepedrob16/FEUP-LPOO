@@ -1,5 +1,5 @@
 - [X] Linking entre menus
-- [ ] Level editor
+- [X] Level editor
 - [ ] Pit e test normal coverage (60% e 80% respetivamente)
 - [ ] Better code Hub (7/10)
 - [X] Herói sem club
