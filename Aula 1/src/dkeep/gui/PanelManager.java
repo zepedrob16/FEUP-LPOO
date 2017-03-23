@@ -20,6 +20,10 @@ public class PanelManager {
 	private PanelMainMenu pmm;
 	private JFrame frame;
 	
+	//GAME VARIABLES
+	private int ogreNum;
+	private String guardPers;
+	
 	public PanelManager(PanelGame pg, PanelLevelEditor ple, PanelMainMenu pmm, JFrame frame){
 		state = Panel.MAIN_MENU;
 		this.pg = pg;
@@ -65,6 +69,12 @@ public class PanelManager {
 	
 	public void setOgreMap(GameMap gm){
 		pg.setOgreMap(gm);
+	}
+	public void setOgreNum(int num){
+		this.ogreNum = num;
+	}
+	public void setGuardPers(String pers){
+		this.guardPers = pers;
 	}
 	
 	public void closeAllPanels(){

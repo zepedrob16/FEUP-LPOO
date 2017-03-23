@@ -77,6 +77,8 @@ public class SettingsDialog extends JDialog {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pm.stateMachine(Event.START_GAME);
+				pm.setGuardPers((String)comboBox.getSelectedItem());
+				pm.setOgreNum(slider.getValue());
 				dispose();
 			}
 		});

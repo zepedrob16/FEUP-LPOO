@@ -115,11 +115,13 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		JButton btnSaveMap = new JButton("Save Map");
 		btnSaveMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					saveMap();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (checkRequisites('V')){
+					try {
+						saveMap();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -142,8 +144,56 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		map = new char[grid.getValue()][grid.getValue()];
 		resetMap();
 	}
-	public void checkRequisites(){
+	
+	public boolean checkRequisites(char method){
+		int heroCount = 0, doorCount = 0, ogreCount = 0, keyCount = 0;
 		
+		for (int i = 0; i < map.length; i++){
+			for (int j = 0; j < map.length; j++){
+				if (map[i][j] == 'H'){
+					heroCount++;
+				}
+				else if (map[i][j] == 'I'){
+					doorCount++;
+				}
+				else if (map[i][j] == 'O'){
+					ogreCount++;
+				}
+				else if (map[i][j] == 'k'){
+					keyCount++;
+				}
+			}
+		}
+		
+		if (method == 'P'){
+			if (heroCount == 1 && heroSelected){
+				return false;
+			}
+			return true;
+		}
+		else if (method == 'V'){
+			if (heroCount < 1){
+				JLabel l = new JLabel("<html><i>This dungeon sure's feeling oddly quiet.</i><br><font color = 'red'>Add <u>one donkey</u>!</font></html>");
+				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else if (doorCount < 1){
+				JLabel l = new JLabel("<html><i>Even prisons have a way out!</i><br><font color = 'red'>Add at least <u>one door</u>!</font></html>");
+				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else if (ogreCount < 1){
+				JLabel l = new JLabel("<html><i>Friendships first, dungeoning later.</i><br><font color = 'red'>Add at least <u>one ogre</u>!</font></html>");
+				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			else if (keyCount < 1){
+				JLabel l = new JLabel("<html><i>Perseverance is key. Also you need a key, literally.</i><br><font color = 'red'>Add at least <u>one key</u>!</font></html>");
+				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public void loadImages() throws IllegalArgumentException, ImagingOpException, IOException{
@@ -225,12 +275,17 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 			}
 		}
 		paintSidebar(g);
-		paintSelSquare(g);
+		
+		if (checkRequisites('P')){
+			paintSelSquare(g, new Color(0, 255, 0, 127));			
+		}else{
+			paintSelSquare(g, new Color(255, 0, 0, 127));
+		}
 	}
 	
-	public void paintSelSquare(Graphics g){
+	public void paintSelSquare(Graphics g, Color c){
 		if (selX != -1 && selY != -1){
-			g.setColor(new Color(0, 255, 0, 127));
+			g.setColor(c);
 			g.fillRect(selX * offsetW, selY * offsetH, offsetW, offsetH);
 		}
 	}
@@ -258,22 +313,22 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 			keySelected = true;			
 		}
 		
-		if (e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && heroSelected) {
+		if (e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && heroSelected && checkRequisites('P')) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'H';
 		}
-		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && ogreSelected) {
+		else if(e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && ogreSelected && checkRequisites('P')) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'O';
 		}
-		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && wallSelected) {
+		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && wallSelected && checkRequisites('P')) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'X';
 		}
-		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && doorSelected) {
+		else if(e.getX() >= 0 && e.getX() <= grid.getValue()*offsetW && e.getY() >= 0 && e.getY() <= grid.getValue()*offsetW && doorSelected && checkRequisites('P')) {
 			int i = Math.round(e.getX()/offsetW);
 			int j = Math.round(e.getY()/offsetH);
 			map[i][j] = 'I';
