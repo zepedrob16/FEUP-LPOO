@@ -21,7 +21,6 @@ public class DungeonMap implements GameMap{
 			{'X',' ','I',' ','I',' ','X','k',' ','X'},
 			{'X','X','X','X','X','X','X','X','X','X'}
 		};
-		
 		this.defaultMap = true;
 	}
 	
@@ -31,7 +30,6 @@ public class DungeonMap implements GameMap{
 	}
 	
 	public void openDoors() {
-		
 		if (this.defaultMap){
 			this.gameMap[5][0] = 'S';
 			this.gameMap[6][0] = 'S';

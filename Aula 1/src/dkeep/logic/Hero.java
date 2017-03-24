@@ -1,4 +1,4 @@
-package dkeep.logic;
+	package dkeep.logic;
 
 public class Hero {
 	private int x, y;
@@ -9,13 +9,7 @@ public class Hero {
 	public Hero(int x, int y, String name){
 		this.x = x;
 		this.y = y;
-		
-		if (name == "DUNGEON"){
-			this.symbol = 'H';			
-		}
-		else if (name == "CRAZY OGRE"){
-			this.symbol = 'A';
-		}
+		this.symbol = (name == "DUNGEON") ? 'H' : 'A';
 	}
 	
 	public int moveHero(GameMap map, String move){

@@ -9,69 +9,42 @@ public class GuardSuspicious extends Guard {
 	public GuardSuspicious(int x, int y){
 		this.x = x;
 		this.y = y;
-		//this.patrolling = true;
+		this.patrolling = true;
 		this.symbol = 'G';
 	}
 	public void moveGuard(){
-		/*if (!this.patrolling){
+		if (!this.patrolling){
 			return;
-		}*/
+		}
 		if (patrolRoute[movementIterator] == 'W'){
-			if (!this.inversePath){
-				this.x--;				
-			}else{
-				this.x++;
-			}
+			x = (!inversePath) ? x-1 : x+1;
 		}
 		else if (patrolRoute[movementIterator] == 'A'){
-			if (!this.inversePath){
-				this.y--;				
-			}else{
-				this.y++;
-			}
+			y = (!inversePath) ? y-1 : y+1;
 		}
 		else if (patrolRoute[movementIterator] == 'S'){
-			if (!this.inversePath){
-				this.x++;				
-			}else{
-				this.x--;
-			}
+			x = (!inversePath) ? x+1 : x-1;
 		}
 		else if (patrolRoute[movementIterator] == 'D'){
-			if (!this.inversePath){
-				this.y++;				
-			}else{
-				this.y--;
-			}
+			y = (!inversePath) ? y+1 : y-1;
 		}
 		System.out.println(patrolRoute[movementIterator]);
 		
-			if (!changeDirection()){
-				if (!this.inversePath){
-					movementIterator++;			
-				}
-				else if (this.inversePath){
-					movementIterator--;
-				}
-			}
+		if (!changeDirection()){
+			movementIterator = (!inversePath) ? movementIterator+1 : movementIterator-1;
+		}
 		if (movementIterator == patrolRoute.length && !this.inversePath){
 			movementIterator = 0;	
 		}
 		else if (movementIterator == -1 && this.inversePath){
 			movementIterator = (patrolRoute.length - 1);
 		}
-		//changeDirection();
 	}
 	public boolean changeDirection(){
 		Random rnd = new Random();
-		int chance = rnd.nextInt(2);
 		
-		if (chance == 0 && this.inversePath){  //50% chance to change direction.
-			this.inversePath = false;
-			return true;
-		}
-		else if (chance == 0 && !this.inversePath){  //50% chance to change direction.
-			this.inversePath = true;
+		if (rnd.nextInt(2) == 0){
+			inversePath = (inversePath) ? false : true;
 			return true;
 		}
 		return false;

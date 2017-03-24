@@ -5,8 +5,7 @@ import java.util.*;
 
 public class GameState {
 	
-	/* STATE MACHINE */	
-	
+	// STATE MACHINE
 	public enum Level {
 		DUNGEON, OGRE
 	}
@@ -19,9 +18,7 @@ public class GameState {
 	private Level level;
 	private State state;
 	
-	
-	/* GAME ENTITIES */
-	
+	// GAME ENTITIES
 	private GameMap map;
 	public Hero hero;
 	public Guard guard;
@@ -29,13 +26,10 @@ public class GameState {
 	public boolean leverOn;
 	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned on the map.
 	public String pers;
-	
 	public String message;
 	
-	/* LOADED MAP */
+	//LOADED MAP
 	private GameMap oMap = new OgreMap();
-	
-	/* METHODS */
 	
 	public GameState() {
 		this.level = Level.DUNGEON;
@@ -46,13 +40,7 @@ public class GameState {
 		super();
 		this.map = map;
 		this.leverOn = false;
-		
-		if (map instanceof DungeonMap){
-			this.level = Level.DUNGEON;
-		}
-		else if (map instanceof OgreMap){
-			this.level = Level.OGRE;
-		}
+		this.level = (map instanceof DungeonMap) ? Level.DUNGEON : Level.OGRE;
 		this.state = State.RUNNING;
 		spawnEntities();
 	}
@@ -66,18 +54,16 @@ public class GameState {
 			}
 			else if (evt == Event.INVALID_MOVE){
 				this.message = "Invalid move!";
-				System.out.println("\nInvalid move!\n");
 			}
 			else if (evt == Event.HERO_CAUGHT){
 				this.message = "GAME OVER!";
-				System.out.println("\n\nGAME OVER! You got caught, doofus!\n");
 				this.state = State.DEFEAT;
 			}
 			else if (evt == Event.LEVEL_COMPLETED){
 				this.message = "Level complete!";
 				this.state = State.VICTORY;
-				System.out.println("Level complete!\n");
 			}
+			System.out.println("\n" + this.message + "\n");
 		}
 		else if (this.state == State.VICTORY){
 			if (this.level == Level.DUNGEON){
@@ -94,7 +80,6 @@ public class GameState {
 				System.out.println("\n\nYOU WIN! Dungeon Keep cleared.\n");
 			}
 		}
-		return;
 	}
 	
 	public void updateEntities(){
@@ -106,7 +91,6 @@ public class GameState {
 			moveEveryOgre();
 		}
 		drawMap();
-		return;
 	}
 	
 	public void spawnEntities(){
@@ -138,6 +122,7 @@ public class GameState {
 	
 	public boolean processMove(String move){
 		int m = hero.moveHero(this.map, move);
+		doorOpenVerification();
 		
 		if (m == 0){
 			stateMachine(Event.VALID_MOVE);
@@ -191,10 +176,7 @@ public class GameState {
 	
 	public void setGameMap(GameMap map){
 		this.map = map;
-		if (map instanceof DungeonMap)
-			this.level = Level.DUNGEON;
-		else if (map instanceof OgreMap)
-			this.level = Level.OGRE;
+		this.level = (map instanceof DungeonMap) ? Level.DUNGEON : Level.OGRE;
 		spawnEntities();
 	}
 	
