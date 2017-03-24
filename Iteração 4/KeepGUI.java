@@ -66,40 +66,42 @@ public class KeepGUI {
 		return;
 	}
 
-	private void initialize() throws IOException {
+	public void dkFrame() {
 		frame = new JFrame("Dungeon Keep");
 		frame.getContentPane().setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		frame.setBounds(100, 100, 711, 547);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		/*
-		panel = new GamePanel();
-		frame.getContentPane().add(panel);
-		frame.pack();
-		frame.setVisible(true);
-		panel.requestFocusInWindow();
-		*/
-		
+	}
+	
+	public void ogreLabel() {
 		JLabel lblNumberOfOgres = new JLabel("Number of Ogres");
 		lblNumberOfOgres.setBounds(22, 13, 160, 19);
 		lblNumberOfOgres.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		lblNumberOfOgres.setHorizontalAlignment(SwingConstants.LEFT);
 		frame.getContentPane().add(lblNumberOfOgres);
 		
+	}
+	
+	public void setTextField() {
 		txtAs = new JTextField();
 		txtAs.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		txtAs.setBounds(171, 10, 63, 22);
 		txtAs.setHorizontalAlignment(SwingConstants.LEFT);
 		frame.getContentPane().add(txtAs);
 		txtAs.setColumns(2);
-		
+	}
+	
+	public void gpLabel() {
 		JLabel lblGuardPersonality = new JLabel("Guard Personality");
 		lblGuardPersonality.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGuardPersonality.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		lblGuardPersonality.setBounds(22, 45, 146, 19);
 		frame.getContentPane().add(lblGuardPersonality);
-		
+	}
+	
+	public void setCombo() {
 		comboBox = new JComboBox<String>();
 		comboBox.setToolTipText("");
 		comboBox.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
@@ -108,33 +110,38 @@ public class KeepGUI {
 		comboBox.addItem("Suspicious");
 		comboBox.setBounds(171, 45, 171, 22);
 		frame.getContentPane().add(comboBox);
-		
-		
+	}
+	
+	public void setText() {
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 30));
 		textArea.setBounds(22, 84, 400, 375);
 		frame.getContentPane().add(textArea);
-		
+	}
+	
+	public void setLabel() {
 		lblNewLabel = new JLabel("You may start a new game.");
 		lblNewLabel.setFont(new Font("Lucida Sans", Font.PLAIN, 13));
 		lblNewLabel.setBounds(22, 472, 200, 16);
 		frame.getContentPane().add(lblNewLabel);
-		
+	}
+	
+	public void setState() {
+		DungeonMap map = new DungeonMap();
+		GameState gameState = new GameState(map);
+		state = gameState;
+		state.spawnGuard(state.guard.getX(), state.guard.getY(), (String)comboBox.getSelectedItem());
+	}
+	
+	public void setNewGame() {
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				if (txtAs.getText().equals("") || Integer.parseInt(txtAs.getText()) > 5 || Integer.parseInt(txtAs.getText()) < 1){
 					JOptionPane.showMessageDialog(frame, "Invalid number of ogres!");
 					return;
 				}
-				DungeonMap map = new DungeonMap();
-				GameState gameState = new GameState(map);
-				state = gameState;
-				
-				
-				state.spawnGuard(state.guard.getX(), state.guard.getY(), (String)comboBox.getSelectedItem());
-				
+				setState();
 				textArea.setText(state.drawMap());
 				lblNewLabel.setText(null);
 			}
@@ -143,7 +150,9 @@ public class KeepGUI {
 		btnNewGame.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnNewGame.setBounds(507, 98, 107, 40);
 		frame.getContentPane().add(btnNewGame);
-		
+	}
+	
+	public void setButtonUp() {
 		JButton btnUp = new JButton("UP");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0){
@@ -152,7 +161,9 @@ public class KeepGUI {
 		btnUp.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnUp.setBounds(522, 209, 73, 25);
 		frame.getContentPane().add(btnUp);
-		
+	}
+	
+	public void setButtonLeft() {
 		JButton btnLeft = new JButton("LEFT");
 		btnLeft.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
@@ -161,7 +172,9 @@ public class KeepGUI {
 		btnLeft.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnLeft.setBounds(448, 262, 84, 25);
 		frame.getContentPane().add(btnLeft);
-		
+	}
+	
+	public void setButtonDown() {
 		JButton btnDown = new JButton("DOWN");
 		btnDown.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
@@ -170,7 +183,9 @@ public class KeepGUI {
 		btnDown.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnDown.setBounds(522, 314, 73, 25);
 		frame.getContentPane().add(btnDown);
-		
+	}
+	
+	public void setButtonRight() {
 		JButton btnRight = new JButton("RIGHT");
 		btnRight.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
@@ -179,7 +194,9 @@ public class KeepGUI {
 		btnRight.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
 		btnRight.setBounds(586, 262, 84, 25);
 		frame.getContentPane().add(btnRight);
-
+	}
+	
+	public void setExit() {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -190,6 +207,20 @@ public class KeepGUI {
 		btnExit.setBounds(507, 419, 107, 40);
 		frame.getContentPane().add(btnExit);
 		
-		
+	}
+	
+	private void initialize() throws IOException {
+		dkFrame();
+		ogreLabel();
+		setTextField();
+		gpLabel();
+		setCombo();
+		setText();
+		setLabel();
+		setNewGame();
+		setButtonUp();
+		setButtonLeft();
+		setButtonDown();
+		setExit();		
 	}
 }

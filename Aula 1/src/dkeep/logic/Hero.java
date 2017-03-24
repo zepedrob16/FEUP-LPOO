@@ -20,54 +20,70 @@ public class Hero {
 		}
 	}
 	
+	public int moveUp(GameMap map) {
+		if (map.moveTo(x-1, y) == -1 && symbol == 'K') {
+			map.openDoors();
+			return 0;
+		}
+		
+		if (map.moveTo(x-1, y) == 0 || map.moveTo(x-1, y) == 1 || map.moveTo(x-1, y) == 2){ //Valid moves, hero position updated.
+			this.x--;
+			return map.moveTo(x, y);
+		}
+		return map.moveTo(x-1, y);	//In case of invalid movement, hero stays put.
+	}
+	
+	public int moveLeft(GameMap map) {
+		if (map.moveTo(x, y-1) == -1 && symbol == 'K') {
+			map.openDoors();
+			return 0;
+		}
+	
+		if (map.moveTo(x, y-1) == 0 || map.moveTo(x, y-1) == 1 || map.moveTo(x, y-1) == 2){
+			this.y--;
+			return map.moveTo(x, y);
+		}
+		return map.moveTo(x, y-1);
+	}
+	
+	public int moveDown(GameMap map) {
+		if (map.moveTo(x+1, y) == -1 && symbol == 'K') {
+			map.openDoors();
+			return 0;
+		}
+		
+		if (map.moveTo(x+1, y) == 0 || map.moveTo(x+1, y) == 1 || map.moveTo(x+1, y) == 2){
+			this.x++;
+			return map.moveTo(x, y);
+		}
+		return map.moveTo(x+1, y);
+	}
+	
+	public int moveRight(GameMap map) {
+		if (map.moveTo(x, y+1) == -1 && symbol == 'K') {
+			map.openDoors();
+			return 0;
+		}
+		
+		if (map.moveTo(x, y+1) == 0 || map.moveTo(x, y+1) == 1 || map.moveTo(x, y+1) == 2){
+			this.y++;
+			return map.moveTo(x, y);
+		}
+		return map.moveTo(x,y+1);
+	}
+	
 	public int moveHero(GameMap map, String move){
 		if (move.equals("w")) {
-			if (map.moveTo(x-1, y) == -1 && symbol == 'K') {
-				map.openDoors();
-				return 0;
-			}
-			
-			if (map.moveTo(x-1, y) == 0 || map.moveTo(x-1, y) == 1 || map.moveTo(x-1, y) == 2){ //Valid moves, hero position updated.
-				this.x--;
-				return map.moveTo(x, y);
-			}
-			return map.moveTo(x-1, y);	//In case of invalid movement, hero stays put.
+			return moveUp(map);
 		}
 		else if (move.equals("a")){
-			if (map.moveTo(x, y-1) == -1 && symbol == 'K') {
-				map.openDoors();
-				return 0;
-			}
-		
-			if (map.moveTo(x, y-1) == 0 || map.moveTo(x, y-1) == 1 || map.moveTo(x, y-1) == 2){
-				this.y--;
-				return map.moveTo(x, y);
-			}
-			return map.moveTo(x, y-1);
+			return moveLeft(map);
 		}
 		else if (move.equals("s")){
-			if (map.moveTo(x+1, y) == -1 && symbol == 'K') {
-				map.openDoors();
-				return 0;
-			}
-			
-			if (map.moveTo(x+1, y) == 0 || map.moveTo(x+1, y) == 1 || map.moveTo(x+1, y) == 2){
-				this.x++;
-				return map.moveTo(x, y);
-			}
-			return map.moveTo(x+1, y);
+			return moveDown(map);
 		}
 		else if (move.equals("d")){
-			if (map.moveTo(x, y+1) == -1 && symbol == 'K') {
-				map.openDoors();
-				return 0;
-			}
-			
-			if (map.moveTo(x, y+1) == 0 || map.moveTo(x, y+1) == 1 || map.moveTo(x, y+1) == 2){
-				this.y++;
-				return map.moveTo(x, y);
-			}
-			return map.moveTo(x,y+1);
+			return moveRight(map);
 		}
 		return -1;	//In case of invalid input, it's discarded.
 	}
