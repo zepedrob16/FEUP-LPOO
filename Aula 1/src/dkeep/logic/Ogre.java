@@ -35,12 +35,7 @@ public class Ogre {
 	}
 	
 	public void testMode(boolean enable){
-		if (enable){
-			this.testMode = true;
-		}else{
-			this.testMode = false;
-		}
-		return;
+		testMode = (enable) ? true : false;
 	}
 	
 	public void move(GameState gameState){

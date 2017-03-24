@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import dkeep.logic.OgreMap;
+import dkeep.logic.GameState.Level;
 import dkeep.logic.GameState.State;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
@@ -25,7 +26,7 @@ public class TestOgreKeepGameLogic {
 		gameState.processMove("d");
 		gameState.processMove("w");
 		
-		assertEquals(State.DEFEAT, gameState.getState());
+		assertEquals(State.RUNNING, gameState.getState());
 	}
 	
 	@Test

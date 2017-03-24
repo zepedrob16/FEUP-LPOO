@@ -66,6 +66,7 @@ public class GameState {
 			System.out.println("\n" + this.message + "\n");
 		}
 		else if (this.state == State.VICTORY){
+			
 			if (this.level == Level.DUNGEON){
 				this.level = Level.OGRE;
 				OgreMap ogreMap = new OgreMap(oMap.getMap());
@@ -104,7 +105,12 @@ public class GameState {
 				}
 				else if (thisMap[i][j] == 'G'){
 					thisMap[i][j] = ' ';
-					spawnGuard(i, j, pers);
+
+					if (pers != null){
+						spawnGuard(i, j, pers);						
+					}else{
+						spawnGuard(i, j);
+					}
 				}
 				else if (thisMap[i][j] == 'k'){
 					thisMap[i][j] = ' ';
@@ -236,7 +242,8 @@ public class GameState {
 	}
 	
 	public void spawnGuard(int x, int y){
-		int guardGen = 0;
+		Random rnd = new Random();
+		int guardGen = rnd.nextInt(3);
 		
 		if (guardGen == 0){
 			guard = new GuardRookie(x,y);
@@ -250,13 +257,13 @@ public class GameState {
 		return;
 	}
 	public void spawnGuard(int x, int y, String personality){
-		if (personality == "Rookie"){
+		if (personality.equals("Rookie")){
 			guard = new GuardRookie(x,y);
 		}
-		else if (personality == "Drunk"){
+		else if (personality.equals("Drunk")){
 			guard = new GuardDrunk(x,y);
 		}
-		else if (personality == "Suspicious"){
+		else if (personality.equals("Suspicious")){
 			guard = new GuardSuspicious(x,y);
 		}
 		return;
@@ -265,10 +272,11 @@ public class GameState {
 	public void spawnOgres(){
 		
 		Random rnd = new Random();
-		int ogresToGenerate = rnd.nextInt(4) + 1;
+		int ogresToGenerate = rnd.nextInt(5) + 1;
+		ogres.clear();
 		
 		for (int i = 0; i < ogresToGenerate; i++){
-			int xPosition = rnd.nextInt(6) + 1, yPosition = rnd.nextInt(6) + 1;
+			int xPosition = rnd.nextInt(map.getMap().length - 2) + 1, yPosition = rnd.nextInt(map.getMap().length - 2) + 1;
 			
 			if (this.hero.getX() != xPosition && this.hero.getY() != yPosition && this.getGameMap().getMap()[xPosition][yPosition] == ' '){
 				Ogre ogre = new Ogre(xPosition, yPosition);
@@ -283,9 +291,10 @@ public class GameState {
 	public void spawnOgres(int generations){
 		
 		Random rnd = new Random();
+		ogres.clear();
 		
 		for (int i = 0; i < generations; i++){
-			int xPosition = rnd.nextInt(6) + 1, yPosition = rnd.nextInt(6) + 1;
+			int xPosition = rnd.nextInt(map.getMap().length - 2) + 1, yPosition = rnd.nextInt(map.getMap().length - 2) + 1;
 			
 			if (this.hero.getX() != xPosition && this.hero.getY() != yPosition && this.getGameMap().getMap()[xPosition][yPosition] == ' '){
 				Ogre ogre = new Ogre(xPosition, yPosition);

@@ -19,7 +19,7 @@ public class Guard {
 	}
 	
 	public void testMode(boolean enable){
-		this.patrolling = enable ? false : true;
+		this.patrolling = (enable) ? false : true;
 	}
 	
 	public void moveGuard(){};
