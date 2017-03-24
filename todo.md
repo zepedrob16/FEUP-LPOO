@@ -6,3 +6,4 @@
 - [X] Herói sem club
 - [ ] Dar load a um gameState
 - [ ] Tentar dar fix ao guarda
+- [X] Load custom map
