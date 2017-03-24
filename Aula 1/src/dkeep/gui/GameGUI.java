@@ -4,6 +4,14 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import javax.swing.JFrame;
 
+/**
+ * Class where the game structure is first initialized
+ *  
+ * @author José Borges and Miguel Mano Fernandes
+ * @version 1.0
+ *
+ */
+
 public class GameGUI {
 
 	private JFrame frame;
@@ -24,6 +32,11 @@ public class GameGUI {
 		});
 	}
 
+	/**
+	 * Class constructor
+	 * 
+	 * @throws IOException
+	 */
 	public GameGUI() throws IOException {
 		
 		pmm = new PanelMainMenu();

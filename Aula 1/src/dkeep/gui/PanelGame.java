@@ -32,6 +32,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+/**
+ * Class that initializes the game
+ * 
+ * @author José Borges and Miguel Mano Fernandes
+ *	
+ */
+
 public class PanelGame extends JPanel implements KeyListener, ActionListener {
 
 	private GameState gameState;

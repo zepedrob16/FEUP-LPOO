@@ -1,11 +1,21 @@
 package dkeep.logic;
 
+
+/**
+ * Class that holds all the dungeon map information
+ * 
+ * @author José Borges and Miguel Mano Fernandes
+ * @version 1.0
+ *
+ */
 public class DungeonMap implements GameMap{
 
 	private String name = "DUNGEON";
 	private char[][] gameMap;
 	private boolean defaultMap; // Apenas usado para abrir gate principal.
-	
+	/**
+	 * Dungeon map constructor with a default map
+	 */
 	public DungeonMap() {
 		System.out.println("\nLoading DUNGEON level...\n");
 		
@@ -23,11 +33,19 @@ public class DungeonMap implements GameMap{
 		};
 		this.defaultMap = true;
 	}
-	
+	/**
+	 * Dungeon map constructor that receives a different map than normal. Used for tests
+	 * 
+	 * @param map
+	 */
 	public DungeonMap(char[][] map){
 		this.gameMap = map;
 		this.defaultMap = false;
 	}
+	
+	/**
+	 * Function that opens the dungeon doors. If the map is the default one it only opens the contiguous doors to the left
+	 */
 	
 	public void openDoors() {
 		if (this.defaultMap){
@@ -45,6 +63,14 @@ public class DungeonMap implements GameMap{
 		return;
 	}
 	
+	/**
+	 * Checks whether the position to move to is valid or not
+	 * @param x
+	 *		x position
+	 * @param y
+	 *		y position
+	 */
+	
 	public int moveTo(int x, int y) {
 		if (gameMap[x][y] == 'X' || gameMap[x][y] == 'I'){
 			return -1; //Returns -1 if the move is invalid (wall or door in the way).
@@ -55,12 +81,23 @@ public class DungeonMap implements GameMap{
 		return 0; //Returns 0 if the move is valid, but not towards a stairs block.
 	}
 
+	/**
+	 * Returns the current map
+	 */
 	public char[][] getMap() {
 		return gameMap;
 	}
+	
+	/**
+	 * Sets the current map
+	 */
 	public void setMap(char[][] map){
 		this.gameMap = map;
 	}
+	
+	/**
+	 * Retrieves the level name
+	 */
 	public String getName(){
 		return name;
 	}
