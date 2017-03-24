@@ -139,7 +139,20 @@ public class GameState {
 	public boolean processMove(String move){
 		int m = hero.moveHero(this.map, move);
 		
-		// Se o herói está na mesma posição da chave/alavanca, abre portas.
+		if (m == 0){
+			stateMachine(Event.VALID_MOVE);
+		}
+		else if (m == 1){
+			stateMachine(Event.LEVEL_COMPLETED);
+		}
+		else if (m == -1){
+			stateMachine(Event.INVALID_MOVE);
+		}
+		mapSpecificVerification();
+		return true;
+	}
+	
+	public void doorOpenVerification(){
 		if (this.hero.getX() == this.keyX && this.hero.getY() == this.keyY){
 			if (this.map instanceof OgreMap){
 				this.keyX = 10;
@@ -150,23 +163,14 @@ public class GameState {
 				this.leverOn = true;
 			}
 		}
-		
-		if (m == 0){
-			stateMachine(Event.VALID_MOVE);
-		}
-		else if (m == 1){
-			stateMachine(Event.LEVEL_COMPLETED);
-		}
-		else if (m == -1){
-			stateMachine(Event.INVALID_MOVE);
-		}
+	}
+	
+	public void mapSpecificVerification(){
 		if (this.map instanceof DungeonMap){
 			if (hero.heroSpotted(guard)){
 				stateMachine(Event.HERO_CAUGHT);
 			}
 		}
-		
-		//TODO: Deveríamos arranjar outro lugar para meter isto...
 		else if(this.map instanceof OgreMap) {
 			for (int i = 0; i < ogres.size(); i++){
 				if (ogres.get(i).heroAdjacent(hero)){
@@ -175,7 +179,6 @@ public class GameState {
 				hero.stunOgre(ogres.get(i));
 			}
 		}
-		return true;
 	}
 	
 	public GameMap getGameMap(){

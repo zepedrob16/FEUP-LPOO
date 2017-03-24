@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -21,6 +22,7 @@ import dkeep.logic.DungeonMap;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
 import dkeep.logic.GameState.State;
+import dkeep.logic.Ogre;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -237,48 +239,50 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	public void checkOgres(Graphics g, int i, int j){
-		for (int k = 0; k < gameState.ogres.size(); k++){
-			if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && gameState.ogres.get(k).getStunned()){
+		ArrayList<Ogre> ogres = gameState.ogres;
+		for (int k = 0; k < ogres.size(); k++){
+			if (i == ogres.get(k).getX() && j == ogres.get(k).getY() && ogres.get(k).getStunned()){
 				g.drawImage(fOgre[1], j * offset, i * offset, this);
 			}
-			else if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && !gameState.ogres.get(k).getStunned()){
+			else if (i == ogres.get(k).getX() && j == ogres.get(k).getY() && !ogres.get(k).getStunned()){
 				g.drawImage(fOgre[0], j * offset, i * offset, this);
 			}
-			else if (i == gameState.ogres.get(k).getClubX() && j == gameState.ogres.get(k).getClubY()){
+			else if (i == ogres.get(k).getClubX() && j == ogres.get(k).getClubY()){
 				g.drawImage(sBarrel, j * offset, i * offset, this);
 			}
 		}
 	}
 	
 	public void checkSound(Graphics g, int i, int j){
-		if (!soundPlayed && this.gameState.getGameMap() instanceof OgreMap){
+		GameMap thisMap = gameState.getGameMap();
+		if (!soundPlayed && thisMap instanceof OgreMap){
 			playSound(doorOpen);
 			soundPlayed = true;
 		}
-		else if (!soundPlayed && this.gameState.getGameMap() instanceof DungeonMap && i != this.gameState.hero.getX() && j != this.gameState.hero.getY()){
+		else if (!soundPlayed && thisMap instanceof DungeonMap && i != this.gameState.hero.getX() && j != this.gameState.hero.getY()){
 			playSound(doorOpen);
 			soundPlayed = true;
 		}
 	}
 	
 	public void displayStatePanels(Graphics g){
-		if (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof DungeonMap){
+		State thisState = gameState.getState();
+		GameMap thisMap = gameState.getGameMap();
+		
+		if (thisState == State.VICTORY && thisMap instanceof DungeonMap){
 			g.setColor(new Color(0, 0, 0, 140));
 			g.fillRect(0, 0, this.windowH, this.windowW);
-			
 			g.drawImage(screenLevelComplete, 30, 220, this);
 			this.soundPlayed = false;
 		}
-		else if (gameState.getState() == State.VICTORY && this.gameState.getGameMap() instanceof OgreMap){
+		else if (thisState == State.VICTORY && thisMap instanceof OgreMap){
 			g.setColor(new Color(0, 0, 0, 140));
-			g.fillRect(0, 0, this.windowH, this.windowW);
-			
+			g.fillRect(0, 0, this.windowH, this.windowW);	
 			g.drawImage(screenKeepComplete, 30, 220, this);
 		}
-		else if (gameState.getState() == State.DEFEAT){
+		else if (thisState == State.DEFEAT){
 			g.setColor(new Color(0, 0, 0, 140));
 			g.fillRect(0, 0, this.windowH, this.windowW);
-			
 			g.drawImage(screenGameOver, 30, 220, this);
 		}
 	}
@@ -304,8 +308,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
-				int genGrass = rnd.nextInt(4);
-				int genBlood = rnd.nextInt(20);
+				int genGrass = rnd.nextInt(4), genBlood = rnd.nextInt(20);
 
 				if (genGrass == 0){
 					gameImages[i][j] = dFloorGrass1;					
