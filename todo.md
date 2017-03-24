@@ -1,5 +1,9 @@
 - [X] Linking entre menus
 - [X] Level editor
-- [ ] Pit e test normal coverage (60% e 80% respetivamente)
-- [ ] Better code Hub (7/10)
+- [ ] Pit coverage 60%
+- [X] Test coverage 80%
+- [X] Better code Hub (7/10)
 - [X] Herói sem club
+- [ ] Dar load a um gameState
+- [ ] Tentar dar fix ao guarda
+- [X] Load custom map
