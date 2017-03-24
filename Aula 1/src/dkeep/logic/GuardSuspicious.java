@@ -3,14 +3,13 @@ package dkeep.logic;
 import java.util.Random;
 
 public class GuardSuspicious extends Guard {
-
-	private boolean inversePath;
 	
 	public GuardSuspicious(int x, int y){
 		this.x = x;
 		this.y = y;
 		this.patrolling = true;
 		this.symbol = 'G';
+		this.inversePath = false;
 	}
 	public void moveGuard(){
 		if (!this.patrolling){
@@ -49,4 +48,5 @@ public class GuardSuspicious extends Guard {
 		}
 		return false;
 	}
+	
 }

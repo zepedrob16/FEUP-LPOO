@@ -7,6 +7,7 @@ import dkeep.logic.DungeonMap;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
 import dkeep.logic.GameState.State;
+import dkeep.logic.Guard;
 import dkeep.logic.GuardDrunk;
 import dkeep.logic.GuardRookie;
 import dkeep.logic.GuardSuspicious;
@@ -23,6 +24,48 @@ public class TestGuardPersonalities {
 					{'X',' ','I',' ','I',' ','X','k',' ','X'},
 					{'X','X','X','X','X','X','X','X','X','X'}
 	};
+	
+	@Test
+	public void testGuardInit(){
+		Guard g = new Guard(24,56);
+		
+		assertEquals(24, g.getX());
+		assertEquals(56, g.getY());
+	}
+	
+	@Test(timeout=1000)
+	public void testGuardProbabilityToSleepAndWake(){
+		GameMap gameMap = new DungeonMap();
+		GameState gameState = new GameState(gameMap);
+		
+		gameState.spawnGuard(0, 0, "Drunk");
+		
+		assertEquals(false, gameState.guard.getSleeping());
+		boolean wokeUp = false, fellAsleep = false, changesPath = false;
+		
+		while (!wokeUp || !fellAsleep || !changesPath){
+			gameState.guard.moveGuard();
+			if (gameState.guard.getInversePath()){
+				changesPath = true;
+			}
+			if (gameState.guard.getSleeping()){
+				fellAsleep = true;
+			}
+			if (!gameState.guard.getSleeping() && fellAsleep){
+				wokeUp = true;
+			}
+		}
+		
+		changesPath = false;
+		gameState.spawnGuard(0, 0, "Suspicious");
+		
+		while (!changesPath){
+			gameState.guard.moveGuard();
+			if (gameState.guard.getInversePath()){
+				changesPath = true;
+			}
+		}
+	}
 	
 	@Test
 	public void testRookieGuardIsPatrolling(){
@@ -81,5 +124,7 @@ public class TestGuardPersonalities {
 		gameState.spawnGuard(0, 0, "Suspicious");
 		assertEquals(true, gameState.guard instanceof GuardSuspicious);	
 	}
+	
+	
 	
 }

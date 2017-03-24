@@ -3,8 +3,6 @@ import java.util.Random;
 
 public class GuardDrunk extends Guard {
 	
-	private boolean inversePath;
-	
 	public GuardDrunk(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -90,4 +88,5 @@ public class GuardDrunk extends Guard {
 		}
 		return false;
 	}
+
 }

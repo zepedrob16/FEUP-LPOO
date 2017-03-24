@@ -17,6 +17,16 @@ public class TestDungeonGameLogic {
 					{'X','X','X','X','X'}};
 	
 	@Test
+	public void testBasicsDefaultMap(){
+		GameMap gameMap = new DungeonMap();
+		assertEquals(10, gameMap.getMap().length);
+		
+		gameMap.openDoors();
+		assertEquals('S', gameMap.getMap()[5][0]);
+		assertEquals('S', gameMap.getMap()[6][0]);
+	}
+	
+	@Test
 	public void testLoadsOgreMapAfterCompletion(){
 		GameMap gameMap = new DungeonMap(map);
 		GameState gameState = new GameState(gameMap);

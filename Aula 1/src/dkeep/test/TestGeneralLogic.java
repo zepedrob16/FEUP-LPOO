@@ -18,8 +18,4 @@ public class TestGeneralLogic {
 		assertEquals(State.RUNNING, gameState.getState());
 	}
 	
-	@Test
-	public void testSetsTheGameMap(){
-		
-	}
 }
