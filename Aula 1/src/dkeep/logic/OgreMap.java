@@ -25,8 +25,11 @@ public class OgreMap implements GameMap{
 		this.gameMap = map;
 	}
 	public int moveTo(int x, int y) {
-		if (gameMap[x][y] == 'X' || gameMap[x][y] == 'I'){
+		if (gameMap[x][y] == 'X'){
 			return -1; //Returns -1 if the move is invalid (wall or door in the way).
+		}
+		else if (gameMap[x][y] == 'I') {
+			return -2;
 		}
 		else if (gameMap[x][y] == 'S'){
 			return 1; //Returns 1 if the move is towards a stairs block.
