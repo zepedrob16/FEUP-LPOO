@@ -2,13 +2,9 @@ package dkeep.gui;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -22,13 +18,11 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.awt.SystemColor;
 import java.awt.Font;
 
 public class PanelMainMenu extends JPanel implements ActionListener {
@@ -45,23 +39,6 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 		try{
 			this.titleScreen = ImageIO.read(new File("res/title_screen_c64.png"));	
 			setLayout(null);
-			
-			JButton btnLevelEditor = new JButton("Level Editor");
-			btnLevelEditor.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					pm.stateMachine(Event.EDIT_GAME);
-				}
-			});
-			styleButton(btnLevelEditor, 76, 534, 231, 37, 15);
-			
-			
-			JButton btnExit = new JButton("Exit");
-			btnExit.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
-			styleButton(btnExit, 76, 634, 231, 37, 15);
 			
 			JButton btnNewGame = new JButton("New Game");
 			btnNewGame.addActionListener(new ActionListener() {
@@ -89,7 +66,23 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 					}
 				}
 			});
-			styleButton(btnLoadGame, 76, 584, 231, 37, 15);
+			styleButton(btnLoadGame, 76, 534, 231, 37, 15);
+			
+			JButton btnLevelEditor = new JButton("Level Editor");
+			btnLevelEditor.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					pm.stateMachine(Event.EDIT_GAME);
+				}
+			});
+			styleButton(btnLevelEditor, 76, 584, 231, 37, 15);
+			
+			JButton btnExit = new JButton("Exit");
+			btnExit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+			styleButton(btnExit, 76, 634, 231, 37, 15);
 		} catch (IOException ex){
 		}
 	}

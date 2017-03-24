@@ -17,12 +17,10 @@ import javax.swing.Timer;
 import org.imgscalr.Scalr;
 
 import dkeep.gui.PanelManager.Event;
-import dkeep.gui.PanelManager.Panel;
 import dkeep.logic.DungeonMap;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
 import dkeep.logic.GameState.State;
-import dkeep.logic.GuardDrunk;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -31,10 +29,9 @@ import dkeep.logic.OgreMap;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import java.awt.Font;
 
 public class PanelGame extends JPanel implements KeyListener, ActionListener {
-	
+
 	private GameState gameState;
 	
 	private int gridW, gridH, windowW, windowH, offsetW, offsetH, fDonkeyIter;
@@ -182,7 +179,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	public void paintComponent(Graphics g){
 		
 		super.paintComponent(g);
-
+		
 		char[][] map = this.gameState.getGameMap().getMap();
 		
 		for (int i = 0; i < map.length; i++) {
@@ -230,6 +227,18 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		displayStatePanels(g);
 		
 	}
+	
+	public void adjustGridToWindow() throws IOException{
+		this.gridW = this.gameState.getGameMap().getMap().length;
+		this.gridH = this.gameState.getGameMap().getMap()[0].length;
+		this.offsetW = Math.round(this.windowW / this.gridW);
+		this.offsetH = Math.round(this.windowH / this.gridH);
+		System.out.println(gridW + " " + gridH);
+		System.out.println("WINDOW: " + this.windowW + "," + this.windowH);
+		loadImages();
+		setFloor();
+	}
+	
 	public void checkOgres(Graphics g, int i, int j){
 		for (int k = 0; k < gameState.ogres.size(); k++){
 			if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && gameState.ogres.get(k).getStunned()){
@@ -324,6 +333,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			pm.stateMachine(Event.EXIT_TO_MENU);
 			return;
 		}
+		if (gameState.getState() == State.VICTORY){
+			try { adjustGridToWindow(); } catch (IOException e1) { e1.printStackTrace(); }
+		}
 		
 		int key = e.getKeyCode();
 		
@@ -348,7 +360,6 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			System.exit(0);	
 		}
 		else if (key == 27){
-			JOptionPane jop = new JOptionPane();
 			String options[] = {"Yes", "No"};
 			int select = JOptionPane.showOptionDialog(this, "Return to main menu?\n(Unsaved progress will be lost!)", "Return to Main Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 			if (select == 0){

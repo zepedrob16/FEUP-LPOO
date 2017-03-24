@@ -127,6 +127,8 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		add(btnReturnToMain);
 	}
 	
+
+	
 	public void setVariables(int windowW, int windowH) {
 		this.windowW = windowW;
 		this.windowH = windowH;

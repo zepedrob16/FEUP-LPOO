@@ -1,15 +1,8 @@
 package dkeep.gui;
 
 import java.awt.EventQueue;
-import java.awt.event.KeyListener;
 import java.io.IOException;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import dkeep.gui.PanelManager.Event;
-
-import javax.swing.JLabel;
 
 public class GameGUI {
 
@@ -34,7 +27,7 @@ public class GameGUI {
 	public GameGUI() throws IOException {
 		
 		pmm = new PanelMainMenu();
-		pg = new PanelGame(300, 300);
+		pg = new PanelGame(700, 700);
 		ple = new PanelLevelEditor(700, 700);
 		frame = new JFrame("Dungeon Keep");
 		

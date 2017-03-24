@@ -252,8 +252,7 @@ public class GameState {
 	}
 	
 	public void spawnGuard(int x, int y){
-		Random rnd = new Random();
-		int guardGen = 0;//rnd.nextInt(3);
+		int guardGen = 0;
 		
 		if (guardGen == 0){
 			guard = new GuardRookie(x,y);

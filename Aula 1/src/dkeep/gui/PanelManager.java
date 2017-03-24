@@ -1,7 +1,5 @@
 package dkeep.gui;
 
-import java.awt.Frame;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -19,10 +17,6 @@ public class PanelManager {
 	private PanelLevelEditor ple;
 	private PanelMainMenu pmm;
 	private JFrame frame;
-	
-	//GAME VARIABLES
-	private int ogreNum;
-	private String guardPers;
 	
 	public PanelManager(PanelGame pg, PanelLevelEditor ple, PanelMainMenu pmm, JFrame frame){
 		state = Panel.MAIN_MENU;

@@ -505,6 +505,5 @@ public class DungeonKeep {
 				return;
 			}			
 		}
-		
 	}
 }

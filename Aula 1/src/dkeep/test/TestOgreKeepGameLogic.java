@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import dkeep.logic.OgreMap;
 import dkeep.logic.GameState.State;
-import dkeep.logic.DungeonMap;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
 
