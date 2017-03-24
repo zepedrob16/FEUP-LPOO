@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import dkeep.gui.PanelManager.Event;
+import dkeep.logic.DungeonMap;
 import dkeep.logic.OgreMap;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
@@ -38,6 +39,12 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 				try { settings = new SettingsDialog(); } catch (IOException e1) {}
 				settings.setPanelManager(pm);
 				settings.setVisible(true);
+				try {
+					pm.load(new DungeonMap());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		styleButton(btnNewGame, 76, 456, 231, 65, 24);
@@ -115,9 +122,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			System.out.println(selMap[i]);
 		}
 		s2.close();
-		pm.setGuardPers("Rookie");
-		pm.start();
-		pm.setOgreMap(new OgreMap(selMap));
+		pm.load(new OgreMap(selMap));
 		pm.stateMachine(Event.START_GAME);
 	}
 	

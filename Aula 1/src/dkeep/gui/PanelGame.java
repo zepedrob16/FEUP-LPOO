@@ -54,14 +54,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	private PanelManager pm;
 	
-	public PanelGame(int windowW, int windowH) throws IOException {
-		gameImages = new BufferedImage[10][10];
-		this.setVisible(false);
-		
-		gameState = new GameState();
-
-		gameState.setGameMap(new DungeonMap());
-		
+	public void loadMap(GameMap map) throws IOException {
+		gameState = new GameState(map);
+		gameImages = new BufferedImage[map.getMap().length][map.getMap().length];
 		setUpVariables(windowW, windowH);
 		
 		this.loadImages();
@@ -72,6 +67,12 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		
 		setLayout(null);
 		setUpButtons();
+	}
+	
+	public PanelGame(int windowW, int windowH) throws IOException {
+		this.setVisible(false);
+		this.windowW = windowW;
+		this.windowH = windowH;
 	}
 	
 	public void setUpVariables(int windowW,int windowH) {
@@ -224,7 +225,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 		else if (this.gameState.getGameMap() instanceof OgreMap){
-			if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
+			if (i == gameState.keyX && j == gameState.keyY){
 				g.drawImage(key, j * this.offset, i * this.offset, this);
 			}
 			checkOgres(g, i, j);

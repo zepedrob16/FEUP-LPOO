@@ -1,5 +1,7 @@
 package dkeep.gui;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -73,6 +75,10 @@ public class PanelManager {
 	}
 	public void start(){
 		pg.startGame();
+	}
+	
+	public void load(GameMap map) throws IOException {
+		pg.loadMap(map);
 	}
 	
 	public void closeAllPanels(){
