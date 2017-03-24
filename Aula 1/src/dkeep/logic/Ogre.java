@@ -157,4 +157,7 @@ public class Ogre {
 	public boolean getStunned(){
 		return stunned;
 	}
+	public boolean getTestMode(){
+		return testMode;
+	}
 }

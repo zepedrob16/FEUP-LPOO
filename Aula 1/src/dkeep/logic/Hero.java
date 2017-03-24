@@ -106,6 +106,7 @@ public class Hero {
 	public boolean stunOgre(Ogre ogre) {
 		if ((x == ogre.getX() - 1 && y == ogre.getY()) || (x == ogre.getX() + 1 && y == ogre.getY()) || (x == ogre.getX() && y == ogre.getY() - 1) || (x == ogre.getX() && y == ogre.getY() + 1)) {
 			ogre.stun();
+			return true;
 		}
 		
 		return false;

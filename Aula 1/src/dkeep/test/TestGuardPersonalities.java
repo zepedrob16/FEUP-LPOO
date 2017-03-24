@@ -100,7 +100,7 @@ public class TestGuardPersonalities {
 				genDrunk = true;
 			}
 			else if (gameState.guard instanceof GuardSuspicious){
-				genSuspicious = true;
+				genSuspicious = true; 
 			}
 			else{
 				fail("Couldn't generate every guard personality.");
@@ -125,6 +125,19 @@ public class TestGuardPersonalities {
 		assertEquals(true, gameState.guard instanceof GuardSuspicious);	
 	}
 	
-	
+	@Test
+	public void testSetMethods(){
+		Guard g = new Guard(1,1);
+		
+		g.setX(2);
+		assertEquals(2, g.getX());
+		
+		g.setY(3);
+		assertEquals(3, g.getY());
+		
+		g.setSymbol('M');
+		assertEquals('M', g.getSymbol());
+		
+	}
 	
 }
