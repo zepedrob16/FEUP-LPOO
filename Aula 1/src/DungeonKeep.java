@@ -350,40 +350,63 @@ public class DungeonKeep {
 		ogrePosition[1]++;
 		checkOgreSymbol();
 	}
+	
+	private static void checkUp(){
+		if (playableOgre(ogrePosition[0]-1, ogrePosition[1])){
+			moveOgreU();
+			moveClub();
+		}
+	}
+	
+	private static void checkLeft() {
+		if (playable(ogrePosition[0],ogrePosition[1] - 1)){
+			moveOgreL();
+			moveClub();
+		}
+	}
+	
+	private static void checkDown() {
+		if (playable(ogrePosition[0] + 1,ogrePosition[1])){
+			moveOgreD();
+			moveClub();
+		}
+	}
+	
+	private static void checkRight() {
+		if (playable(ogrePosition[0],ogrePosition[1] + 1)){
+			moveOgreR();
+			moveClub();
+		}
+	}
+	
+	private static boolean checkGenMove(int genMove) {
+		if (genMove == 0){
+			checkUp();
+			return true;
+		}
+		else if (genMove == 1){
+			checkLeft();
+			return true;
+		}
+		else if (genMove == 2){
+			checkDown();
+			return true;
+		}
+		else if (genMove == 3){
+			checkRight();
+			return true;
+		}
+		return false;
+	}
+	
 	private static void moveOgre() {
 		Random rnd = new Random();
-		
 		for (;;){
 			int genMove = rnd.nextInt(4);
 			
-			if (genMove == 0){
-				if (playableOgre(ogrePosition[0]-1, ogrePosition[1])){
-					moveOgreU();
-					moveClub();
-					break;
-				}
-			}
-			else if (genMove == 1){
-				if (playable(ogrePosition[0],ogrePosition[1] - 1)){
-					moveOgreL();
-					moveClub();
-					break;
-				}
-			}
-			else if (genMove == 2){
-				if (playable(ogrePosition[0] + 1,ogrePosition[1])){
-					moveOgreD();
-					moveClub();
-					break;
-				}
-			}
-			else if (genMove == 3){
-				if (playable(ogrePosition[0],ogrePosition[1] + 1)){
-					moveOgreR();
-					moveClub();
-					break;
-				}
-			}
+			if (checkGenMove(genMove))
+				break;
+			
 		}
 		return;
 	}

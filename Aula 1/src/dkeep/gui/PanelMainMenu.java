@@ -31,12 +31,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 	private static MediaPlayer mediaPlayer;
 	private PanelManager pm;
 	
-	public PanelMainMenu() throws IOException {
-
-		setLayout(null);
-		playMusic();
-		this.titleScreen = ImageIO.read(new File("res/title_screen_c64.png"));	
-
+	public void ngButton() {
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -46,7 +41,9 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			}
 		});
 		styleButton(btnNewGame, 76, 456, 231, 65, 24);
-
+	}
+	
+	public void lgButton() {
 		JButton btnLoadGame = new JButton("Load Game");
 		btnLoadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -54,7 +51,9 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			}
 		});
 		styleButton(btnLoadGame, 76, 534, 231, 37, 15);
-
+	}
+	
+	public void leButton() {
 		JButton btnLevelEditor = new JButton("Level Editor");
 		btnLevelEditor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -62,7 +61,8 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			}
 		});
 		styleButton(btnLevelEditor, 76, 584, 231, 37, 15);
-
+	}
+	public void eButton() {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -70,6 +70,17 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 			}
 		});
 		styleButton(btnExit, 76, 634, 231, 37, 15);
+	}
+	
+	public PanelMainMenu() throws IOException {
+
+		setLayout(null);
+		playMusic();
+		this.titleScreen = ImageIO.read(new File("res/title_screen_c64.png"));	
+		ngButton();
+		lgButton();
+		leButton();
+		eButton();		
 	}
 	
 	public void styleButton(JButton btn, int x1, int x2, int x3, int x4, int size){

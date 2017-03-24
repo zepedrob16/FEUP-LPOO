@@ -7,6 +7,7 @@ public class Ogre {
 	private char symbol, clubSymbol;
 	private boolean stunned;
 	private boolean testMode;
+	private boolean validMove;
 	
 	public Ogre(int x, int y){
 		this.x = x;
@@ -93,45 +94,59 @@ public class Ogre {
 		return false;
 	}
 	
+	public void moveClubU() {
+		this.clubX = this.x - 1;
+		this.clubY = this.y;
+		this.validMove = true;
+	}
+	
+	public void moveClubL() {
+		this.clubX = this.x;
+		this.clubY = this.y - 1;
+		this.validMove = true;
+	}
+	
+	public void moveClubD() {
+		this.clubX = this.x + 1;
+		this.clubY = this.y;
+		this.validMove = true;
+	}
+	
+	public void moveClubR(){
+		this.clubX = this.x;
+		this.clubY = this.y + 1;
+		this.validMove = true;
+	}
+	
+	public boolean checkSymbol(GameState gameState) {
+		if (validMove){
+			if (this.clubX == gameState.keyX && this.clubY == gameState.keyY){
+				this.clubSymbol = '$';
+			}
+			else if (this.clubSymbol != '*'){
+				this.clubSymbol = '*';
+			}
+			return true;
+		}
+		return false;
+	}
 	
 	public void moveClub(GameState gameState){
 		char[][] gameMap = gameState.getGameMap().getMap();
 		Random rnd = new Random();
-
 		while(true){
 			int genMove = rnd.nextInt(4);
-			boolean validMove = false;
-			
-			if (genMove == 0 && gameMap[x-1][y] != 'X' && gameMap[x-1][y] != 'I' && gameMap[x-1][y] != 'S'){
-				this.clubX = this.x - 1;
-				this.clubY = this.y;
-				validMove = true;
-			}
-			else if (genMove == 1 && gameMap[x][y-1] != 'X' && gameMap[x][y-1] != 'I' && gameMap[x][y-1] != 'S'){
-				this.clubX = this.x;
-				this.clubY = this.y - 1;
-				validMove = true;
-			}
-			else if (genMove == 2 && gameMap[x+1][y] != 'X' && gameMap[x+1][y] != 'I' && gameMap[x+1][y] != 'S'){
-				this.clubX = this.x + 1;
-				this.clubY = this.y;
-				validMove = true;
-			}
-			else if (genMove == 3 && gameMap[x][y+1] != 'X' && gameMap[x][y+1] != 'I' && gameMap[x][y+1] != 'S'){
-				this.clubX = this.x;
-				this.clubY = this.y + 1;
-				validMove = true;
-			}
-			
-			if (validMove){
-				if (this.clubX == gameState.keyX && this.clubY == gameState.keyY){
-					this.clubSymbol = '$';
-				}
-				else if (this.clubSymbol != '*'){
-					this.clubSymbol = '*';
-				}
+			this.validMove = false;
+			if (genMove == 0 && gameMap[x-1][y] != 'X' && gameMap[x-1][y] != 'I' && gameMap[x-1][y] != 'S')
+				moveClubU();
+			else if (genMove == 1 && gameMap[x][y-1] != 'X' && gameMap[x][y-1] != 'I' && gameMap[x][y-1] != 'S')
+				moveClubL();
+			else if (genMove == 2 && gameMap[x+1][y] != 'X' && gameMap[x+1][y] != 'I' && gameMap[x+1][y] != 'S')
+				moveClubD();
+			else if (genMove == 3 && gameMap[x][y+1] != 'X' && gameMap[x][y+1] != 'I' && gameMap[x][y+1] != 'S')
+				moveClubR();
+			if (checkSymbol(gameState))
 				break;
-			}
 		}
 		return;
 	}
