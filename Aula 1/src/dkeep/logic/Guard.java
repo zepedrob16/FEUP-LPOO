@@ -3,8 +3,9 @@ package dkeep.logic;
 public class Guard {
 	protected int x, y, movementIterator;
 	protected char symbol, patrolRoute[] = {'A','S','S','S','S','A','A','A','A','A','A','S','D','D','D','D','D','D','D','W','W','W','W','W'};
-	//protected boolean patrolling;
+	protected boolean patrolling;
 	protected boolean sleeping;
+	protected boolean inversePath;
 	
 	public Guard(){}
 	
@@ -13,18 +14,15 @@ public class Guard {
 		this.y = y;
 		
 		this.symbol = 'G';
-		//this.patrolling = true;
+		this.patrolling = true;
 		this.sleeping = false;
+		this.inversePath = false;
 		this.movementIterator = 0;
 	}
 	
-	/*public void testMode(boolean enable){
-		if (enable){
-			this.patrolling = false;
-		}else{
-			this.patrolling = true;
-		}
-	}*/
+	public void testMode(boolean enable){
+		this.patrolling = (enable) ? false : true;
+	}
 	
 	public void moveGuard(){};
 	
@@ -51,6 +49,9 @@ public class Guard {
 	}
 	public boolean getSleeping() {
 		return this.sleeping;
+	}
+	public boolean getInversePath(){
+		return this.inversePath;
 	}
 	
 }

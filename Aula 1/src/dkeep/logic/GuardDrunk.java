@@ -3,48 +3,34 @@ import java.util.Random;
 
 public class GuardDrunk extends Guard {
 	
-	private boolean inversePath;
-	
 	public GuardDrunk(int x, int y){
 		this.x = x;
 		this.y = y;
 		this.symbol = 'G';
-		//this.patrolling = true;
+		this.patrolling = true;
 		this.sleeping = false;
 		this.inversePath = false;
 	}
 	
 	public void checkMovement() {
 		if (patrolRoute[movementIterator] == 'W'){
-			if (!this.inversePath){
-				this.x--;				
-			}else
-				this.x++;
+			x = (!inversePath) ? x-1 : x+1;
 		}
 		else if (patrolRoute[movementIterator] == 'A'){
-			if (!this.inversePath){
-				this.y--;				
-			}else
-				this.y++;
+			y = (!inversePath) ? y-1 : y+1;
 		}
 		else if (patrolRoute[movementIterator] == 'S'){
-			if (!this.inversePath){
-				this.x++;				
-			}else
-				this.x--;
+			x = (!inversePath) ? x+1 : x-1;
 		}
 		else if (patrolRoute[movementIterator] == 'D'){
-			if (!this.inversePath){
-				this.y++;				
-			}else
-				this.y--;
+			y = (!inversePath) ? y+1 : y-1;
 		}
 	}
 	
 	public void moveGuard(){
-		/*if (!this.patrolling){
+		if (!this.patrolling){
 			return;
-		}*/
+		}
 		
 		if (this.sleeping)
 			if (!wakeUp())
@@ -102,4 +88,5 @@ public class GuardDrunk extends Guard {
 		}
 		return false;
 	}
+
 }

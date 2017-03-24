@@ -35,26 +35,19 @@ public class Ogre {
 	}
 	
 	public void testMode(boolean enable){
-		if (enable){
-			this.testMode = true;
-		}else{
-			this.testMode = false;
-		}
-		return;
+		testMode = (enable) ? true : false;
 	}
 	
 	public void move(GameState gameState){
-		
+
 		if (this.testMode){
 			return;
 		}
-		
-		char[][] gameMap = gameState.getGameMap().getMap();
 		Random rnd = new Random();
 
 		while(true){
 			int genMove = rnd.nextInt(4);
-			boolean validMove = false;
+			
 			if (stunned && stunCounter < 2){
 				stunCounter++;
 				moveClub(gameState);
@@ -65,24 +58,7 @@ public class Ogre {
 				stunCounter = 0;
 			}
 
-			if (genMove == 0 && gameMap[x-1][y] != 'X' && gameMap[x-1][y] != 'I' && gameMap[x-1][y] != 'S'){
-				x--;
-				validMove = true;
-			}
-			else if (genMove == 1 && gameMap[x][y-1] != 'X' && gameMap[x][y-1] != 'I' && gameMap[x][y-1] != 'S'){
-				y--;
-				validMove = true;
-			}
-			else if (genMove == 2 && gameMap[x+1][y] != 'X' && gameMap[x+1][y] != 'I' && gameMap[x+1][y] != 'S'){
-				x++;
-				validMove = true;
-			}
-			else if (genMove == 3 && gameMap[x][y+1] != 'X' && gameMap[x][y+1] != 'I' && gameMap[x][y+1] != 'S'){
-				y++;
-				validMove = true;
-			}
-
-			if (validMove){
+			if (checkValidMove(genMove, gameState.getGameMap().getMap())){
 				if (x == gameState.keyX && y == gameState.keyY){
 					this.symbol = '$';
 				}
@@ -95,6 +71,29 @@ public class Ogre {
 		}
 		return;
 	}
+	
+	public boolean checkValidMove(int genMove, char[][] map){
+		
+		if (genMove == 0 && map[x-1][y] != 'X' && map[x-1][y] != 'I' && map[x-1][y] != 'S'){
+			x--;
+			return true;
+		}
+		else if (genMove == 1 && map[x][y-1] != 'X' && map[x][y-1] != 'I' && map[x][y-1] != 'S'){
+			y--;
+			return true;
+		}
+		else if (genMove == 2 && map[x+1][y] != 'X' && map[x+1][y] != 'I' && map[x+1][y] != 'S'){
+			x++;
+			return true;
+		}
+		else if (genMove == 3 && map[x][y+1] != 'X' && map[x][y+1] != 'I' && map[x][y+1] != 'S'){
+			y++;
+			return true;
+		}
+		return false;
+	}
+	
+	
 	public void moveClub(GameState gameState){
 		char[][] gameMap = gameState.getGameMap().getMap();
 		Random rnd = new Random();

@@ -126,7 +126,7 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		btnReturnToMain.setBounds(730, 657, 112, 23);
 		add(btnReturnToMain);
 	}
-	
+
 	public void setVariables(int windowW, int windowH) {
 		this.windowW = windowW;
 		this.windowH = windowH;
@@ -139,7 +139,7 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 	public PanelLevelEditor(int windowW, int windowH) throws IllegalArgumentException, ImagingOpException, IOException{
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		this.setVisible(false);
+		setVisible(false);
 		setLayout(null);
 		
 		setUpGrid();
@@ -177,31 +177,25 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		}
 		
 		if (method == 'P'){
-			if (heroCount == 1 && heroSelected){
-				return false;
-			}
-			return true;
+			return (heroCount == 1 && heroSelected) ? false : true;
 		}
 		else if (method == 'V'){
+			JLabel l = null;
+			
 			if (heroCount < 1){
-				JLabel l = new JLabel("<html><i>This dungeon sure's feeling oddly quiet.</i><br><font color = 'red'>Add <u>one donkey</u>!</font></html>");
-				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
-				return false;
+				l = new JLabel("<html><i>This dungeon sure's feeling oddly quiet.</i><br><font color = 'red'>Add <u>one donkey</u>!</font></html>");
 			}
 			else if (doorCount < 1){
-				JLabel l = new JLabel("<html><i>Even prisons have a way out!</i><br><font color = 'red'>Add at least <u>one door</u>!</font></html>");
-				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
-				return false;
+				l = new JLabel("<html><i>Even prisons have a way out!</i><br><font color = 'red'>Add at least <u>one door</u>!</font></html>");
 			}
 			else if (ogreCount < 1){
-				JLabel l = new JLabel("<html><i>Friendships first, dungeoning later.</i><br><font color = 'red'>Add at least <u>one ogre</u>!</font></html>");
-				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
-				return false;
+				l = new JLabel("<html><i>Friendships first, dungeoning later.</i><br><font color = 'red'>Add at least <u>one ogre</u>!</font></html>");
 			}
 			else if (keyCount < 1){
-				JLabel l = new JLabel("<html><i>Perseverance is key. Also you need a key, literally.</i><br><font color = 'red'>Add at least <u>one key</u>!</font></html>");
+				l = new JLabel("<html><i>Perseverance is key. Also you need a key, literally.</i><br><font color = 'red'>Add at least <u>one key</u>!</font></html>");
+			}
+			if (heroCount < 1 || doorCount < 1 || ogreCount < 1 || keyCount < 1){
 				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
-				return false;
 			}
 		}
 		return true;

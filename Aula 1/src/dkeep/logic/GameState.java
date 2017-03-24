@@ -5,8 +5,7 @@ import java.util.*;
 
 public class GameState {
 	
-	/* STATE MACHINE */	
-	
+	// STATE MACHINE
 	public enum Level {
 		DUNGEON, OGRE
 	}
@@ -19,9 +18,7 @@ public class GameState {
 	private Level level;
 	private State state;
 	
-	
-	/* GAME ENTITIES */
-	
+	// GAME ENTITIES
 	private GameMap map;
 	public Hero hero;
 	public Guard guard;
@@ -29,13 +26,10 @@ public class GameState {
 	public boolean leverOn;
 	public ArrayList<Ogre> ogres = new ArrayList<Ogre>();  //Ogres spawned on the map.
 	public String pers;
-	
 	public String message;
 	
-	/* LOADED MAP */
+	//LOADED MAP
 	private GameMap oMap = new OgreMap();
-	
-	/* METHODS */
 	
 	public GameState() {
 		this.level = Level.DUNGEON;
@@ -46,14 +40,7 @@ public class GameState {
 		super();
 		this.map = map;
 		this.leverOn = false;
-		
-		if (map instanceof DungeonMap){
-			this.level = Level.DUNGEON;
-		}
-		else if (map instanceof OgreMap){
-			this.level = Level.OGRE;
-		}
-		
+		this.level = (map instanceof DungeonMap) ? Level.DUNGEON : Level.OGRE;
 		this.state = State.RUNNING;
 		spawnEntities();
 	}
@@ -67,20 +54,19 @@ public class GameState {
 			}
 			else if (evt == Event.INVALID_MOVE){
 				this.message = "Invalid move!";
-				System.out.println("\nInvalid move!\n");
 			}
 			else if (evt == Event.HERO_CAUGHT){
 				this.message = "GAME OVER!";
-				System.out.println("\n\nGAME OVER! You got caught, doofus!\n");
 				this.state = State.DEFEAT;
 			}
 			else if (evt == Event.LEVEL_COMPLETED){
 				this.message = "Level complete!";
 				this.state = State.VICTORY;
-				System.out.println("Level complete!\n");
 			}
+			System.out.println("\n" + this.message + "\n");
 		}
 		else if (this.state == State.VICTORY){
+			
 			if (this.level == Level.DUNGEON){
 				this.level = Level.OGRE;
 				OgreMap ogreMap = new OgreMap(oMap.getMap());
@@ -95,7 +81,6 @@ public class GameState {
 				System.out.println("\n\nYOU WIN! Dungeon Keep cleared.\n");
 			}
 		}
-		return;
 	}
 	
 	public void updateEntities(){
@@ -107,7 +92,6 @@ public class GameState {
 			moveEveryOgre();
 		}
 		drawMap();
-		return;
 	}
 	
 	public void spawnEntities(){
@@ -121,7 +105,12 @@ public class GameState {
 				}
 				else if (thisMap[i][j] == 'G'){
 					thisMap[i][j] = ' ';
-					spawnGuard(i, j, pers);
+
+					if (pers != null){
+						spawnGuard(i, j, pers);						
+					}else{
+						spawnGuard(i, j);
+					}
 				}
 				else if (thisMap[i][j] == 'k'){
 					thisMap[i][j] = ' ';
@@ -139,18 +128,7 @@ public class GameState {
 	
 	public boolean processMove(String move){
 		int m = hero.moveHero(this.map, move);
-		
-		// Se o herói está na mesma posição da chave/alavanca, abre portas.
-		if (this.hero.getX() == this.keyX && this.hero.getY() == this.keyY){
-			if (this.map instanceof OgreMap){
-				this.keyX = 10;
-				this.keyY = 10;
-				this.hero.setSymbol('K');	
-			}else{
-				this.map.openDoors();
-				this.leverOn = true;
-			}
-		}
+		doorOpenVerification();
 		
 		if (m == 0){
 			stateMachine(Event.VALID_MOVE);
@@ -161,13 +139,29 @@ public class GameState {
 		else if (m == -1){
 			stateMachine(Event.INVALID_MOVE);
 		}
+		mapSpecificVerification();
+		return true;
+	}
+	
+	public void doorOpenVerification(){
+		if (this.hero.getX() == this.keyX && this.hero.getY() == this.keyY){
+			if (this.map instanceof OgreMap){
+				this.keyX = 10;
+				this.keyY = 10;
+				this.hero.setSymbol('K');	
+			}else{
+				this.map.openDoors();
+				this.leverOn = true;
+			}
+		}
+	}
+	
+	public void mapSpecificVerification(){
 		if (this.map instanceof DungeonMap){
 			if (hero.heroSpotted(guard)){
 				stateMachine(Event.HERO_CAUGHT);
 			}
 		}
-		
-		//TODO: Deveríamos arranjar outro lugar para meter isto...
 		else if(this.map instanceof OgreMap) {
 			for (int i = 0; i < ogres.size(); i++){
 				if (ogres.get(i).heroAdjacent(hero)){
@@ -176,7 +170,6 @@ public class GameState {
 				hero.stunOgre(ogres.get(i));
 			}
 		}
-		return true;
 	}
 	
 	public GameMap getGameMap(){
@@ -189,10 +182,7 @@ public class GameState {
 	
 	public void setGameMap(GameMap map){
 		this.map = map;
-		if (map instanceof DungeonMap)
-			this.level = Level.DUNGEON;
-		else if (map instanceof OgreMap)
-			this.level = Level.OGRE;
+		this.level = (map instanceof DungeonMap) ? Level.DUNGEON : Level.OGRE;
 		spawnEntities();
 	}
 	
@@ -253,7 +243,7 @@ public class GameState {
 	
 	public void spawnGuard(int x, int y){
 		Random rnd = new Random();
-		int guardGen = 0;//rnd.nextInt(3);
+		int guardGen = rnd.nextInt(3);
 		
 		if (guardGen == 0){
 			guard = new GuardRookie(x,y);
@@ -267,13 +257,13 @@ public class GameState {
 		return;
 	}
 	public void spawnGuard(int x, int y, String personality){
-		if (personality == "Rookie"){
+		if (personality.equals("Rookie")){
 			guard = new GuardRookie(x,y);
 		}
-		else if (personality == "Drunk"){
+		else if (personality.equals("Drunk")){
 			guard = new GuardDrunk(x,y);
 		}
-		else if (personality == "Suspicious"){
+		else if (personality.equals("Suspicious")){
 			guard = new GuardSuspicious(x,y);
 		}
 		return;
@@ -282,10 +272,11 @@ public class GameState {
 	public void spawnOgres(){
 		
 		Random rnd = new Random();
-		int ogresToGenerate = rnd.nextInt(4) + 1;
+		int ogresToGenerate = rnd.nextInt(5) + 1;
+		ogres.clear();
 		
 		for (int i = 0; i < ogresToGenerate; i++){
-			int xPosition = rnd.nextInt(6) + 1, yPosition = rnd.nextInt(6) + 1;
+			int xPosition = rnd.nextInt(map.getMap().length - 2) + 1, yPosition = rnd.nextInt(map.getMap().length - 2) + 1;
 			
 			if (this.hero.getX() != xPosition && this.hero.getY() != yPosition && this.getGameMap().getMap()[xPosition][yPosition] == ' '){
 				Ogre ogre = new Ogre(xPosition, yPosition);
@@ -300,9 +291,10 @@ public class GameState {
 	public void spawnOgres(int generations){
 		
 		Random rnd = new Random();
+		ogres.clear();
 		
 		for (int i = 0; i < generations; i++){
-			int xPosition = rnd.nextInt(6) + 1, yPosition = rnd.nextInt(6) + 1;
+			int xPosition = rnd.nextInt(map.getMap().length - 2) + 1, yPosition = rnd.nextInt(map.getMap().length - 2) + 1;
 			
 			if (this.hero.getX() != xPosition && this.hero.getY() != yPosition && this.getGameMap().getMap()[xPosition][yPosition] == ' '){
 				Ogre ogre = new Ogre(xPosition, yPosition);

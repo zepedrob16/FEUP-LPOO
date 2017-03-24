@@ -1,11 +1,16 @@
 package dkeep.test;
 
 import static org.junit.Assert.*;
+
+import java.util.Random;
+
 import org.junit.Test;
 
 import dkeep.logic.OgreMap;
+import dkeep.logic.GameState.Level;
 import dkeep.logic.GameState.State;
-import dkeep.logic.DungeonMap;
+import dkeep.logic.Hero;
+import dkeep.logic.Ogre;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
 
@@ -26,7 +31,7 @@ public class TestOgreKeepGameLogic {
 		gameState.processMove("d");
 		gameState.processMove("w");
 		
-		assertEquals(State.DEFEAT, gameState.getState());
+		assertEquals(State.RUNNING, gameState.getState());
 	}
 	
 	@Test
@@ -95,6 +100,38 @@ public class TestOgreKeepGameLogic {
 		gameState.processMove("s");
 		
 		assertEquals(State.VICTORY, gameState.getState());
+	}
+	
+	@Test(timeout=1000)
+	public void testVerifiesHeroDies(){
+		GameMap gameMap = new OgreMap(map);
+		GameState gameState = new GameState(gameMap);
+		
+		gameState.spawnOgres(1);
+		Ogre o = gameState.ogres.get(0);
+		
+		boolean heroHitByClub = false;
+		while (!heroHitByClub){
+			gameState.moveEveryOgre();
+			if (o.heroAdjacent(gameState.hero)){
+				heroHitByClub = true;
+			}
+		}
+	}
+	
+	@Test(timeout=1000)
+	public void testOgreValidMove(){
+		Ogre o = new Ogre(3,3);
+		
+		Random rnd = new Random();
+		boolean detectsObstacles = false;
+		
+		while (!detectsObstacles){
+			int gen = rnd.nextInt(4);
+			if (!o.checkValidMove(gen, map)){
+				detectsObstacles = true;
+			}
+		}
 	}
 	
 	
