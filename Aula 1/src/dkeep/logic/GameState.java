@@ -53,7 +53,6 @@ public class GameState {
 		else if (map instanceof OgreMap){
 			this.level = Level.OGRE;
 		}
-		
 		this.state = State.RUNNING;
 		spawnEntities();
 	}

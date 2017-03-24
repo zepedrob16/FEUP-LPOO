@@ -4,7 +4,6 @@ public class DungeonMap implements GameMap{
 
 	private String name = "DUNGEON";
 	private char[][] gameMap;
-
 	private boolean defaultMap; // Apenas usado para abrir gate principal.
 	
 	public DungeonMap() {
@@ -38,7 +37,6 @@ public class DungeonMap implements GameMap{
 			this.gameMap[6][0] = 'S';
 			return;
 		}
-		
 		for (int i = 0; i < gameMap.length; i++){
 			for (int j = 0; j < gameMap[i].length; j++){
 				if (gameMap[i][j] == 'I') {
@@ -65,10 +63,8 @@ public class DungeonMap implements GameMap{
 	public void setMap(char[][] map){
 		this.gameMap = map;
 	}
-	
 	public String getName(){
 		return name;
 	}
-
 		
 }

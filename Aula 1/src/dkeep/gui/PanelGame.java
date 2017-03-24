@@ -34,7 +34,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 
 	private GameState gameState;
 	
-	private int gridW, gridH, windowW, windowH, offsetW, offsetH, fDonkeyIter;
+	private int grid, windowW, windowH, offset, fDonkeyIter;
 	public int ogreNumber;
 	public String guardPersonality;
 	
@@ -75,10 +75,8 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	public void setUpVariables(int windowW,int windowH) {
 		this.windowW = windowW;
 		this.windowH = windowH;
-		this.gridW = this.gameState.getGameMap().getMap().length;
-		this.gridH = this.gameState.getGameMap().getMap()[0].length;
-		this.offsetW = Math.round(this.windowW / this.gridW);
-		this.offsetH = Math.round(this.windowH / this.gridH);
+		this.grid = this.gameState.getGameMap().getMap().length;
+		this.offset = Math.round(this.windowW / this.grid);
 	}
 	
 	public void setButtonUp(){
@@ -143,15 +141,15 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	public void loadImages() throws IOException{
 		
 		//STATIC IMAGES
-		this.dFloor = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloor.png")), this.offsetH);
-		this.dFloorBlood = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorblood.png")), this.offsetH);
-		this.dFloorGrass1 = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorgrass1.png")), this.offsetH);
-		this.dWall = Scalr.resize(ImageIO.read(new File("res/sprites/static/dwall.png")), this.offsetH);
-		this.dDoor = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddoor.png")), this.offsetH);
-		this.dDoorOpen = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddooropen.png")), this.offsetH);
-		this.dLeverOn = Scalr.resize(ImageIO.read(new File("res/sprites/static/dleveron.png")), this.offsetH);
-		this.dLeverOff = Scalr.resize(ImageIO.read(new File("res/sprites/static/dleveroff.png")), this.offsetH);
-		this.key = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), this.offsetH - 10);
+		this.dFloor = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloor.png")), this.offset);
+		this.dFloorBlood = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorblood.png")), this.offset);
+		this.dFloorGrass1 = Scalr.resize(ImageIO.read(new File("res/sprites/static/dfloorgrass1.png")), this.offset);
+		this.dWall = Scalr.resize(ImageIO.read(new File("res/sprites/static/dwall.png")), this.offset);
+		this.dDoor = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddoor.png")), this.offset);
+		this.dDoorOpen = Scalr.resize(ImageIO.read(new File("res/sprites/static/ddooropen.png")), this.offset);
+		this.dLeverOn = Scalr.resize(ImageIO.read(new File("res/sprites/static/dleveron.png")), this.offset);
+		this.dLeverOff = Scalr.resize(ImageIO.read(new File("res/sprites/static/dleveroff.png")), this.offset);
+		this.key = Scalr.resize(ImageIO.read(new File("res/sprites/static/key.png")), this.offset - 10);
 		
 		//SCREENS
 		this.screenLevelComplete = Scalr.resize(ImageIO.read(new File("res/level_complete_screen.png")), 600);
@@ -160,16 +158,16 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		
 		//ENTITIES
 		this.fDonkey = new BufferedImage[2];
-		this.fDonkey[0] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offsetH);
-		this.fDonkey[1] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/2.png")), this.offsetH);
+		this.fDonkey[0] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/0.png")), this.offset);
+		this.fDonkey[1] = Scalr.resize(ImageIO.read(new File("res/sprites/hero/2.png")), this.offset);
 		this.sDonkey = this.fDonkey[0];
 		this.fGuard = new BufferedImage[2];
-		this.fGuard[0] = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offsetH);
-		this.fGuard[1] = Scalr.resize(ImageIO.read(new File("res/sprites/guard/36.png")), this.offsetH);
+		this.fGuard[0] = Scalr.resize(ImageIO.read(new File("res/sprites/guard/0.png")), this.offset);
+		this.fGuard[1] = Scalr.resize(ImageIO.read(new File("res/sprites/guard/36.png")), this.offset);
 		this.fOgre = new BufferedImage[2];
-		this.fOgre[0] = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/209.png")), this.offsetH); 
-		this.fOgre[1] = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/116.png")), this.offsetH); 
-		this.sBarrel = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/158.png")), this.offsetH);
+		this.fOgre[0] = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/209.png")), this.offset); 
+		this.fOgre[1] = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/116.png")), this.offset); 
+		this.sBarrel = Scalr.resize(ImageIO.read(new File("res/sprites/ogre/158.png")), this.offset);
 		
 		//SOUNDS
 		this.doorOpen = new Media(new File("res/sound/open_door.mp3").toURI().toString());
@@ -186,55 +184,54 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			for (int j = 0; j < map[0].length; j++) {
 				
 				if (map[i][j] == 'X'){
-					g.drawImage(dWall, j * this.offsetW, i * this.offsetH, this);
+					g.drawImage(dWall, j * this.offset, i * this.offset, this);
 				}
 				else if (map[i][j] == 'I'){
-					g.drawImage(dDoor, j * this.offsetW, i * this.offsetH, this);
+					g.drawImage(dDoor, j * this.offset, i * this.offset, this);
 				}
 				else if (map[i][j] == 'S'){
-					g.drawImage(dDoorOpen, j * this.offsetW, i * this.offsetH, this);
+					g.drawImage(dDoorOpen, j * this.offset, i * this.offset, this);
 					checkSound(g, i, j);
 				}
 				else if (map[i][j] == ' '){
-					g.drawImage(gameImages[i][j], j * this.offsetW, i * this.offsetH, this);
+					g.drawImage(gameImages[i][j], j * this.offset, i * this.offset, this);
 				}
+				mapSpecificDisplays(g, i, j);
 				
-				if (this.gameState.getGameMap() instanceof DungeonMap){
-					if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
-						g.drawImage(dLeverOn, j * this.offsetW, i * this.offsetH, this);
-					}
-					else if (i == gameState.keyX && j == gameState.keyY && !gameState.leverOn){
-						g.drawImage(dLeverOff, j * this.offsetW, i * this.offsetH, this);
-					} 
-					if (this.gameState.guard != null && i == gameState.guard.getX() && j == gameState.guard.getY() && this.gameState.guard.getSleeping()){
-						g.drawImage(this.fGuard[1], j * offsetW, i * offsetH, this);
-					}
-					else if (this.gameState.guard != null && i == gameState.guard.getX() && j == gameState.guard.getY() && !this.gameState.guard.getSleeping()) {
-						g.drawImage(this.fGuard[0], j * offsetW, i * offsetH, this);
-					}
-				}
-				else if (this.gameState.getGameMap() instanceof OgreMap){
-					if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
-						g.drawImage(key, j * this.offsetW, i * this.offsetH, this);
-					}
-					checkOgres(g, i, j);
-				}
 				if (i == this.gameState.hero.getX() && j == this.gameState.hero.getY()){
-					g.drawImage(sDonkey, j * offsetW, i * offsetH, this);
+					g.drawImage(sDonkey, j * offset, i * offset, this);
 				}				
 			}
 		}
 		displayStatePanels(g);
 		
 	}
+	public void mapSpecificDisplays(Graphics g, int i, int j){
+		if (this.gameState.getGameMap() instanceof DungeonMap){
+			if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
+				g.drawImage(dLeverOn, j * this.offset, i * this.offset, this);
+			}
+			else if (i == gameState.keyX && j == gameState.keyY && !gameState.leverOn){
+				g.drawImage(dLeverOff, j * this.offset, i * this.offset, this);
+			} 
+			if (this.gameState.guard != null && i == gameState.guard.getX() && j == gameState.guard.getY() && this.gameState.guard.getSleeping()){
+				g.drawImage(this.fGuard[1], j * offset, i * offset, this);
+			}
+			else if (this.gameState.guard != null && i == gameState.guard.getX() && j == gameState.guard.getY() && !this.gameState.guard.getSleeping()) {
+				g.drawImage(this.fGuard[0], j * offset, i * offset, this);
+			}
+		}
+		else if (this.gameState.getGameMap() instanceof OgreMap){
+			if (i == gameState.keyX && j == gameState.keyY && gameState.leverOn){
+				g.drawImage(key, j * this.offset, i * this.offset, this);
+			}
+			checkOgres(g, i, j);
+		}
+	}
 	
 	public void adjustGridToWindow() throws IOException{
-		this.gridW = this.gameState.getGameMap().getMap().length;
-		this.gridH = this.gameState.getGameMap().getMap()[0].length;
-		this.offsetW = Math.round(this.windowW / this.gridW);
-		this.offsetH = Math.round(this.windowH / this.gridH);
-		System.out.println(gridW + " " + gridH);
-		System.out.println("WINDOW: " + this.windowW + "," + this.windowH);
+		this.grid = this.gameState.getGameMap().getMap().length;
+		this.offset = Math.round(this.windowW / this.grid);
 		loadImages();
 		setFloor();
 	}
@@ -242,13 +239,13 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	public void checkOgres(Graphics g, int i, int j){
 		for (int k = 0; k < gameState.ogres.size(); k++){
 			if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && gameState.ogres.get(k).getStunned()){
-				g.drawImage(fOgre[1], j * offsetW, i * offsetH, this);
+				g.drawImage(fOgre[1], j * offset, i * offset, this);
 			}
 			else if (i == gameState.ogres.get(k).getX() && j == gameState.ogres.get(k).getY() && !gameState.ogres.get(k).getStunned()){
-				g.drawImage(fOgre[0], j * offsetW, i * offsetH, this);
+				g.drawImage(fOgre[0], j * offset, i * offset, this);
 			}
 			else if (i == gameState.ogres.get(k).getClubX() && j == gameState.ogres.get(k).getClubY()){
-				g.drawImage(sBarrel, j * offsetW, i * offsetH, this);
+				g.drawImage(sBarrel, j * offset, i * offset, this);
 			}
 		}
 	}
