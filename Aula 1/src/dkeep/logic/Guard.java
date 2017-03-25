@@ -1,6 +1,8 @@
 package dkeep.logic;
 
-public class Guard {
+import java.io.Serializable;
+
+public class Guard implements Serializable{
 	protected int x, y, movementIterator;
 	protected char symbol, patrolRoute[] = {'A','S','S','S','S','A','A','A','A','A','A','S','D','D','D','D','D','D','D','W','W','W','W','W'};
 	protected boolean patrolling;
@@ -9,7 +11,7 @@ public class Guard {
 	
 	public Guard(){}
 	
-	public Guard(int x, int y){
+	public Guard(int x, int y) {
 		this.x = x;
 		this.y = y;
 		

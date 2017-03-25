@@ -1,6 +1,8 @@
 package dkeep.logic;
 
-public class GuardRookie extends Guard {
+import java.io.Serializable;
+
+public class GuardRookie extends Guard implements Serializable {
 	
 	public GuardRookie(int x, int y){
 		this.x = x;

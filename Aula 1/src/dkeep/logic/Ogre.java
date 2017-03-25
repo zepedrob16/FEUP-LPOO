@@ -1,8 +1,9 @@
 package dkeep.logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Ogre {
+public class Ogre implements Serializable{
 	private int x, y, clubX, clubY, stunCounter = 0;
 	private char symbol, clubSymbol;
 	private boolean stunned;

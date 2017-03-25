@@ -1,8 +1,9 @@
 package dkeep.logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class GuardSuspicious extends Guard {
+public class GuardSuspicious extends Guard implements Serializable{
 	
 	public GuardSuspicious(int x, int y){
 		this.x = x;

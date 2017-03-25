@@ -1,9 +1,10 @@
 package dkeep.logic;
 
 import java.util.Random;
+import java.io.Serializable;
 import java.util.*;
 
-public class GameState {
+public class GameState implements java.io.Serializable {
 	
 	// STATE MACHINE
 	public enum Level {
@@ -45,25 +46,55 @@ public class GameState {
 		spawnEntities();
 	}
 	
+	public GameState(GameState that){
+		this.map = that.map;
+		this.hero = that.hero;
+		this.guard = that.guard;
+		this.keyX = that.keyX;
+		this.keyY = that.keyY;
+		this.nogres = that.nogres;
+		this.leverOn = that.leverOn;
+		this.ogres = that.ogres;
+		this.pers = that.pers;
+		this.oMap = that.oMap;
+		this.level = that.level;
+		this.state = that.state;
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		GameState that = (GameState) obj;
+		if (this.map == that.map && this.hero == that.hero && this.guard == that.guard && this.keyX == that.keyY){
+			return false;
+		}
+		if (this.nogres == that.nogres && this.leverOn == that.leverOn && this.ogres == that.ogres && this.pers == that.pers){
+			return false;
+		}
+		if (this.oMap == that.oMap && this.level == that.level && this.state == that.state){
+			return false;
+		}
+		return true;
+	}
+	
 	public void stateMachine(Event evt){
 		
 		if (this.state == State.RUNNING){
 			if (evt == Event.VALID_MOVE){
-				this.message = "";
+				this.setMessage("");
 				updateEntities();
 			}
 			else if (evt == Event.INVALID_MOVE){
-				this.message = "Invalid move!";
+				this.setMessage("Invalid move!");
 			}
 			else if (evt == Event.HERO_CAUGHT){
-				this.message = "GAME OVER!";
+				this.setMessage("GAME OVER!");
 				this.state = State.DEFEAT;
 			}
 			else if (evt == Event.LEVEL_COMPLETED){
-				this.message = "Level complete!";
+				this.setMessage("Level complete!");
 				this.state = State.VICTORY;
 			}
-			System.out.println("\n" + this.message + "\n");
+			System.out.println("\n" + this.getMessage() + "\n");
 		}
 		else if (this.state == State.VICTORY){
 			
@@ -323,5 +354,13 @@ public class GameState {
 	}
 	public void setPers(String p) {
 		this.pers = p;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

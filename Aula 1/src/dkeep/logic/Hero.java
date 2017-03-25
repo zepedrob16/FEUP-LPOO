@@ -1,8 +1,9 @@
 package dkeep.logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Hero {
+public class Hero implements Serializable{
 	private int x, y;
 	private char symbol, clubSymbol;
 	
