@@ -3,6 +3,12 @@ package dkeep.logic;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * Class that contains all information regarding the ogre class
+ * 
+ * @author José Borges and Miguel Mano Fernandes
+ * @version 1.0
+ */
 public class Ogre implements Serializable{
 	private int x, y, clubX, clubY, stunCounter = 0;
 	private char symbol, clubSymbol;
@@ -10,12 +16,32 @@ public class Ogre implements Serializable{
 	private boolean testMode;
 	private boolean validMove;
 	
+	/**
+	 * Creates an ogre in a specific location
+	 * 
+	 * @param x
+	 * 		x coordinate
+	 * @param y
+	 * 		y coordinate
+	 */
+	
 	public Ogre(int x, int y){
 		this.x = x;
 		this.y = y;
 		this.testMode = false;
 		this.symbol = 'O';
+		this.clubX = -1;
+		this.clubY = -1;
 	}
+	
+	/**
+	 * Checks whether the hero is adjacent to the ogres club or not
+	 * 
+	 * @param hero
+	 * 		Current hero
+	 * @return
+	 * 		True or false depending on whether the hero is adjacent or not
+	 */
 	
 	public boolean heroAdjacent(Hero hero){
 		if (hero.getX() == this.x && hero.getY() == this.y){	//Caso estejam na mesma célula.
@@ -31,15 +57,31 @@ public class Ogre implements Serializable{
 		}
 	}
 	
+	/**
+	 * Stuns the ogre
+	 */
+	
 	public void stun() {
 		stunned = true;
 		symbol = '8';
 	}
 	
+	/**
+	 * Function to test the ogre
+	 * @param enable
+	 * 		Enables or disables test mode
+	 */
+	
 	public void testMode(boolean enable){
 		testMode = (enable) ? true : false;
 	}
 	
+	/**
+	 * Moves the ogre
+	 * 
+	 * @param gameState
+	 * 		Current gamestate
+	 */
 	public void move(GameState gameState){
 
 		if (this.testMode){
@@ -74,6 +116,17 @@ public class Ogre implements Serializable{
 		return;
 	}
 	
+	/**
+	 * Checks to see if the position the ogre intends to move to is valid or not
+	 * 
+	 * @param genMove
+	 * 		Random number that determines the ogres movement
+	 * @param map
+	 * 		Current map
+	 * @return
+	 * 		True or false depending on whether the move is valid or not
+	 */
+	
 	public boolean checkValidMove(int genMove, char[][] map){
 		
 		if (genMove == 0 && map[x-1][y] != 'X' && map[x-1][y] != 'I' && map[x-1][y] != 'S'){
@@ -95,11 +148,19 @@ public class Ogre implements Serializable{
 		return false;
 	}
 	
+	/**
+	 * Moves the club north of the ogre
+	 */
+	
 	public void moveClubU() {
 		this.clubX = this.x - 1;
 		this.clubY = this.y;
 		this.validMove = true;
 	}
+	
+	/**
+	 * Moves the club west of the ogre
+	 */
 	
 	public void moveClubL() {
 		this.clubX = this.x;
@@ -107,17 +168,34 @@ public class Ogre implements Serializable{
 		this.validMove = true;
 	}
 	
+	/**
+	 * Moves the club south of the ogre
+	 */
+	
 	public void moveClubD() {
 		this.clubX = this.x + 1;
 		this.clubY = this.y;
 		this.validMove = true;
 	}
 	
+	/**
+	 * Moves the club east of the ogre
+	 */
+	
 	public void moveClubR(){
 		this.clubX = this.x;
 		this.clubY = this.y + 1;
 		this.validMove = true;
 	}
+	
+	/**
+	 * Checks the current ogre symbol
+	 * 
+	 * @param gameState
+	 * 		Current gamestate
+	 * @return
+	 * 		True or false depending on whether it was a valid move or not
+	 */
 	
 	public boolean checkSymbol(GameState gameState) {
 		if (validMove){
@@ -131,6 +209,13 @@ public class Ogre implements Serializable{
 		}
 		return false;
 	}
+	
+	/**
+	 * Moves the ogres club
+	 * 
+	 * @param gameState
+	 * 		Current gamestate
+	 */
 	
 	public void moveClub(GameState gameState){
 		char[][] gameMap = gameState.getGameMap().getMap();
@@ -152,27 +237,83 @@ public class Ogre implements Serializable{
 		return;
 	}
 	
+	/**
+	 * Returns the ogres x position
+	 * @return
+	 * 		x coordinate
+	 */
+	
 	public int getX(){
 		return x;
 	}
+	
+	/**
+	 * Returns the ogres y position
+	 * @return
+	 * 		y coordinate
+	 */
+	
 	public int getY(){
 		return y;
 	}
+	
+	/**
+	 * Returns the ogre's club x position
+	 * 
+	 * @return
+	 * 		x coordinate
+	 */
+	
 	public int getClubX(){
 		return clubX;
 	}
+	
+	/**
+	 * Returns the ogre's club y position
+	 * @return
+	 * 		y coordinate
+	 */
+	
 	public int getClubY(){
 		return clubY;
 	}
+	
+	/**
+	 * Returns the ogres symbol
+	 * @return
+	 * 		Symbol
+	 */
+	
 	public char getSymbol(){
 		return symbol;
 	}
+	
+	/**
+	 * Returns the ogre's club symbol
+	 * @return
+	 * 		Club symbol
+	 */
+	
 	public char getClubSymbol(){
 		return clubSymbol;
 	}
+	
+	/**
+	 * Returns a boolean depending on whether the ogre is stunned or not
+	 * @return
+	 * 		True or false
+	 */
+	
 	public boolean getStunned(){
 		return stunned;
 	}
+	
+	/**
+	 * Returns a boolean telling if the ogres are in test mode or not
+	 * 
+	 * @return
+	 * 		True or false
+	 */
 	public boolean getTestMode(){
 		return testMode;
 	}

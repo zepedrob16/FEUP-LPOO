@@ -1,8 +1,27 @@
 package dkeep.logic;
 import java.io.Serializable;
+
+
+
 import java.util.Random;
 
+/**
+ * Class that saves all the information regarding the drunken guard
+ * 
+ * @author José Borges and Miguel Mano Fernandes
+ * @version 1.0
+ */
+
 public class GuardDrunk extends Guard implements Serializable{
+	
+	/**
+	 * Creates a drunk guard in a specific position
+	 * 
+	 * @param x
+	 * 		x position
+	 * @param y
+	 * 		y position
+	 */
 	
 	public GuardDrunk(int x, int y){
 		this.x = x;
@@ -12,6 +31,10 @@ public class GuardDrunk extends Guard implements Serializable{
 		this.sleeping = false;
 		this.inversePath = false;
 	}
+	
+	/**
+	 * Checks the movement of the guard and dictates its next position
+	 */
 	
 	public void checkMovement() {
 		if (patrolRoute[movementIterator] == 'W'){
@@ -27,6 +50,10 @@ public class GuardDrunk extends Guard implements Serializable{
 			y = (!inversePath) ? y+1 : y-1;
 		}
 	}
+	
+	/**
+	 * Moves the guard
+	 */
 	
 	public void moveGuard(){
 		if (!this.patrolling){
@@ -53,6 +80,13 @@ public class GuardDrunk extends Guard implements Serializable{
 		
 		fallAsleep();
 	}
+	
+	/**
+	 * Gives the guard a 33% chance to fall asleep
+	 * 
+	 * @return
+	 * 		True or false depending whether the guard fell asleep or not
+	 */
 	public boolean fallAsleep(){
 		Random rnd = new Random();
 		int chance = rnd.nextInt(3);
@@ -64,6 +98,14 @@ public class GuardDrunk extends Guard implements Serializable{
 		}
 		return false;
 	}
+	
+	/**
+	 * Gives the guard a 75% chance to wake up
+	 * 
+	 * @return
+	 * 		True or false depending whether the guard woke up or not
+	 */
+	
 	public boolean wakeUp(){
 		Random rnd = new Random();
 		int chance = rnd.nextInt(4);
@@ -75,6 +117,14 @@ public class GuardDrunk extends Guard implements Serializable{
 		}
 		return false;
 	}
+	
+	/**
+	 * Gives the guard a 50% chance to change direction
+	 * 
+	 * @return
+	 * 		True or false depending whether the guard changed direction or not
+	 */
+	
 	public boolean changeDirection(){
 		Random rnd = new Random();
 		int chance = rnd.nextInt(2);

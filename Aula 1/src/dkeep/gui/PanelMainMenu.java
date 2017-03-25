@@ -132,7 +132,7 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 
 		Media hit = new Media(new File("res/sound/title_screen_song.mp3").toURI().toString());
 		mediaPlayer = new MediaPlayer(hit);
-		mediaPlayer.setVolume(0.00);
+		mediaPlayer.setVolume(0.05);
 		mediaPlayer.play();
 	}
 	

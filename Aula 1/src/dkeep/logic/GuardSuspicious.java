@@ -3,7 +3,22 @@ package dkeep.logic;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * Class that contains all the information about the suspicious guard
+ * 
+ * @author José Borges and Miguel Mano Fernandes
+ * @version 1.0
+ */
 public class GuardSuspicious extends Guard implements Serializable{
+	
+	/**
+	 * Constructor that creates a guard in a specific location
+	 * 
+	 * @param x
+	 * 		x coordinate
+	 * @param y
+	 * 		y coordinate
+	 */
 	
 	public GuardSuspicious(int x, int y){
 		this.x = x;
@@ -12,6 +27,11 @@ public class GuardSuspicious extends Guard implements Serializable{
 		this.symbol = 'G';
 		this.inversePath = false;
 	}
+	
+	/**
+	 * Moves the guard
+	 */
+	
 	public void moveGuard(){
 		if (!this.patrolling){
 			return;
@@ -40,6 +60,14 @@ public class GuardSuspicious extends Guard implements Serializable{
 			movementIterator = (patrolRoute.length - 1);
 		}
 	}
+	
+	/**
+	 * Gives the guard a 50% chance to change direction
+	 * 
+	 * @return
+	 * 		True or false depending whether the guard changed direction or not
+	 */
+	
 	public boolean changeDirection(){
 		Random rnd = new Random();
 		
