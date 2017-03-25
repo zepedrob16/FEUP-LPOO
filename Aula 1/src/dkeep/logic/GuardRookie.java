@@ -2,7 +2,22 @@ package dkeep.logic;
 
 import java.io.Serializable;
 
+/**
+ * Class that contains all information regarding the Rookie Guard
+ * 
+ * @author José Borges and Miguel Mano Fernandes
+ *
+ */
+
 public class GuardRookie extends Guard implements Serializable {
+	/**
+	 * Constructor that creates a guard in a specific position
+	 * 
+	 * @param x
+	 * 		x coordinate
+	 * @param y
+	 * 		y coordinate
+	 */
 	
 	public GuardRookie(int x, int y){
 		this.x = x;
@@ -10,6 +25,10 @@ public class GuardRookie extends Guard implements Serializable {
 		this.patrolling = true;
 		this.symbol = 'G';
 	}
+	
+	/**
+	 * Moves the guard
+	 */
 	public void moveGuard(){
 		if (!this.patrolling){
 			return;
