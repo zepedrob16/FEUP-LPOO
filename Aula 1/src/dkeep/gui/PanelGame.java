@@ -84,11 +84,11 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		setLayout(null);
 		
 		lblMessage = new JLabel("");
-		lblMessage.setForeground(Color.WHITE);
-		lblMessage.setBackground(new Color(0,0,0, 220));
+		lblMessage.setForeground(Color.BLACK);
+		lblMessage.setBackground(new Color(255,255,255, 220));
 		lblMessage.setOpaque(true);
 		lblMessage.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		lblMessage.setBounds(12, 13, 156, 25);
+		lblMessage.setBounds(12, 13, 168, 25);
 		add(lblMessage);
 	}
 	

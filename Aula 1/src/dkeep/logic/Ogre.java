@@ -13,6 +13,8 @@ public class Ogre implements Serializable{
 	public Ogre(int x, int y){
 		this.x = x;
 		this.y = y;
+		this.clubX = -1;
+		this.clubY = -1;
 		this.testMode = false;
 		this.symbol = 'O';
 	}
