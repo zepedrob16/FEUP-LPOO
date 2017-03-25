@@ -4,14 +4,6 @@ import java.util.Random;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * Contains all the information regarding the state of the game
- * 
- * @author José Borges and Miguel Mano Fernandes
- * @version 1.0
- *
- */
-public class GameState {
 public class GameState implements java.io.Serializable {
 	
 	// STATE MACHINE
@@ -39,18 +31,11 @@ public class GameState implements java.io.Serializable {
 	
 	//LOADED MAP
 	private GameMap oMap = new OgreMap();
-	/**
-	 * Constructor
-	 */
+	
 	public GameState() {
 		this.level = Level.DUNGEON;
 		this.state = State.RUNNING;
 	}
-	/**
-	 * Constructor that receives a game map
-	 * @param map
-	 * 			This can either be a dungeon map or an ogre map
-	 */
 	
 	public GameState(GameMap map) {
 		super();
@@ -61,12 +46,6 @@ public class GameState implements java.io.Serializable {
 		spawnEntities();
 	}
 	
-	/**
-	 * State machine that helps define the current state of the game
-	 * 
-	 * @param evt
-	 * 			An event that determines whether the game continues, ends with a win or ends with a loss
-	 */
 	public GameState(GameState that){
 		this.map = that.map;
 		this.hero = that.hero;
@@ -135,10 +114,6 @@ public class GameState implements java.io.Serializable {
 		}
 	}
 	
-	/**
-	 * Moves the enemies of the map and redraws it
-	 */
-	
 	public void updateEntities(){
 		
 		if (level == Level.DUNGEON){
@@ -149,10 +124,6 @@ public class GameState implements java.io.Serializable {
 		}
 		drawMap();
 	}
-	
-	/**
-	 * Spawns all map elements
-	 */
 	
 	public void spawnEntities(){
 		char[][] thisMap = map.getMap();
@@ -186,13 +157,6 @@ public class GameState implements java.io.Serializable {
 		this.map.setMap(thisMap);
 	}
 	
-	/**
-	 * Checks the move the player wants to do and sees whether it is valid, invalid or the game winner
-	 * 
-	 * @param move
-	 * @return true
-	 */
-	
 	public boolean processMove(String move){
 		int m = hero.moveHero(this.map, move);
 		doorOpenVerification();
@@ -209,15 +173,12 @@ public class GameState implements java.io.Serializable {
 		mapSpecificVerification();
 		return true;
 	}
-	/**
-	 * Checks if the hero is in the position to pick up the key (in the ogre map) or to turn the lever on (in the dungeon map)
-	 */
 	
 	public void doorOpenVerification(){
 		if (this.hero.getX() == this.keyX && this.hero.getY() == this.keyY){
 			if (this.map instanceof OgreMap){
-				this.keyX = -1;
-				this.keyY = -1;
+				this.keyX = 10;
+				this.keyY = 10;
 				this.hero.setSymbol('K');	
 			}else{
 				this.map.openDoors();
@@ -225,10 +186,6 @@ public class GameState implements java.io.Serializable {
 			}
 		}
 	}
-	
-	/**
-	 * Checks if the hero got caught by the enemy and/or if stunned an ogre
-	 */
 	
 	public void mapSpecificVerification(){
 		if (this.map instanceof DungeonMap){
@@ -246,46 +203,19 @@ public class GameState implements java.io.Serializable {
 		}
 	}
 	
-	/**
-	 * Returns the current map
-	 * 
-	 * @return
-	 * 		game map
-	 */
-	
 	public GameMap getGameMap(){
 		return this.map;
 	}
 	
-	/**
-	 * Returns the current state of the game
-	 * 
-	 * @return state
-	 */
-	
 	public State getState(){
 		return this.state;
 	}
-	
-	/**
-	 * Sets a new game map
-	 * 
-	 * @param map
-	 * 		new game map
-	 */
 	
 	public void setGameMap(GameMap map){
 		this.map = map;
 		this.level = (map instanceof DungeonMap) ? Level.DUNGEON : Level.OGRE;
 		spawnEntities();
 	}
-	
-	/**
-	 * Loads a string with chars related with the entities and static objects on the map and prints it on the console
-	 * 
-	 * @return string map
-	 * 		String containing the complete map
-	 */
 	
 	public String drawMap(){
 		char[][] currentMap = map.getMap();
@@ -331,12 +261,6 @@ public class GameState implements java.io.Serializable {
 		}
 		return map;
 	}
-	/**
-	 * Sets a new ogre map
-	 * 
-	 * @param oMap
-	 * 		new ogre map
-	 */
 	
 	public void setOgreMap(GameMap oMap){
 		this.oMap = oMap;
@@ -344,28 +268,9 @@ public class GameState implements java.io.Serializable {
 	
 	// SPAWN ENTITIES
 	
-	/**
-	 * Creates a new hero
-	 * 
-	 * @param x
-	 * 		x position
-	 * @param y
-	 *		y position
-	 */
-	
 	public void spawnHero(int x, int y){
 		hero = new Hero(x, y, this.map.getName());
 	}
-	
-	/**
-	 * Creates a new guard with a random personality
-	 * 
-	 * 
-	 * @param x
-	 * 		x position
-	 * @param y
-	 * 		y position
-	 */
 	
 	public void spawnGuard(int x, int y){
 		Random rnd = new Random();
@@ -382,18 +287,6 @@ public class GameState implements java.io.Serializable {
 		}
 		return;
 	}
-	
-	/**
-	 * Creates a new guard with a specific personality
-	 * 
-	 * @param x
-	 * 		x position
-	 * @param y
-	 * 		y position
-	 * @param personality
-	 * 		Drunken, Suspicious or Rookie
-	 */
-	
 	public void spawnGuard(int x, int y, String personality){
 		if (personality.equals("Rookie")){
 			guard = new GuardRookie(x,y);
@@ -406,10 +299,6 @@ public class GameState implements java.io.Serializable {
 		}
 		return;
 	}
-	
-	/**
-	 * Creates 1 to 5 ogres
-	 */
 	
 	public void spawnOgres(){
 		
@@ -430,13 +319,6 @@ public class GameState implements java.io.Serializable {
 		return;
 	}
 	
-	/**
-	 * Creates a specific number of ogres
-	 * 
-	 * @param generations
-	 * 		number of ogres to spawn
-	 */
-	
 	public void spawnOgres(int generations){
 		
 		Random rnd = new Random();
@@ -455,24 +337,11 @@ public class GameState implements java.io.Serializable {
 		return;
 	}
 	
-	/**
-	 * Creates a key on a specific location
-	 * 
-	 * @param x
-	 * 		x position
-	 * @param y
-	 * 		y position
-	 */
-	
 	public void spawnKey(int x, int y){
 		this.keyX = x;
 		this.keyY = y;
 		return;
 	}
-	
-	/**
-	 * Moves all ogres
-	 */
 	
 	public void moveEveryOgre(){
 		for (int i = 0; i < ogres.size(); i++){
@@ -480,23 +349,9 @@ public class GameState implements java.io.Serializable {
 		}
 		return;
 	}
-	
-	/**
-	 * Sets a number of ogres on the map
-	 * @param num
-	 * 		Number of ogres
-	 */
-	
 	public void setOgres(int num) {
 		this.nogres = num;
 	}
-	
-	/**
-	 * Sets the guard personality 
-	 * @param p
-	 * 		Drunken, Suspicious or Rookie
-	 */
-	
 	public void setPers(String p) {
 		this.pers = p;
 	}

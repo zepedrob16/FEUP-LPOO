@@ -22,7 +22,7 @@ public class Hero implements Serializable{
 	}
 	
 	public int moveUp(GameMap map) {
-		if (map.moveTo(x-1, y) == -2 && symbol == 'K') {
+		if (map.moveTo(x-1, y) == -1 && symbol == 'K') {
 			map.openDoors();
 			return 0;
 		}
@@ -35,7 +35,7 @@ public class Hero implements Serializable{
 	}
 	
 	public int moveLeft(GameMap map) {
-		if (map.moveTo(x, y-1) == -2 && symbol == 'K') {
+		if (map.moveTo(x, y-1) == -1 && symbol == 'K') {
 			map.openDoors();
 			return 0;
 		}
@@ -48,7 +48,7 @@ public class Hero implements Serializable{
 	}
 	
 	public int moveDown(GameMap map) {
-		if (map.moveTo(x+1, y) == -2 && symbol == 'K') {
+		if (map.moveTo(x+1, y) == -1 && symbol == 'K') {
 			map.openDoors();
 			return 0;
 		}
@@ -61,7 +61,7 @@ public class Hero implements Serializable{
 	}
 	
 	public int moveRight(GameMap map) {
-		if (map.moveTo(x, y+1) == -2 && symbol == 'K') {
+		if (map.moveTo(x, y+1) == -1 && symbol == 'K') {
 			map.openDoors();
 			return 0;
 		}

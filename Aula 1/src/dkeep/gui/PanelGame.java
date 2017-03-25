@@ -39,13 +39,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import java.awt.Font;
 
-/**
- * Class that initializes the game
- * 
- * @author José Borges and Miguel Mano Fernandes
- *	
- */
-
 public class PanelGame extends JPanel implements KeyListener, ActionListener {
 
 	private GameState gameState, newState;
