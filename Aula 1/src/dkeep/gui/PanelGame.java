@@ -8,7 +8,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,6 +36,8 @@ import dkeep.logic.OgreMap;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 /**
  * Class that initializes the game
@@ -41,7 +48,7 @@ import javax.swing.JOptionPane;
 
 public class PanelGame extends JPanel implements KeyListener, ActionListener {
 
-	private GameState gameState;
+	private GameState gameState, newState;
 	
 	private int grid, windowW, windowH, offset, fDonkeyIter;
 	public int ogreNumber;
@@ -51,7 +58,6 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	private BufferedImage[] fDonkey, fGuard, fOgre;
 	private BufferedImage[][] gameImages;
 	
-	
 	private static MediaPlayer mediaPlayer;
 	private Media doorOpen;
 	
@@ -60,6 +66,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	private boolean soundPlayed = false;
 	
 	private PanelManager pm;
+	private JLabel lblMessage;
+	
+	private boolean alreadyAdapted = false;
 	
 	public void loadMap(GameMap map) throws IOException {
 		gameState = new GameState(map);
@@ -71,7 +80,6 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		
 		fps = new Timer(500, this);
 		fps.start();
-		
 		setLayout(null);
 		setUpButtons();
 	}
@@ -80,6 +88,25 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		this.setVisible(false);
 		this.windowW = windowW;
 		this.windowH = windowH;
+		setLayout(null);
+		
+		lblMessage = new JLabel("");
+		lblMessage.setForeground(Color.WHITE);
+		lblMessage.setBackground(new Color(0,0,0, 220));
+		lblMessage.setOpaque(true);
+		lblMessage.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		lblMessage.setBounds(12, 13, 156, 25);
+		add(lblMessage);
+	}
+	
+	public void disableLabel(){
+		lblMessage.setText(this.gameState.message);
+		
+		if (lblMessage.getText() == ""){
+			lblMessage.setVisible(false);
+		}else{
+			lblMessage.setVisible(true);
+		}
 	}
 	
 	public void setUpVariables(int windowW,int windowH) {
@@ -185,6 +212,10 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	@Override
 	public void paintComponent(Graphics g){
+		if (gameState.getGameMap() instanceof OgreMap && !this.alreadyAdapted){
+			try { adjustGridToWindow(); } catch (IOException e1) { e1.printStackTrace(); }
+			alreadyAdapted = true;
+		}
 		
 		super.paintComponent(g);
 		
@@ -214,6 +245,7 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 		displayStatePanels(g);
+		disableLabel();		
 		
 	}
 	public void mapSpecificDisplays(Graphics g, int i, int j){
@@ -341,14 +373,20 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			pm.stateMachine(Event.EXIT_TO_MENU);
 			return;
 		}
-		if (gameState.getState() == State.VICTORY){
-			try { adjustGridToWindow(); } catch (IOException e1) { e1.printStackTrace(); }
-		}
 		
 		int key = e.getKeyCode();
 		
-		
-		if (key == 38 || key == 87){
+		if (key == 116){
+			try {serializeState();} catch (IOException e1) {}
+			gameState.message = "Game saved!";
+			repaint();
+		}
+		else if (key == 117){
+			try {unserializeState(newState);} catch (ClassNotFoundException | IOException e1) {}
+			gameState.message = "Game loaded!";
+			repaint();
+		}
+		else if (key == 38 || key == 87){
 			this.gameState.processMove("w");
 			repaint();
 		}
@@ -378,6 +416,25 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		
 	}
 
+	public void serializeState() throws IOException {
+		FileOutputStream fileOut = new FileOutputStream("res/quicksaves/temp_qs.ser");
+		ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		out.writeObject(gameState);
+		out.close();
+		fileOut.close();
+	}
+	
+	public void unserializeState(GameState newState) throws IOException, ClassNotFoundException {
+		GameState g = null;
+		FileInputStream fileIn = new FileInputStream("res/quicksaves/temp_qs.ser");
+		ObjectInputStream in = new ObjectInputStream(fileIn);
+		g = (GameState) in.readObject();
+		in.close();
+		fileIn.close();
+		gameState = new GameState(g);
+		repaint();
+	}
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		return;

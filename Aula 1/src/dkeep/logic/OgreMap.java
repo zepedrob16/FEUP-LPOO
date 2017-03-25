@@ -1,6 +1,8 @@
 package dkeep.logic;
 
-public class OgreMap implements GameMap{
+import java.io.Serializable;
+
+public class OgreMap implements GameMap, Serializable{
 	
 	private String name = "CRAZY OGRE";
 	private char[][] gameMap;

@@ -9,6 +9,9 @@ package dkeep.logic;
  *
  */
 public class DungeonMap implements GameMap{
+import java.io.Serializable;
+
+public class DungeonMap implements GameMap, Serializable{
 
 	private String name = "DUNGEON";
 	private char[][] gameMap;
