@@ -4,6 +4,7 @@
 - [X] Test coverage 80%
 - [X] Better code Hub (7/10)
 - [X] Herói sem club
-- [ ] Dar load a um gameState
-- [ ] Tentar dar fix ao guarda
+- [X] Dar load a um gameState
+- [X] Tentar dar fix ao guarda
 - [X] Load custom map
+- [ ] Javadoc
