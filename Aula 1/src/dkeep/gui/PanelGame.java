@@ -63,19 +63,6 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	
 	private boolean alreadyAdapted = false;
 	
-	public void loadMap(GameMap map) throws IOException {
-		gameState = new GameState(map);
-		gameImages = new BufferedImage[map.getMap().length][map.getMap().length];
-		setUpVariables(windowW, windowH);
-		
-		this.loadImages();
-		this.setFloor();
-		
-		fps = new Timer(500, this);
-		fps.start();
-		setLayout(null);
-		setUpButtons();
-	}
 	
 	public PanelGame(int windowW, int windowH) throws IOException {
 		this.setVisible(false);
@@ -92,10 +79,24 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 		add(lblMessage);
 	}
 	
+	public void loadMap(GameMap map) throws IOException {
+		gameState = new GameState(map);
+		gameImages = new BufferedImage[map.getMap().length][map.getMap().length];
+		setUpVariables(windowW, windowH);
+		
+		this.loadImages();
+		this.setFloor();
+		
+		fps = new Timer(500, this);
+		fps.start();
+		setLayout(null);
+		setUpButtons();
+	}
+	
 	public void disableLabel(){
 		lblMessage.setText(this.gameState.message);
 		
-		if (lblMessage.getText() == ""){
+		if (lblMessage.getText() == null || lblMessage.getText() == "" || lblMessage.getText() == "Level complete!" || lblMessage.getText() == "GAME OVER!"){
 			lblMessage.setVisible(false);
 		}else{
 			lblMessage.setVisible(true);
@@ -274,11 +275,12 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	public void checkOgres(Graphics g, int i, int j){
 		ArrayList<Ogre> ogres = gameState.ogres;
 		for (int k = 0; k < ogres.size(); k++){
-			if (i == ogres.get(k).getX() && j == ogres.get(k).getY() && ogres.get(k).getStunned()){
-				g.drawImage(fOgre[1], j * offset, i * offset, this);
-			}
-			else if (i == ogres.get(k).getX() && j == ogres.get(k).getY() && !ogres.get(k).getStunned()){
-				g.drawImage(fOgre[0], j * offset, i * offset, this);
+			if (i == ogres.get(k).getX() && j == ogres.get(k).getY()){
+				if (ogres.get(k).getStunned()){
+					g.drawImage(fOgre[1], j * offset, i * offset, this);
+				}else{
+					g.drawImage(fOgre[0], j * offset, i * offset, this);
+				}
 			}
 			else if (i == ogres.get(k).getClubX() && j == ogres.get(k).getClubY()){
 				g.drawImage(sBarrel, j * offset, i * offset, this);

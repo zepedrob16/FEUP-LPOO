@@ -296,29 +296,26 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 260 && e.getY() >= 180){
+		if (e.getX() >= 750 && e.getX() <= 850){
 			resetSidebarSel();
-			heroSelected = true;
-		}
-		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 360 && e.getY() >= 280){
-			resetSidebarSel();
-			ogreSelected = true;			
-		}
-		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 440 && e.getY() >= 380){
-			resetSidebarSel();
-			wallSelected = true;			
-		}
-		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 520 && e.getY() >= 460){
-			resetSidebarSel();
-			doorSelected = true;			
-		}
-		else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() <= 600 && e.getY() >= 540){
-			resetSidebarSel();
-			keySelected = true;			
+			if (e.getY() <= 260 && e.getY() >= 180){
+				heroSelected = true;
+			}
+			else if (e.getY() <= 360 && e.getY() >= 280){
+				ogreSelected = true;
+			}
+			else if (e.getY() <= 440 && e.getY() >= 380){
+				wallSelected = true;
+			}
+			else if (e.getY() <= 520 && e.getY() >= 460){
+				doorSelected = true;
+			}
+			else if (e.getY() <= 600 && e.getY() >= 540){
+				keySelected = true;
+			}
 		}
 		
-		int i = Math.round(e.getX()/offsetW);
-		int j = Math.round(e.getY()/offsetH);
+		int i = Math.round(e.getX()/offsetW), j = Math.round(e.getY()/offsetH);
 		
 		if (e.getX() >= offsetW && e.getX() <= (grid.getValue()-1)*offsetW && e.getY() >= offsetW && e.getY() <= (grid.getValue()-1)*offsetW && heroSelected && checkRequisites('P')) {
 			map[i][j] = 'H';
