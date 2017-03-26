@@ -39,4 +39,4 @@ There's an extra screenshot on the screenshots folder. Github doesn't allow .gif
 ## Unit Testing
 [![BCH compliance](https://bettercodehub.com/edge/badge/zepedrob16/LPOO1617_T5G7?token=cc0a9915a954a432fdaaa3a94136cae04e47cf97)](https://bettercodehub.com/)  
 ![Line coverage](screenshots/test_coverage.png)  
-![PIT coverage](screenshots/test_pt.png)
+![PIT coverage](screenshots/test_pIt.png)
