@@ -1,4 +1,4 @@
- Dingus Donkey's Great Escape : LPOO1617_T5G7
+# Dingus Donkey's Great Escape : LPOO1617_T5G7
 This guided project was developed by:
 * José Borges; up201503603; up201503603@fe.up.pt
 * Miguel Mano Fernandes; up201503538; miguel.mano@fe.up.pt
