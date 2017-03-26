@@ -33,8 +33,8 @@ The second room would have a variable number of ogres, armed with a weapon. This
 ## Screenshots
 ![Quicksaves](screenshots/quicksave.gif)
 ![Custom level testing](screenshots/loadgame.gif)
-![Custom panels](screenshots/custompanels.gif)
-There's an extra screenshot on the screenshots folder. Github doesn't allow .gifv over here. Boo!
+![Custom panels](screenshots/custompanels.gif)  
+*There's an extra screenshot on the screenshots folder. Github doesn't allow .gifv over here. Boo!*
 
 ## Unit Testing
 [![BCH compliance](https://bettercodehub.com/edge/badge/zepedrob16/LPOO1617_T5G7?token=cc0a9915a954a432fdaaa3a94136cae04e47cf97)](https://bettercodehub.com/)  
