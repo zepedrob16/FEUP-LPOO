@@ -29,7 +29,6 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 	
 	private BufferedImage titleScreen;
 	private SettingsDialog settings;
-	private static MediaPlayer mediaPlayer;
 	private PanelManager pm;
 	
 	public void ngButton() {
@@ -82,7 +81,6 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 	public PanelMainMenu() throws IOException {
 
 		setLayout(null);
-		playMusic();
 		this.titleScreen = ImageIO.read(new File("res/title_screen_c64.png"));	
 		ngButton();
 		lgButton();
@@ -124,16 +122,6 @@ public class PanelMainMenu extends JPanel implements ActionListener {
 		s2.close();
 		pm.load(new OgreMap(selMap));
 		pm.stateMachine(Event.START_GAME);
-	}
-	
-	public void playMusic(){
-		@SuppressWarnings("unused")
-		JFXPanel fxPanel = new JFXPanel(); // Initializes the JavaFX toolkit.
-
-		Media hit = new Media(new File("res/sound/title_screen_song.mp3").toURI().toString());
-		mediaPlayer = new MediaPlayer(hit);
-		mediaPlayer.setVolume(0.05);
-		mediaPlayer.play();
 	}
 	
 	public void setPanelManager(PanelManager pm){

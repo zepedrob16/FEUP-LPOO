@@ -1,11 +1,15 @@
 package dkeep.gui;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import dkeep.logic.GameMap;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class PanelManager {
 	
@@ -20,12 +24,15 @@ public class PanelManager {
 	private PanelMainMenu pmm;
 	private JFrame frame;
 	
+	private static MediaPlayer mediaPlayer;
+	
 	public PanelManager(PanelGame pg, PanelLevelEditor ple, PanelMainMenu pmm, JFrame frame){
 		state = Panel.MAIN_MENU;
 		this.pg = pg;
 		this.ple = ple;
 		this.pmm = pmm;
 		this.frame = frame;
+		playMusic();
 	}
 	
 	public void stateMachine(Event evt){
@@ -77,6 +84,16 @@ public class PanelManager {
 		pg.startGame();
 	}
 	
+	public void playMusic(){
+		@SuppressWarnings("unused")
+		JFXPanel fxPanel = new JFXPanel(); // Initializes the JavaFX toolkit.
+
+		Media hit = new Media(new File("res/sound/title_screen_song.mp3").toURI().toString());
+		mediaPlayer = new MediaPlayer(hit);
+		mediaPlayer.setVolume(0.05);
+		mediaPlayer.play();
+	}
+	
 	public void load(GameMap map) throws IOException {
 		pg.loadMap(map);
 	}
@@ -90,6 +107,14 @@ public class PanelManager {
 	public void activatePanel(JPanel jp){
 		closeAllPanels();
 		jp.setVisible(true);
+	}
+	
+	public void muteMusic(){
+		if (mediaPlayer.isMute()){
+			mediaPlayer.setMute(false);			
+		}else{
+			mediaPlayer.setMute(true);
+		}
 	}
 	
 	public Panel getState(){

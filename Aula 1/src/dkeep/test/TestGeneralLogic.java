@@ -18,4 +18,13 @@ public class TestGeneralLogic {
 		assertEquals(State.RUNNING, gameState.getState());
 	}
 	
+	@Test
+	public void testComparesTwoGameStates(){
+		GameMap gameMap = new DungeonMap();
+		
+		GameState g1 = new GameState(gameMap);
+		GameState g2 = new GameState(gameMap);
+		
+		assertEquals(true, g1.equals(g2));
+	}
 }

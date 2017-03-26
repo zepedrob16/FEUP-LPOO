@@ -171,8 +171,8 @@ public class PanelLevelEditor extends JPanel implements MouseListener, MouseMoti
 		
 			if (heroCount < 1 || doorCount < 1 || ogreCount < 1 || keyCount < 1){
 				JOptionPane.showMessageDialog(this, l, "Invalid Map", JOptionPane.ERROR_MESSAGE);
+				return false;
 			}
-			return false;
 		}
 		return true;
 	}

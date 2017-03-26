@@ -412,6 +412,9 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 				System.out.println(pm.getState());
 			}
 		}
+		if (key == 77){
+			pm.muteMusic();
+		}
 	}
 
 	public void serializeState() throws IOException {
