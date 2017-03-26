@@ -4,8 +4,8 @@ This guided project was developed by:
 * Miguel Mano Fernandes; up201503538; miguelmanofernandes@gmail.com
 
 ## Main Task
-The task provided to us was to produce a small game based on escaping from enemies over the course of two maps.
-The first room would have a guard with one out of three possible personalities: rookie, drunk or suspicious. To escape this room, the hero must activate a lever and escape through the main doors, avoiding landing on a tile adjacent to the guard, which would result in a loss.
+The task provided to us was to produce a small game based on escaping from enemies over the course of two maps.  
+The first room would have a guard with one out of three possible personalities: rookie, drunk or suspicious. To escape this room, the hero must activate a lever and escape through the main doors, avoiding landing on a tile adjacent to the guard, which would result in a loss.  
 The second room would have a variable number of ogres, armed with a weapon. This time, you too have a weapon. Landing on a tile adjacent to the ogre stuns him, yet arriving at a tile adjacent to the weapon would kill you. Your goal is to retrieve the key and escape for full game completion.
 
 ## Extra Features
