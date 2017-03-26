@@ -1,8 +1,6 @@
-XXXXXXXX
-X     HX
-X      X
-X XXXXXX
-X Xk   I
-X X O  X
-X      X
-XXXXXXXX
+XXXXXX
+X    X
+Xk  HX
+X  XXX
+X  O I
+XXXXXX
