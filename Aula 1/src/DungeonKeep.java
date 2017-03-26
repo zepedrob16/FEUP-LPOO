@@ -1,7 +1,6 @@
-/*
 import java.util.Random;
 import java.util.Scanner;
-
+ 
 public class DungeonKeep {
 	
 	static int MAP_ROWS = 10, MAP_COLS = 10;
@@ -530,4 +529,4 @@ public class DungeonKeep {
 			}			
 		}
 	}
-}*/
+}
