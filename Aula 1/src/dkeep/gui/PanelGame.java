@@ -275,12 +275,11 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 	public void checkOgres(Graphics g, int i, int j){
 		ArrayList<Ogre> ogres = gameState.ogres;
 		for (int k = 0; k < ogres.size(); k++){
-			if (i == ogres.get(k).getX() && j == ogres.get(k).getY()){
-				if (ogres.get(k).getStunned()){
-					g.drawImage(fOgre[1], j * offset, i * offset, this);
-				}else{
-					g.drawImage(fOgre[0], j * offset, i * offset, this);
-				}
+			if (i == ogres.get(k).getX() && j == ogres.get(k).getY() && ogres.get(k).getStunned()){
+				g.drawImage(fOgre[1], j * offset, i * offset, this);
+			}
+			else if (i == ogres.get(k).getX() && j == ogres.get(k).getY() && !ogres.get(k).getStunned()){
+				g.drawImage(fOgre[0], j * offset, i * offset, this);
 			}
 			else if (i == ogres.get(k).getClubX() && j == ogres.get(k).getClubY()){
 				g.drawImage(sBarrel, j * offset, i * offset, this);
@@ -368,20 +367,14 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			pm.stateMachine(Event.EXIT_TO_MENU);
 			return;
 		}
-		
 		int key = e.getKeyCode();
+		processMovementKeys(key);
+		processSerialization(key);
+		processGameExit(key);
 		
-		if (key == 116){
-			try {serializeState();} catch (IOException e1) {}
-			gameState.message = "Game saved!";
-			repaint();
-		}
-		else if (key == 117){
-			try {unserializeState(newState);} catch (ClassNotFoundException | IOException e1) {}
-			gameState.message = "Game loaded!";
-			repaint();
-		}
-		else if (key == 38 || key == 87){
+	}
+	public void processMovementKeys(int key){
+		if (key == 38 || key == 87){
 			this.gameState.processMove("w");
 			repaint();
 		}
@@ -397,10 +390,21 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 			this.gameState.processMove("d");
 			repaint();
 		}
-		else if (key == 27 && e.isShiftDown()){
-			System.exit(0);	
+	}
+	public void processSerialization(int key){
+		if (key == 116){
+			try {serializeState();} catch (IOException e1) {}
+			gameState.message = "Game saved!";
+			repaint();
 		}
-		else if (key == 27){
+		else if (key == 117){
+			try {unserializeState(newState);} catch (ClassNotFoundException | IOException e1) {}
+			gameState.message = "Game loaded!";
+			repaint();
+		}
+	}
+	public void processGameExit(int key){
+		if (key == 27){
 			String options[] = {"Yes", "No"};
 			int select = JOptionPane.showOptionDialog(this, "Return to main menu?\n(Unsaved progress will be lost!)", "Return to Main Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 			if (select == 0){
@@ -408,7 +412,6 @@ public class PanelGame extends JPanel implements KeyListener, ActionListener {
 				System.out.println(pm.getState());
 			}
 		}
-		
 	}
 
 	public void serializeState() throws IOException {
