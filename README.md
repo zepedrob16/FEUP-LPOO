@@ -31,10 +31,10 @@ The second room would have a variable number of ogres, armed with a weapon. This
 ```ESC``` : Pops up a dialog to confirm exiting to main menu.
 
 ## Screenshots
-![Quicksaves](http://i.imgur.com/Y0zaWQl.gifvraw=true)
-![Level Editor](http://i.imgur.com/N2kkHcD.mp4raw=true)
-![Custom level testing](http://i.imgur.com/r2S5n7n.gifvraw=true)
-![Custom panels](http://i.imgur.com/CioTKxH.gifvraw=true)
+![Quicksaves](screenshots/quicksave.gif)
+![Level Editor](screenshots/leveleditor.gifv)
+![Custom level testing](screenshots/loadgame.gif)
+![Custom panels](screenshots/custompanels.gif)
 
 ## Unit Testing
 [![BCH compliance](https://bettercodehub.com/edge/badge/zepedrob16/LPOO1617_T5G7?token=cc0a9915a954a432fdaaa3a94136cae04e47cf97)](https://bettercodehub.com/)
