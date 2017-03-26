@@ -21,14 +21,14 @@ The second room would have a variable number of ogres, armed with a weapon. This
 * Animations!
 
 ## Controls
-```W``` : Moves the hero up.
-```A``` : Moves the hero up.
-```S``` : Moves the hero up.
-```D``` : Moves the hero up.
-```F5``` : Quicksaves the game.
-```F6``` : Loads the last quicksave.
-```M``` : Mutes game music.
-```ESC``` : Pops up a dialog to confirm exiting to main menu.
+```W``` : Moves the hero up.  
+```A``` : Moves the hero up.  
+```S``` : Moves the hero up.  
+```D``` : Moves the hero up.  
+```F5``` : Quicksaves the game.  
+```F6``` : Loads the last quicksave.  
+```M``` : Mutes game music.  
+```ESC``` : Pops up a dialog to confirm exiting to main menu.  
 
 ## Screenshots
 ![Quicksaves](screenshots/quicksave.gif)
