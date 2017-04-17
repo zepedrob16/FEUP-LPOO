@@ -2,26 +2,32 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameAdHunter extends Game {
 
     private AssetManager assetManager;
+    private SpriteBatch batch;
 
-    /**
-     * Creates a new game and sets the current screen.
-     */
     @Override
-    public void create(){
+    public void create() {
         assetManager = new AssetManager();
-        setScreen(new ScreenMainMenu(this));
+        batch = new SpriteBatch();
     }
 
-    /**
-     * Returns the asset manager.
-     * @return The asset manager.
-     */
-    AssetManager getAssetManager(){
+    @Override
+    public void dispose(){
+        assetManager.dispose();
+        batch.dispose();
+    }
+
+    public AssetManager getAssetManager(){
         return assetManager;
     }
+
+    public SpriteBatch getBatch(){
+        return batch;
+    }
+
 
 }
