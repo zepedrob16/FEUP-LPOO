@@ -13,7 +13,13 @@ public class GameAdHunter extends Game {
     public void create() {
         assetManager = new AssetManager();
         batch = new SpriteBatch();
+        setScreen(new ViewMenu(this));
     }
+
+    @Override
+    public void render(){
+    }
+
 
     @Override
     public void dispose(){
