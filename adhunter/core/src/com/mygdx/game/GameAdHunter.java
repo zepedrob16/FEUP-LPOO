@@ -5,9 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.logic.GameState;
 
 public class GameAdHunter extends Game {
-
+    
     private AssetManager assetManager;
     private SpriteBatch batch;
 

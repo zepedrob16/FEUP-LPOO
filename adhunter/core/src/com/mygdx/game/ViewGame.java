@@ -12,8 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.mygdx.logic.GameState;
 
 public class ViewGame extends ScreenAdapter {
+
+    private GameState gameState;
 
     private GameAdHunter game;
     private Stage stage;
@@ -22,6 +25,8 @@ public class ViewGame extends ScreenAdapter {
     private boolean loaded = true;
 
     public ViewGame(GameAdHunter game){
+        gameState = new GameState();
+        
         this.game = game;
         this.stage = new Stage();
 

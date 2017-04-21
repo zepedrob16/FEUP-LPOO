@@ -21,10 +21,9 @@ public class GameState {
     public void nextLevel(){
         currentLevel = levels.get(currentLevel.getIndex());
     }
+
     public void takeLife(){
         lives--;
     }
-
-
 
 }

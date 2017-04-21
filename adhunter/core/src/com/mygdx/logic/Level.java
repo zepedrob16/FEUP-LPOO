@@ -2,7 +2,6 @@ package com.mygdx.logic;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,17 +11,6 @@ public class Level {
     private ImageButton[] buttons;
 
     public Level(int index){
-
-        Timer t = new Timer();
-
-        t.schedule(new TimerTask(){
-
-            @Override
-            public void run() {
-                updateTimeLeft();
-            }
-
-        }, 0, 1);
 
 
         if (index >= 1 && index <= 10) timeLeft = 15f;
@@ -39,10 +27,6 @@ public class Level {
         }
 
     }
-
-    public void updateTimeLeft(){
-    }
-
 
     public int getIndex(){
         return index;
