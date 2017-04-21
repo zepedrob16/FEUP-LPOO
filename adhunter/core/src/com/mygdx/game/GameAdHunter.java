@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -9,15 +11,35 @@ public class GameAdHunter extends Game {
     private AssetManager assetManager;
     private SpriteBatch batch;
 
+    private Screen activeScreen;
+
+    private int SCREEN_WIDTH, SCREEN_HEIGHT;
+
     @Override
     public void create() {
+        SCREEN_WIDTH = Gdx.app.getGraphics().getWidth();
+        SCREEN_HEIGHT = Gdx.app.getGraphics().getHeight();
+
         assetManager = new AssetManager();
         batch = new SpriteBatch();
-        setScreen(new ViewMenu(this));
+
+        this.activeScreen = new ViewMenu(this);
+        setScreen(activeScreen);
     }
 
     @Override
     public void render(){
+        super.render();
+    }
+
+    @Override
+    public void pause(){
+        activeScreen.pause();
+    }
+
+    @Override
+    public void resume(){
+        activeScreen.resume();
     }
 
 
@@ -25,6 +47,7 @@ public class GameAdHunter extends Game {
     public void dispose(){
         assetManager.dispose();
         batch.dispose();
+        activeScreen.dispose();
     }
 
     public AssetManager getAssetManager(){
@@ -35,5 +58,12 @@ public class GameAdHunter extends Game {
         return batch;
     }
 
+    public int getSCREEN_WIDTH(){
+        return SCREEN_WIDTH;
+    }
+
+    public int getSCREEN_HEIGHT(){
+        return SCREEN_HEIGHT;
+    }
 
 }
