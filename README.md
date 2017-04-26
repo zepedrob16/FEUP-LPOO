@@ -1,12 +1,24 @@
 # Ad Hunter
 
 ### Mock-ups
-<img src=/screenshots/mockup-mainmenu.png height=300 />
-<img src=/screenshots/mockup-settings.png height=300 />
-<img src=/screenshots/mockup-tutorial.png height=300 />
-<img src=/screenshots/mockup-about.png height=300 />
-<img src=/screenshots/mockup-pregame.png height=300 />
-<img src=/screenshots/mockup-game.png height=300 />
+**Main Menu**  
+<img src=/screenshots/mockup-mainmenu.png height=300 />  
+
+**Settings**  
+<img src=/screenshots/mockup-settings.png height=300 />  
+
+**Tutorial**  
+<img src=/screenshots/mockup-tutorial.png height=300 />  
+
+**About**  
+<img src=/screenshots/mockup-about.png height=300 />  
+
+**Pre-game**  
+<img src=/screenshots/mockup-pregame.png height=300 />  
+
+**Game**  
+<img src=/screenshots/mockup-game.png height=300 />  
+
 
 ### Design Patterns
 * Decorator  
