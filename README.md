@@ -19,6 +19,11 @@
 **Game**  
 <img src=/screenshots/mockup-game.png height=300 />  
 
+### Package and Class Diagram (UML)
+<img src=/screenshots/uml-diagram.png height=300 />
+
+### UML Sequence
+<img src=/screenshots/uml-sequence.png height=300 />
 
 ### Design Patterns
 * Decorator  
