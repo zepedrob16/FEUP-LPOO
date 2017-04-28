@@ -47,4 +47,4 @@ Ensuring that only one single game state is created and having easy access to it
 - Player loses the game when the time runs out
 - Player loses the game when he runs out of lives
 - Time stops running when the player hits the pause button
-- A certain achievment is unlocked when completed
+- A certain achievement is unlocked when completed
