@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.logic.GameState;
 
@@ -15,6 +16,9 @@ public class GameAdHunter extends Game {
     private Screen activeScreen;
 
     private int SCREEN_WIDTH, SCREEN_HEIGHT;
+
+    //Font
+    BitmapFont robotoFont;
 
     @Override
     public void create() {

@@ -26,4 +26,6 @@ public class GameState {
         lives--;
     }
 
+    public Level getCurrentLevel() {return currentLevel;}
+
 }

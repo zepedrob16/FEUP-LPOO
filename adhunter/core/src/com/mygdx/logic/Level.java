@@ -2,6 +2,7 @@ package com.mygdx.logic;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,8 +11,9 @@ public class Level {
     private int index, steps;
     private ImageButton[] buttons;
 
-    public Level(int index){
+    private String action;
 
+    public Level(int index){
 
         if (index >= 1 && index <= 10) timeLeft = 15f;
         if (index >= 11 && index <= 20) timeLeft = 12f;
@@ -26,10 +28,17 @@ public class Level {
             steps = 1;
         }
 
+        //Generates a new action (50% chance for each).
+        Random rnd = new Random();
+        if (rnd.nextInt(2) == 0) action = "PRESS";
+        else action = "AVOID";
+
     }
 
     public int getIndex(){
         return index;
     }
+
+    public String getAction(){return action;}
 
 }

@@ -53,7 +53,7 @@ public class ViewMenu extends ScreenAdapter {
         this.generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Thin.ttf"));
         setFontProperties();
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font;
+        labelStyle.font = game.robotoFont;
         pressToPlay = new Label("tap to play", labelStyle);
         pressToPlay.setPosition(game.getSCREEN_WIDTH()/2 - pressToPlay.getWidth()/2, game.getSCREEN_HEIGHT()/2 - pressToPlay.getHeight()/2);
 
@@ -106,7 +106,7 @@ public class ViewMenu extends ScreenAdapter {
 
         parameter.size = 160;
         parameter.color = Color.BLACK;
-        font = generator.generateFont(parameter);
+        game.robotoFont = generator.generateFont(parameter);
     }
 
     @Override
