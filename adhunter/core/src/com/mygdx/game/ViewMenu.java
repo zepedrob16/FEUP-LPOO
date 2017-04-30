@@ -33,7 +33,7 @@ public class ViewMenu extends ScreenAdapter {
     Label pressToPlay;
 
     //Textures
-    private Texture texSettings;
+    private Texture texSettings, texAbout, texHelp;
 
     //Sound
     private Music mainMusic;
@@ -64,6 +64,8 @@ public class ViewMenu extends ScreenAdapter {
 
     public void loadAssets(){
         texSettings = new Texture(Gdx.files.internal("buttons/settings_icon.png"));
+        texAbout = new Texture(Gdx.files.internal("buttons/bg_red_down.png"));
+        texHelp = new Texture(Gdx.files.internal("buttons/bg_red_down.png"));
     }
 
     public void fillStage(){
@@ -86,18 +88,51 @@ public class ViewMenu extends ScreenAdapter {
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(texSettings));
         ImageButton settingsButton = new ImageButton(drawable);
         settingsButton.setSize(100, 100);
-        settingsButton.setPosition(game.getSCREEN_WIDTH() - settingsButton.getWidth()*2, game.getSCREEN_HEIGHT() - settingsButton.getHeight()*2);
+        settingsButton.setPosition(game.getSCREEN_WIDTH() - settingsButton.getWidth()*4.4f, game.getSCREEN_HEIGHT() - settingsButton.getHeight()*2);
         settingsButton.addListener(new ClickListener(){
 
             @Override
             public void clicked(InputEvent e, float x, float y){
                 game.setScreen(new ViewSettings(game));
+
                 tapSFX.play();
             }
 
         });
 
+        Drawable about = new TextureRegionDrawable(new TextureRegion(texAbout));
+        ImageButton aboutButton = new ImageButton(about);
+        aboutButton.setSize(100, 100);
+        aboutButton.setPosition(game.getSCREEN_WIDTH() - aboutButton.getWidth()*3.2f, game.getSCREEN_HEIGHT() - aboutButton.getHeight()*2);
+        aboutButton.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+               //game.setScreen(new ViewAbout(game));
+                tapSFX.play();
+            }
+
+        });
+
+        Drawable help = new TextureRegionDrawable(new TextureRegion(texHelp));
+        ImageButton helpButton = new ImageButton(help);
+        helpButton.setSize(100, 100);
+        helpButton.setPosition(game.getSCREEN_WIDTH() - helpButton.getWidth()*2, game.getSCREEN_HEIGHT() - helpButton.getHeight()*2);
+        helpButton.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+              //  game.setScreen(new ViewTutorial(game));
+                tapSFX.play();
+            }
+
+        });
+
+
+
         stage.addActor(settingsButton);
+        stage.addActor(aboutButton);
+        stage.addActor(helpButton);
 
     }
 

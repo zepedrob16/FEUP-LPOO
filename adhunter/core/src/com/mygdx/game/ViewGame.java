@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.logic.GameState;
 
+import java.util.Random;
+
 public class ViewGame extends ScreenAdapter {
 
     private GameState gameState;
@@ -37,7 +39,7 @@ public class ViewGame extends ScreenAdapter {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = game.robotoFont;
         action = new Label(gameState.getCurrentLevel().getAction(), labelStyle);
-        action.setPosition(game.getSCREEN_WIDTH()/2 - action.getWidth()/2, game.getSCREEN_HEIGHT()/2 - action.getHeight()/2);
+        action.setPosition(game.getSCREEN_WIDTH()/2 - action.getWidth()/2, action.getHeight()/2);
         stage.addActor(action);
 
         loadAssets();
@@ -48,19 +50,28 @@ public class ViewGame extends ScreenAdapter {
     public void fillStage(){
         Drawable upTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/bg_red_up.png", Texture.class)));
         Drawable downTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/bg_red_down.png", Texture.class)));
-        ImageButton settingsButton = new ImageButton(upTex, downTex);
 
-        settingsButton.addListener(new ClickListener(){
+        Random rnd = new Random();
+        int buttonNumber = rnd.nextInt(3) + 1;
 
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                tapSFX.play();
-                return true;
-            }
+        for (int i = 0; i < buttonNumber; i++) {
 
-        });
+            ImageButton gameButton = new ImageButton(upTex, downTex);
+            gameButton.setSize(400, 400);
+            gameButton.setPosition((game.getSCREEN_WIDTH()/(buttonNumber+1)*(i+1)) - gameButton.getWidth()/2, game.getSCREEN_HEIGHT()/2 - gameButton.getHeight()/2);
 
-        stage.addActor(settingsButton);
+            gameButton.addListener(new ClickListener() {
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    tapSFX.play();
+                    return true;
+                }
+
+            });
+
+            stage.addActor(gameButton);
+        }
     }
 
     public void loadAssets(){
