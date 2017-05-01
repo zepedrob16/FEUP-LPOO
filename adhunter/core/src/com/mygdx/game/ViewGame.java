@@ -50,7 +50,7 @@ public class ViewGame extends ScreenAdapter {
         stage.addActor(action);
 
         timer = new Label(String.format("%02d", worldTimer), labelStyle);
-        timer.setPosition(100,100);
+        timer.setPosition(100, 100);
         stage.addActor(timer);
 
         loadAssets();
@@ -93,6 +93,7 @@ public class ViewGame extends ScreenAdapter {
         fillGame();
     }
 
+    //TODO: Replace these image buttons with textures, simply.
     public void fillGame() {
         Drawable lifeFullTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_full.png", Texture.class)));
         cX = 1;
@@ -100,11 +101,16 @@ public class ViewGame extends ScreenAdapter {
 
         for (int i = 0; i < 3; i++) {
             ImageButton lifeSymbol = new ImageButton(lifeFullTex);
-            lifeSymbol.setSize(100,100);
-            lifeSymbol.setPosition(lifeSymbol.getWidth()*1.1f * i + lifeSymbol.getWidth(), game.getSCREEN_HEIGHT() - lifeSymbol.getHeight()*2);
+            lifeSymbol.setSize(100, 100);
+            lifeSymbol.setPosition(lifeSymbol.getWidth()*1.1f * i + lifeSymbol.getWidth(), game.getSCREEN_HEIGHT() - lifeSymbol.getHeight()*1.7f);
 
             stage.addActor(lifeSymbol);
         }
+        Drawable singleAdTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/single_ad.png", Texture.class)));
+        ImageButton adAsset = new ImageButton(singleAdTex);
+        adAsset.setPosition(game.getSCREEN_WIDTH()/2 - adAsset.getWidth()/2, game.getSCREEN_HEIGHT()/2 - adAsset.getHeight()/1.7f);
+        stage.addActor(adAsset);
+
     }
 
     public void loadAssets(){
@@ -112,6 +118,7 @@ public class ViewGame extends ScreenAdapter {
         game.getAssetManager().load("buttons/bg_red_down.png", Texture.class);
         game.getAssetManager().load("data/life_full.png", Texture.class);
         game.getAssetManager().load("data/life_empty.png", Texture.class);
+        game.getAssetManager().load("data/single_ad.png", Texture.class);
 
         tapSFX = Gdx.audio.newSound(Gdx.files.internal("sfx/button_press.mp3"));
     }
@@ -132,12 +139,6 @@ public class ViewGame extends ScreenAdapter {
         stage.act();
         update(delta);
         stage.draw();
-
-
-        if (loaded){
-            game.getBatch().draw(game.getAssetManager().get("data/life_full.png", Texture.class), 20, 1000);
-        }
-
 
         game.getBatch().end();
     }

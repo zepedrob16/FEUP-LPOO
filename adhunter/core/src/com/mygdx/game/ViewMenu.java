@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -64,8 +65,17 @@ public class ViewMenu extends ScreenAdapter {
 
     public void loadAssets(){
         texSettings = new Texture(Gdx.files.internal("buttons/settings_icon.png"));
-        texAbout = new Texture(Gdx.files.internal("buttons/bg_red_down.png"));
-        texHelp = new Texture(Gdx.files.internal("buttons/bg_red_down.png"));
+        texAbout = new Texture(Gdx.files.internal("buttons/about_icon.png"));
+        texHelp = new Texture(Gdx.files.internal("buttons/help_icon.png"));
+    }
+
+    public void overlaySettings(){
+
+        //TODO: Add blur filter.
+        ShapeRenderer sr = new ShapeRenderer();
+        sr.begin(ShapeRenderer.ShapeType.Filled); //Starts a filled shape.
+        sr.identity();
+
     }
 
     public void fillStage(){
