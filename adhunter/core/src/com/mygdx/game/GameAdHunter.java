@@ -22,6 +22,7 @@ public class GameAdHunter extends Game {
 
     @Override
     public void create() {
+        
         SCREEN_WIDTH = Gdx.app.getGraphics().getWidth();
         SCREEN_HEIGHT = Gdx.app.getGraphics().getHeight();
 

@@ -31,7 +31,7 @@ public class Level {
         //Generates a new action (50% chance for each).
         Random rnd = new Random();
         if (rnd.nextInt(2) == 0) action = "PRESS";
-        else action = "AVOID";
+        else action = "AVOlD";
 
     }
 
