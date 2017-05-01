@@ -15,6 +15,8 @@ public class Level {
 
     public Level(int index){
 
+        this.index = index;
+
         if (index >= 1 && index <= 10) timeLeft = 15f;
         if (index >= 11 && index <= 20) timeLeft = 12f;
         if (index >= 21 && index <= 30) timeLeft = 8f;

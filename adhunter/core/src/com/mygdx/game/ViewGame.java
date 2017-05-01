@@ -27,22 +27,28 @@ public class ViewGame extends ScreenAdapter {
     private Stage stage;
     private Sound tapSFX;
 
-    private Label action, timer;
+    private Label action, timer, levelLabel, stageLabel;
 
     private int cX, cY, cW, cZ;
 
-    private boolean loaded = false;
+    private boolean loaded = false, switchFromPre = true;
 
     TimeUtils timeUtils = new TimeUtils();
 
     public ViewGame(GameAdHunter game){
         gameState = new GameState();
         cX = 0; cY = 1; cW = 0; cZ = 1;
-        
+
         this.game = game;
         this.stage = new Stage();
 
+        loadLabelsPreGame();
+        loadAssets();
+        Gdx.input.setInputProcessor(stage);
 
+    }
+
+    public void loadLabelsPreGame() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = game.robotoFont;
         action = new Label(gameState.getCurrentLevel().getAction(), labelStyle);
@@ -50,22 +56,19 @@ public class ViewGame extends ScreenAdapter {
         stage.addActor(action);
 
         timer = new Label(String.format("%02d", worldTimer), labelStyle);
-        timer.setPosition(100, 100);
+        timer.setPosition(game.getSCREEN_WIDTH() - timer.getWidth()*2.2f, game.getSCREEN_HEIGHT() - timer.getHeight());
         stage.addActor(timer);
-
-        loadAssets();
-        Gdx.input.setInputProcessor(stage);
-
     }
 
     public void update(float dt) {
         timeCount += dt;
-        timer.setText(String.format("%02d:%02d", worldTimer, 100 - timeUtils.timeSinceMillis(startTime)/10));
+        timer.setText(String.format("%02d.%02d", worldTimer, 100 - timeUtils.timeSinceMillis(startTime)/10));
         if (timeCount >= 1) {
             worldTimer--;
             startTime = System.currentTimeMillis();
             if (worldTimer == -1)
                 clearScreen();
+
 
             timeCount = 0;
         }
@@ -90,7 +93,27 @@ public class ViewGame extends ScreenAdapter {
 
     public void clearScreen() {
         stage.clear();
-        fillGame();
+        if (switchFromPre) {
+            fillGame();
+            switchFromPre = false;
+        }
+    }
+
+    public void loadLabelsGame() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = game.robotoFont;
+        levelLabel = new Label(String.format("Level %02d", gameState.getCurrentLevel().getIndex()), labelStyle);
+        levelLabel.setFontScale(0.7f);
+        levelLabel.setPosition(game.getSCREEN_WIDTH()/2 - levelLabel.getWidth()/3, game.getSCREEN_HEIGHT() - levelLabel.getHeight());
+
+
+        stageLabel = new Label(String.format("Stage"), labelStyle);
+        stageLabel.setFontScale(0.3f);
+        stageLabel.setPosition(game.getSCREEN_WIDTH()/2 - (stageLabel.getWidth()/4), game.getSCREEN_HEIGHT() - stageLabel.getHeight()*1.4f);
+
+        stage.addActor(levelLabel);
+        stage.addActor(stageLabel);
+
     }
 
     //TODO: Replace these image buttons with textures, simply.
@@ -98,6 +121,8 @@ public class ViewGame extends ScreenAdapter {
         Drawable lifeFullTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_full.png", Texture.class)));
         cX = 1;
         cW = 1;
+        stage.addActor(timer);
+        worldTimer = 14;
 
         for (int i = 0; i < 3; i++) {
             ImageButton lifeSymbol = new ImageButton(lifeFullTex);
@@ -111,7 +136,10 @@ public class ViewGame extends ScreenAdapter {
         adAsset.setPosition(game.getSCREEN_WIDTH()/2 - adAsset.getWidth()/2, game.getSCREEN_HEIGHT()/2 - adAsset.getHeight()/1.7f);
         stage.addActor(adAsset);
 
+        loadLabelsGame();
     }
+
+
 
     public void loadAssets(){
         game.getAssetManager().load("buttons/bg_red_up.png", Texture.class);
