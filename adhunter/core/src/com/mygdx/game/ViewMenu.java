@@ -75,50 +75,6 @@ public class ViewMenu extends ScreenAdapter {
         texHelp = new Texture(Gdx.files.internal("buttons/help_icon.png"));
     }
 
-    public void overlaySettings(){
-
-        Skin ds = new Skin(Gdx.files.internal("uiskin.json"));
-
-        Table table = new Table();
-        table.setDebug(true); //So that we see the table limits.
-        table.setSize(500, 500);
-        final Label pitchValue = new Label("Music", ds);
-        table.add(pitchValue);
-
-        table.setX(game.getSCREEN_WIDTH()/2);
-        table.setY(game.getSCREEN_HEIGHT()/2);
-
-        //TODO: Add blur filter.
-        stage.addActor(new Actor(){
-
-            @Override
-            public void draw(Batch batch, float parentAlpha){
-                float promptWidth = 1150, promptHeight = 850;
-
-                batch.end();
-                ShapeRenderer sr = new ShapeRenderer();
-                sr.begin(ShapeRenderer.ShapeType.Filled); //Starts a filled shape.
-                sr.setColor(new Color(0, 1, 1, 0.5f));
-                sr.rect(game.getSCREEN_WIDTH()/2 - promptWidth/2, game.getSCREEN_HEIGHT()/2 - promptHeight/2, promptWidth, promptHeight);
-                sr.end();
-                batch.begin();
-            }
-
-        });
-
-        final Slider musicSlider = new Slider(0, 100, 1, false, ds);
-        musicSlider.setValue(100); //Initial value.
-        musicSlider.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                mainMusic.setVolume(musicSlider.getPercent());
-            }
-        });
-        table.add(musicSlider);
-        stage.addActor(table);
-
-    }
-
     public void fillStage(){
         Actor a = new Actor();
         a.setBounds(0, 0, game.getSCREEN_WIDTH(), game.getSCREEN_HEIGHT());
@@ -144,8 +100,10 @@ public class ViewMenu extends ScreenAdapter {
 
             @Override
             public void clicked(InputEvent e, float x, float y){
-                //game.setScreen(new ViewSettings(game));
-                overlaySettings();
+
+                ActorSettings as = new ActorSettings(game, mainMusic);
+                stage.addActor(as.getPopup());
+                stage.addActor(as.getTable());
 
                 tapSFX.play();
             }

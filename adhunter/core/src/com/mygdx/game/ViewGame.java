@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.mygdx.logic.Button;
 import com.mygdx.logic.GameState;
 import java.util.Random;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -135,6 +136,9 @@ public class ViewGame extends ScreenAdapter {
         ImageButton adAsset = new ImageButton(singleAdTex);
         adAsset.setPosition(game.getSCREEN_WIDTH()/2 - adAsset.getWidth()/2, game.getSCREEN_HEIGHT()/2 - adAsset.getHeight()/1.7f);
         stage.addActor(adAsset);
+
+        Button btn = new Button();
+        stage.addActor(btn.getImgBtn());
 
         loadLabelsGame();
     }
