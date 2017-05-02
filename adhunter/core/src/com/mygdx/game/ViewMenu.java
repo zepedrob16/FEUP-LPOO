@@ -7,7 +7,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,6 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -71,10 +77,45 @@ public class ViewMenu extends ScreenAdapter {
 
     public void overlaySettings(){
 
+        Skin ds = new Skin(Gdx.files.internal("uiskin.json"));
+
+        Table table = new Table();
+        table.setDebug(true); //So that we see the table limits.
+        table.setSize(500, 500);
+        final Label pitchValue = new Label("Music", ds);
+        table.add(pitchValue);
+
+        table.setX(game.getSCREEN_WIDTH()/2);
+        table.setY(game.getSCREEN_HEIGHT()/2);
+
         //TODO: Add blur filter.
-        ShapeRenderer sr = new ShapeRenderer();
-        sr.begin(ShapeRenderer.ShapeType.Filled); //Starts a filled shape.
-        sr.identity();
+        stage.addActor(new Actor(){
+
+            @Override
+            public void draw(Batch batch, float parentAlpha){
+                float promptWidth = 1150, promptHeight = 850;
+
+                batch.end();
+                ShapeRenderer sr = new ShapeRenderer();
+                sr.begin(ShapeRenderer.ShapeType.Filled); //Starts a filled shape.
+                sr.setColor(new Color(0, 1, 1, 0.5f));
+                sr.rect(game.getSCREEN_WIDTH()/2 - promptWidth/2, game.getSCREEN_HEIGHT()/2 - promptHeight/2, promptWidth, promptHeight);
+                sr.end();
+                batch.begin();
+            }
+
+        });
+
+        final Slider musicSlider = new Slider(0, 100, 1, false, ds);
+        musicSlider.setValue(100); //Initial value.
+        musicSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                mainMusic.setVolume(musicSlider.getPercent());
+            }
+        });
+        table.add(musicSlider);
+        stage.addActor(table);
 
     }
 
@@ -103,7 +144,8 @@ public class ViewMenu extends ScreenAdapter {
 
             @Override
             public void clicked(InputEvent e, float x, float y){
-                game.setScreen(new ViewSettings(game));
+                //game.setScreen(new ViewSettings(game));
+                overlaySettings();
 
                 tapSFX.play();
             }
