@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public class Level {
     private float timeLeft;
-    private int index, steps;
+    private int index, steps, stage; //steps is the total number of stages
     private ImageButton[] buttons;
 
     private String action;
@@ -16,6 +16,7 @@ public class Level {
     public Level(int index){
 
         this.index = index;
+        stage = 1;
 
         if (index >= 1 && index <= 10) timeLeft = 15f;
         if (index >= 11 && index <= 20) timeLeft = 12f;
@@ -40,6 +41,18 @@ public class Level {
     public int getIndex(){
         return index;
     }
+
+    public int getSteps() { return steps; }
+
+    public void nextStage(){
+        stage++;
+    }
+
+    public void resetStage() {
+        stage = 1;
+    }
+
+    public int getStage() { return stage; }
 
     public String getAction(){return action;}
 

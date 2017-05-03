@@ -46,6 +46,14 @@ public class Button  {
             action = false;
     }
 
+    //Sets the opposite action of the pregame buttons
+    public void setGameButtonAction(GameState gameState) {
+        if (gameState.getCurrentLevel().getAction() == "AVOlD")
+            action = false;
+        if (gameState.getCurrentLevel().getAction() == "PRESS")
+            action = true;
+    }
+
     public void generate(){
         ImageButton.ImageButtonStyle btnStyle = new ImageButton.ImageButtonStyle();
 

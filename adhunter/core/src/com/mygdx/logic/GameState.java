@@ -21,24 +21,34 @@ public class GameState {
     }
 
     public void manageButtons(Button button) {
-       levelButtons.add(button);
+        levelButtons.add(button);
     }
 
     public void nextLevel(){
         currentLevel = levels.get(currentLevel.getIndex());
+        currentLevel.resetStage();
     }
 
     public void takeLife(){
-        lives--;
+        this.lives--;
     }
 
     public Level getCurrentLevel() {return currentLevel;}
 
     public void manageTap(Button button){
-        if (button.getAction()){
-            System.out.println("Uh oh, you lose one life");
-        }
+        if (button.getAction())
+            takeLife();
 
+        else if (!button.getAction()){
+            if (currentLevel.getStage() == currentLevel.getSteps())
+                nextLevel();
+            else
+                currentLevel.nextStage();
+        }
+    }
+
+    public int getLives() {
+        return lives;
     }
 
     public ArrayList<Button> getLevelButtons() {

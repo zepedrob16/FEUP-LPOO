@@ -98,6 +98,9 @@ public class ViewGame extends ScreenAdapter {
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
                     gameState.manageTap(gameButton);
+                    loadLives();
+                    clearLabels();
+                    loadLabelsGame();
                 }
             });
             stage.addActor(gameImgButton);
@@ -112,7 +115,13 @@ public class ViewGame extends ScreenAdapter {
         }
     }
 
+    public void clearLabels() {
+        stageLabel.remove();
+        levelLabel.remove();
+    }
+
     public void loadLabelsGame() {
+
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = game.robotoFont;
         levelLabel = new Label(String.format("Level %02d", gameState.getCurrentLevel().getIndex()), labelStyle);
@@ -120,7 +129,7 @@ public class ViewGame extends ScreenAdapter {
         levelLabel.setPosition(game.getSCREEN_WIDTH()/2 - levelLabel.getWidth()/3, game.getSCREEN_HEIGHT() - levelLabel.getHeight());
 
 
-        stageLabel = new Label(String.format("Stage"), labelStyle);
+        stageLabel = new Label(String.format("Stage %02d/%02d", gameState.getCurrentLevel().getStage(), gameState.getCurrentLevel().getSteps()), labelStyle);
         stageLabel.setFontScale(0.3f);
         stageLabel.setPosition(game.getSCREEN_WIDTH()/2 - (stageLabel.getWidth()/4), game.getSCREEN_HEIGHT() - stageLabel.getHeight()*1.4f);
 
@@ -131,19 +140,13 @@ public class ViewGame extends ScreenAdapter {
 
     //TODO: Replace these image buttons with textures, simply.
     public void fillGame() {
-        Drawable lifeFullTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_full.png", Texture.class)));
         cX = 1;
         cW = 1;
         stage.addActor(timer);
         worldTimer = 14;
 
-        for (int i = 0; i < 3; i++) {
-            ImageButton lifeSymbol = new ImageButton(lifeFullTex);
-            lifeSymbol.setSize(100, 100);
-            lifeSymbol.setPosition(lifeSymbol.getWidth()*1.1f * i + lifeSymbol.getWidth(), game.getSCREEN_HEIGHT() - lifeSymbol.getHeight()*1.7f);
+        loadLives();
 
-            stage.addActor(lifeSymbol);
-        }
         Drawable singleAdTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/single_ad.png", Texture.class)));
         adAsset = new ImageButton(singleAdTex);
         adAsset.setPosition(game.getSCREEN_WIDTH()/2 - adAsset.getWidth()/2, game.getSCREEN_HEIGHT()/2 - adAsset.getHeight()/1.7f);
@@ -154,6 +157,38 @@ public class ViewGame extends ScreenAdapter {
         loadLabelsGame();
     }
 
+    public void loadLives() {
+        Drawable lifeFullTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_full.png", Texture.class)));
+        Drawable lifeEmptyTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_empty.png", Texture.class)));
+
+
+        for (int i = 0; i < gameState.getLives(); i++) {
+            ImageButton lifeSymbol = new ImageButton(lifeFullTex);
+            lifeSymbol.setSize(100, 100);
+            lifeSymbol.setPosition(lifeSymbol.getWidth()*1.1f * i + lifeSymbol.getWidth(), game.getSCREEN_HEIGHT() - lifeSymbol.getHeight()*1.7f);
+
+            stage.addActor(lifeSymbol);
+        }
+        if (gameState.getLives() == 2) {
+            ImageButton lifeSymbol = new ImageButton(lifeEmptyTex);
+            lifeSymbol.setSize(100, 100);
+            lifeSymbol.setPosition(lifeSymbol.getWidth()*1.1f * 2 + lifeSymbol.getWidth(), game.getSCREEN_HEIGHT() - lifeSymbol.getHeight()*1.7f);
+            stage.addActor(lifeSymbol);
+        }
+        else if (gameState.getLives() == 1) {
+            for (int i = 1; i < 3; i++) {
+                ImageButton lifeSymbol = new ImageButton(lifeEmptyTex);
+                lifeSymbol.setSize(100, 100);
+                lifeSymbol.setPosition(lifeSymbol.getWidth() * 1.1f * i + lifeSymbol.getWidth(), game.getSCREEN_HEIGHT() - lifeSymbol.getHeight() * 1.7f);
+
+                stage.addActor(lifeSymbol);
+            }
+        }
+
+
+
+    }
+
     public void generateButtons(){
 
         Random rnd = new Random();
@@ -162,7 +197,7 @@ public class ViewGame extends ScreenAdapter {
         System.out.println(Math.round(adAsset.getX()) + " | " + adAsset.getWidth());
 
         for (int i = 0; i < buttonNumber; i++) {
-            Button btn = new Button();
+            final Button btn = new Button();
 
             int buttonWidth = rnd.nextInt(300) + 100;
             int buttonHeight = rnd.nextInt(300) + 100;
@@ -172,13 +207,27 @@ public class ViewGame extends ScreenAdapter {
 
             System.out.println(buttonX + " | " + buttonY);
 
+            ImageButton gameImgButton = btn.getImgBtn();
+            gameImgButton.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+                    gameState.manageTap(btn);
+                    loadLives();
+                    clearLabels();
+                    loadLabelsGame();
+                }
+            });
+
             btn.setButtonSize(buttonWidth, buttonHeight);
             btn.setButtonPos(buttonX, buttonY);
+            btn.setGameButtonAction(gameState);
 
             gameState.manageButtons(btn);
             stage.addActor(btn.getImgBtn());
         }
 
+        // Adds the buttons loaded in preGame
         for (int i = 0; i < gameState.getLevelButtons().size(); i++) {
             int buttonWidth = rnd.nextInt(300) + 100;
             int buttonHeight = rnd.nextInt(300) + 100;
