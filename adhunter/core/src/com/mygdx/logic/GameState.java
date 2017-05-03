@@ -6,6 +6,8 @@ public class GameState {
 
     private ArrayList<Level> levels = new ArrayList<Level> ();
     private Level currentLevel;
+    private ArrayList<Button> buttonsToAvoid = new ArrayList<Button>();
+    private ArrayList<Button> buttonsToPress = new ArrayList<Button>();
 
     private int lives;
 
@@ -16,6 +18,12 @@ public class GameState {
             levels.add(new Level(i+1)); //Adds 999 levels.
         }
         currentLevel = levels.get(0); //Sets first level.
+    }
+
+    public void managePreGameButtons(Button button) {
+        if (currentLevel.getAction() == "AVOlD") {
+            buttonsToAvoid.add(button);
+        }
     }
 
     public void nextLevel(){

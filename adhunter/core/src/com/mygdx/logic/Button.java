@@ -23,7 +23,7 @@ public class Button {
         bgUp = new Texture(Gdx.files.internal("buttons/button_up.png"));
         bgDown = new Texture(Gdx.files.internal("buttons/button_down.png"));
         outUp = new Texture(Gdx.files.internal("buttons/outline1_up.png"));
-        outDown = new Texture(Gdx.files.internal("buttons/outline2_up.png"));
+        //outDown = new Texture(Gdx.files.internal("buttons/outline2_up.png"));
         tints = new Color[6];
         fillTints();
         generate();
@@ -61,11 +61,26 @@ public class Button {
 
         imgBtn = new ImageButton(btnStyle);
     }
+
+    public void setButtonSize(float width, float height) {
+        imgBtn.setSize(width, height);
+    }
+
+    public void setButtonPos(float x, float y) {
+        imgBtn.setPosition(x,y);
+    }
+
     public boolean getMood(){
         return this.mood;
     }
     public ImageButton getImgBtn(){
         return this.imgBtn;
+    }
+    public float getButtonWidth() {
+        return imgBtn.getWidth();
+    }
+    public float getButtonHeight() {
+        return imgBtn.getHeight();
     }
 
 }

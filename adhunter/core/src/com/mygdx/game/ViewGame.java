@@ -28,6 +28,8 @@ public class ViewGame extends ScreenAdapter {
     private Stage stage;
     private Sound tapSFX;
 
+    private ImageButton adAsset;
+
     private Label action, timer, levelLabel, stageLabel;
 
     private int cX, cY, cW, cZ;
@@ -84,11 +86,13 @@ public class ViewGame extends ScreenAdapter {
 
         for (int i = 0; i < buttonNumber; i++) {
 
-            ImageButton gameButton = new ImageButton(upTex);
-            gameButton.setSize(400, 400);
-            gameButton.setPosition((game.getSCREEN_WIDTH()/(buttonNumber+1)*(i+1)) - gameButton.getWidth()/2, game.getSCREEN_HEIGHT()/2 - gameButton.getHeight()/2);
+            Button gameButton = new Button();
+            gameButton.setButtonSize(400, 400);
+            gameButton.setButtonPos((game.getSCREEN_WIDTH()/(buttonNumber+1)*(i+1)) - gameButton.getButtonWidth()/2, game.getSCREEN_HEIGHT()/2 - gameButton.getButtonHeight()/2);
 
-            stage.addActor(gameButton);
+            gameState.managePreGameButtons(gameButton);
+
+            stage.addActor(gameButton.getImgBtn());
         }
     }
 
@@ -133,17 +137,39 @@ public class ViewGame extends ScreenAdapter {
             stage.addActor(lifeSymbol);
         }
         Drawable singleAdTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/single_ad.png", Texture.class)));
-        ImageButton adAsset = new ImageButton(singleAdTex);
+        adAsset = new ImageButton(singleAdTex);
         adAsset.setPosition(game.getSCREEN_WIDTH()/2 - adAsset.getWidth()/2, game.getSCREEN_HEIGHT()/2 - adAsset.getHeight()/1.7f);
         stage.addActor(adAsset);
 
-        Button btn = new Button();
-        stage.addActor(btn.getImgBtn());
+        generateButtons();
 
         loadLabelsGame();
     }
 
+    public void generateButtons(){
 
+        Random rnd = new Random();
+        int buttonNumber = 5;
+
+        System.out.println(Math.round(adAsset.getX()) + " | " + adAsset.getWidth());
+
+        for (int i = 0; i < buttonNumber; i++) {
+            Button btn = new Button();
+
+            int buttonWidth = rnd.nextInt(300) + 100;
+            int buttonHeight = rnd.nextInt(300) + 100;
+
+            int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
+            int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+
+            System.out.println(buttonX + " | " + buttonY);
+
+            btn.setButtonSize(buttonWidth, buttonHeight);
+            btn.setButtonPos(buttonX, buttonY);
+
+            stage.addActor(btn.getImgBtn());
+        }
+    }
 
     public void loadAssets(){
         game.getAssetManager().load("buttons/bg_red_up.png", Texture.class);
@@ -157,7 +183,8 @@ public class ViewGame extends ScreenAdapter {
 
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(cX, cY, cW, cZ); //Background color.
+        Gdx.gl.glClearColor(cX, cY, cW, cZ); //Backgr
+        // nd color.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!loaded){
