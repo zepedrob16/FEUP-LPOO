@@ -1,13 +1,13 @@
 package com.mygdx.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameState {
 
     private ArrayList<Level> levels = new ArrayList<Level> ();
     private Level currentLevel;
-    private ArrayList<Button> buttonsToAvoid = new ArrayList<Button>();
-    private ArrayList<Button> buttonsToPress = new ArrayList<Button>();
+    public ArrayList<Button> levelButtons = new ArrayList<Button>();
 
     private int lives;
 
@@ -20,10 +20,8 @@ public class GameState {
         currentLevel = levels.get(0); //Sets first level.
     }
 
-    public void managePreGameButtons(Button button) {
-        if (currentLevel.getAction() == "AVOlD") {
-            buttonsToAvoid.add(button);
-        }
+    public void manageButtons(Button button) {
+       levelButtons.add(button);
     }
 
     public void nextLevel(){
@@ -35,5 +33,16 @@ public class GameState {
     }
 
     public Level getCurrentLevel() {return currentLevel;}
+
+    public void manageTap(Button button){
+        if (button.getAction()){
+            System.out.println("Uh oh, you lose one life");
+        }
+
+    }
+
+    public ArrayList<Button> getLevelButtons() {
+        return  levelButtons;
+    }
 
 }

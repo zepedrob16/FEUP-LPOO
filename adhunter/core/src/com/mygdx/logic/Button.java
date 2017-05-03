@@ -11,10 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import java.util.Random;
 
-public class Button {
+public class Button  {
 
-    private boolean mood;
+    private boolean action;
     private ImageButton imgBtn;
+    GameState gameState;
 
     private Color[] tints;
     private Texture bgUp, bgDown, outUp, outDown;
@@ -28,6 +29,7 @@ public class Button {
         fillTints();
         generate();
     }
+
     public void fillTints(){
         tints[0] = new Color(1, 0, 0, 1);
         tints[1] = new Color(0, 1, 0, 1);
@@ -35,6 +37,13 @@ public class Button {
         tints[3] = new Color(1, 1, 0, 1);
         tints[4] = new Color(1, 0, 1, 1);
         tints[5] = new Color(0, 1, 1, 1);
+    }
+
+    public void setAction(GameState gameState) {
+        if (gameState.getCurrentLevel().getAction() == "AVOlD")
+            action = true;
+        if (gameState.getCurrentLevel().getAction() == "PRESS")
+            action = false;
     }
 
     public void generate(){
@@ -53,6 +62,7 @@ public class Button {
         sBgUp.setColor(tints[index]);
         sBgDown.setColor(tints[index]);
 
+
         Drawable dBgUp = new SpriteDrawable(sBgUp);
         Drawable dBgDown = new SpriteDrawable(sBgDown);
 
@@ -70,8 +80,8 @@ public class Button {
         imgBtn.setPosition(x,y);
     }
 
-    public boolean getMood(){
-        return this.mood;
+    public boolean getAction(){
+        return this.action;
     }
     public ImageButton getImgBtn(){
         return this.imgBtn;
