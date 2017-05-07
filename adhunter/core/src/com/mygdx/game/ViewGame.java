@@ -32,7 +32,7 @@ public class ViewGame extends ScreenAdapter {
 
     private Label action, timer, levelLabel, stageLabel;
 
-    private int cX, cY, cW, cZ;
+    private int cX, cY, cW, cZ, preGameButtons;
 
     private boolean loaded = false, switchFromPre = true;
 
@@ -69,19 +69,28 @@ public class ViewGame extends ScreenAdapter {
         if (timeCount >= 1) {
             worldTimer--;
             startTime = System.currentTimeMillis();
-            if (worldTimer == -1)
+            if (worldTimer == -1) {
                 clearScreen();
+                //fillGame();
+            }
 
             timeCount = 0;
         }
     }
 
     public void fillPreGame(){
+        gameState.preGameButtons.clear();
 
         Drawable upTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/bg_red_up.png", Texture.class)));
+        int buttonNumber;
 
-        Random rnd = new Random();
-        int buttonNumber = rnd.nextInt(3) + 1;
+        if(gameState.getCurrentLevel().numButtons() < 4)
+            buttonNumber = 1;
+
+        else {
+            Random rnd = new Random();
+            buttonNumber = rnd.nextInt(3) + 1;
+        }
 
         for (int i = 0; i < buttonNumber; i++) {
 
@@ -89,27 +98,52 @@ public class ViewGame extends ScreenAdapter {
             gameButton.setButtonSize(400, 400);
             gameButton.setButtonPos((game.getSCREEN_WIDTH()/(buttonNumber+1)*(i+1)) - gameButton.getButtonWidth()/2, game.getSCREEN_HEIGHT()/2 - gameButton.getButtonHeight()/2);
 
-            gameState.manageButtons(gameButton);
+            gameState.managePreGameButtons(gameButton);
             gameButton.setAction(gameState);
 
             ImageButton gameImgButton = gameButton.getImgBtn();
-            gameImgButton.addListener(new ClickListener() {
+            stage.addActor(gameImgButton);
+        }
+
+        preGameButtons = buttonNumber;
+    }
+
+
+    public void configureButton(final Button gameButton) {
+        ImageButton gameImgButton = gameButton.getImgBtn();
+        gameImgButton.addListener(new ClickListener() {
 
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
-                    gameState.manageTap(gameButton);
+                    if (gameState.manageTap(gameButton)) {
+                        if (gameState.getReset()){
+                            reset();
+                            gameState.setResetFalse();
+                            return;
+                        }
+                        randomizeButtons();
+                    }
                     loadLives();
                     clearLabels();
                     loadLabelsGame();
                 }
             });
-            stage.addActor(gameImgButton);
-        }
+    }
+
+    public void reset() {
+        clearScreen();
+        clearLabels();
+        cX = 0; cY = 1; cW = 0; cZ = 1;
+        worldTimer = 5;
+        loadLabelsPreGame();
+        fillPreGame();
+        switchFromPre = true;
     }
 
     public void clearScreen() {
         stage.clear();
         if (switchFromPre) {
+            gameState.levelButtons.clear();
             fillGame();
             switchFromPre = false;
         }
@@ -153,6 +187,9 @@ public class ViewGame extends ScreenAdapter {
         stage.addActor(adAsset);
 
         generateButtons();
+        for (int i = 0; i < gameState.preGameButtons.size(); i++) {
+            configureButton(gameState.preGameButtons.get(i));
+        }
 
         loadLabelsGame();
     }
@@ -160,6 +197,8 @@ public class ViewGame extends ScreenAdapter {
     public void loadLives() {
         Drawable lifeFullTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_full.png", Texture.class)));
         Drawable lifeEmptyTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_empty.png", Texture.class)));
+        if (gameState.getLives() == 0)
+            clearScreen();
 
 
         for (int i = 0; i < gameState.getLives(); i++) {
@@ -192,11 +231,10 @@ public class ViewGame extends ScreenAdapter {
     public void generateButtons(){
 
         Random rnd = new Random();
-        int buttonNumber = rnd.nextInt(3);
 
         System.out.println(Math.round(adAsset.getX()) + " | " + adAsset.getWidth());
 
-        for (int i = 0; i < buttonNumber; i++) {
+        for (int i = 0; i < gameState.getCurrentLevel().numButtons() - preGameButtons; i++) {
             final Button btn = new Button();
 
             int buttonWidth = rnd.nextInt(300) + 100;
@@ -205,14 +243,18 @@ public class ViewGame extends ScreenAdapter {
             int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
             int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
 
-            System.out.println(buttonX + " | " + buttonY);
-
-            ImageButton gameImgButton = btn.getImgBtn();
+            final ImageButton gameImgButton = btn.getImgBtn();
             gameImgButton.addListener(new ClickListener() {
 
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
-                    gameState.manageTap(btn);
+                    if (gameState.manageTap(btn))
+                        if (gameState.getReset()){
+                            reset();
+                            gameState.setResetFalse();
+                            return;
+                        }
+                    randomizeButtons();
                     loadLives();
                     clearLabels();
                     loadLabelsGame();
@@ -228,16 +270,41 @@ public class ViewGame extends ScreenAdapter {
         }
 
         // Adds the buttons loaded in preGame
-        for (int i = 0; i < gameState.getLevelButtons().size(); i++) {
+        for (int i = 0; i < gameState.preGameButtons.size(); i++) {
             int buttonWidth = rnd.nextInt(300) + 100;
             int buttonHeight = rnd.nextInt(300) + 100;
 
             int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
             int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
 
+            gameState.preGameButtons.get(i).setButtonPos(buttonX, buttonY);
+            gameState.preGameButtons.get(i).setButtonSize(buttonWidth, buttonHeight);
+            stage.addActor(gameState.preGameButtons.get(i).getImgBtn());
+        }
+    }
+
+    public void randomizeButtons() {
+        Random rnd = new Random();
+
+        for (int i = 0; i < gameState.getCurrentLevel().numButtons() - preGameButtons; i++) {
+            int buttonWidth = rnd.nextInt(300) + 100;
+            int buttonHeight = rnd.nextInt(300) + 100;
+
+            int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
+            int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
             gameState.levelButtons.get(i).setButtonPos(buttonX, buttonY);
             gameState.levelButtons.get(i).setButtonSize(buttonWidth, buttonHeight);
-            stage.addActor(gameState.getLevelButtons().get(i).getImgBtn());
+        }
+
+        for (int i = 0; i < gameState.preGameButtons.size(); i++) {
+            int buttonWidth = rnd.nextInt(300) + 100;
+            int buttonHeight = rnd.nextInt(300) + 100;
+
+            int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
+            int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+
+            gameState.preGameButtons.get(i).setButtonPos(buttonX, buttonY);
+            gameState.preGameButtons.get(i).setButtonSize(buttonWidth, buttonHeight);
         }
     }
 
@@ -253,8 +320,7 @@ public class ViewGame extends ScreenAdapter {
 
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(cX, cY, cW, cZ); //Backgr
-        // nd color.
+        Gdx.gl.glClearColor(cX, cY, cW, cZ); //Background color.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!loaded){

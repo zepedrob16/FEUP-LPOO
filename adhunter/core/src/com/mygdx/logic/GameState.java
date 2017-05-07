@@ -7,9 +7,12 @@ public class GameState {
 
     private ArrayList<Level> levels = new ArrayList<Level> ();
     private Level currentLevel;
-    public ArrayList<Button> levelButtons = new ArrayList<Button>();
+    public ArrayList<Button> levelButtons = new ArrayList<Button>(); //Buttons except pre-game
+    public ArrayList<Button> preGameButtons = new ArrayList<Button>(); //Pre-game buttons
 
     private int lives;
+
+    private boolean reset = false;
 
     public GameState(){
         lives = 3;
@@ -24,9 +27,12 @@ public class GameState {
         levelButtons.add(button);
     }
 
+    public void managePreGameButtons(Button button) { preGameButtons.add(button); }
+
     public void nextLevel(){
         currentLevel = levels.get(currentLevel.getIndex());
         currentLevel.resetStage();
+        reset = true;
     }
 
     public void takeLife(){
@@ -35,24 +41,30 @@ public class GameState {
 
     public Level getCurrentLevel() {return currentLevel;}
 
-    public void manageTap(Button button){
-        if (button.getAction())
+    public boolean manageTap(Button button){
+        if (button.getAction()) {
             takeLife();
+            return false;
+        }
 
         else if (!button.getAction()){
-            if (currentLevel.getStage() == currentLevel.getSteps())
+            if (currentLevel.getStage() == currentLevel.getSteps()) {
                 nextLevel();
-            else
+                return true;
+            }
+            else {
                 currentLevel.nextStage();
+                return true;
+            }
         }
+        return false;
     }
 
     public int getLives() {
         return lives;
     }
 
-    public ArrayList<Button> getLevelButtons() {
-        return  levelButtons;
-    }
+    public void setResetFalse() {reset = false; return;}
 
+    public boolean getReset() { return reset; }
 }

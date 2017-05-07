@@ -38,6 +38,12 @@ public class Level {
 
     }
 
+    public int numButtons() {
+        if (index % 2 != 0 && index < 25)
+            return ((index+1)/2 + 1);
+        return (index/2 + 1);
+    }
+
     public int getIndex(){
         return index;
     }
