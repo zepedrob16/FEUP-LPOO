@@ -5,6 +5,12 @@ import java.util.Random;
 
 public class GameState {
 
+    private static GameState instance = null; //Creates the singleton.
+    public static GameState getInstance(){
+        if (instance == null) instance = new GameState(); //If singleton doesn't exist, create it.
+        return instance;
+    }
+
     private ArrayList<Level> levels = new ArrayList<Level> ();
     private Level currentLevel;
     public ArrayList<Button> levelButtons = new ArrayList<Button>(); //Buttons except pre-game
@@ -41,13 +47,12 @@ public class GameState {
 
     public Level getCurrentLevel() {return currentLevel;}
 
-    public boolean manageTap(Button button){
-        if (button.getAction()) {
+    public boolean manageTap(){
+        if (currentLevel.getAction() == "AVOlD") {
             takeLife();
             return false;
         }
-
-        else if (!button.getAction()){
+        else if (currentLevel.getAction() == "PRESS"){
             if (currentLevel.getStage() == currentLevel.getSteps()) {
                 nextLevel();
                 return true;

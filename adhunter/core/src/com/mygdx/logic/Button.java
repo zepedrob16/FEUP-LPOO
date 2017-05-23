@@ -1,10 +1,8 @@
 package com.mygdx.logic;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -13,66 +11,63 @@ import java.util.Random;
 public class Button extends Actor {
 
     boolean action;
-    private Color[] tints;
-    private Texture bgUp, bgDown, outUp, outDown;
+    private Texture backgroundUp, backgroundDown, activeBG;
 
-    private Sprite sBgUp, sBgDown;
-    private Sprite activeBG, activeOutline;
+    public Button(final boolean pressable){
+        setColor(); //Randomizes the button color.
+        this.activeBG = this.backgroundUp; //Default texture is up.
 
-    public Button(){
-        this.tints = new Color[6];
-        loadAssets();
+        if (!pressable) return; //Skip listeners if it isn't pressable.
 
         addListener(new InputListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                activeBG = sBgDown;
+                activeBG = backgroundDown;
+                GameState.getInstance().manageTap();
                 return true;
             }
-
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button){
-                activeBG = sBgUp;
+                activeBG = backgroundUp;
             }
-
         });
     }
 
     @Override
     public void draw(Batch batch, float alpha) {
-        batch.draw(activeBG, this.getX(), this.getY());
-        //batch.draw(activeOutline, this.getX(), this.getY());
+        batch.draw(this.activeBG, this.getX(), this.getY());
     }
 
-    public void loadAssets(){
-        bgUp = new Texture(Gdx.files.internal("buttons/button_up.png"));
-        bgDown = new Texture(Gdx.files.internal("buttons/button_down.png"));
-        outUp = new Texture(Gdx.files.internal("buttons/outline1_up.png"));
-        //outDown = new Texture(Gdx.files.internal("buttons/outline2_up.png"));
-
-        tints[0] = new Color(1, 0, 0, 1);
-        tints[1] = new Color(0, 1, 0, 1);
-        tints[2] = new Color(0, 0, 1, 1);
-        tints[3] = new Color(1, 1, 0, 1);
-        tints[4] = new Color(1, 0, 1, 1);
-        tints[5] = new Color(0, 1, 1, 1);
-
-        tintAssets();
-    }
-
-    public void tintAssets(){
-
+    public void setColor(){
         Random rnd = new Random();
-        int index = rnd.nextInt(6);
 
-        sBgUp = new Sprite(bgUp);
-        sBgDown = new Sprite(bgDown);
+        switch(rnd.nextInt(6)){
+            case 0:
+                this.backgroundUp = new Texture(Gdx.files.internal("buttons/btn_up_red.png"));
+                this.backgroundDown = new Texture(Gdx.files.internal("buttons/btn_down_red.png"));
+                break;
 
-        sBgUp.setColor(tints[index]);
-        sBgDown.setColor(tints[index]);
+            case 1:
+                this.backgroundUp = new Texture(Gdx.files.internal("buttons/btn_up_yellow.png"));
+                this.backgroundDown = new Texture(Gdx.files.internal("buttons/btn_down_yellow.png"));
+                break;
 
-        activeBG = sBgUp;
+            case 2:
+                this.backgroundUp = new Texture(Gdx.files.internal("buttons/btn_up_green.png"));
+                this.backgroundDown = new Texture(Gdx.files.internal("buttons/btn_down_green.png"));
+                break;
+
+            case 3:
+                this.backgroundUp = new Texture(Gdx.files.internal("buttons/btn_up_blue.png"));
+                this.backgroundDown = new Texture(Gdx.files.internal("buttons/btn_down_blue.png"));
+                break;
+
+            case 4:
+                this.backgroundUp = new Texture(Gdx.files.internal("buttons/btn_up_purple.png"));
+                this.backgroundDown = new Texture(Gdx.files.internal("buttons/btn_down_purple.png"));
+                break;
+        }
     }
 
     public void setAction(String action){

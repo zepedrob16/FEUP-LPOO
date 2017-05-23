@@ -81,7 +81,6 @@ public class ViewGame extends ScreenAdapter {
     public void fillPreGame(){
         gameState.preGameButtons.clear();
 
-        Drawable upTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/bg_red_up.png", Texture.class)));
         int buttonNumber;
 
         if(gameState.getCurrentLevel().numButtons() < 4)
@@ -94,7 +93,7 @@ public class ViewGame extends ScreenAdapter {
 
         for (int i = 0; i < buttonNumber; i++) {
 
-            final Button gameButton = new Button();
+            final Button gameButton = new Button(false);
             gameButton.setSize(400, 400);
             System.out.println(gameButton.getWidth());
             gameButton.setBounds((game.getSCREEN_WIDTH()/(buttonNumber+1)*(i+1)) - gameButton.getWidth()/2, game.getSCREEN_HEIGHT()/2 - gameButton.getHeight()/2, 400, 400);
@@ -115,7 +114,7 @@ public class ViewGame extends ScreenAdapter {
 
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
-                    if (gameState.manageTap(gameButton)) {
+                    if (gameState.manageTap()) {
                         if (gameState.getReset()){
                             reset();
                             gameState.setResetFalse();
@@ -134,7 +133,7 @@ public class ViewGame extends ScreenAdapter {
         clearScreen();
         clearLabels();
         cX = 0; cY = 1; cW = 0; cZ = 1;
-        loadTimer();
+        worldTimer=4;
         loadLabelsPreGame();
         fillPreGame();
         switchFromPre = true;
@@ -177,7 +176,7 @@ public class ViewGame extends ScreenAdapter {
         cX = 1;
         cW = 1;
         stage.addActor(timer);
-        worldTimer = 14;
+        loadTimer();
 
         loadLives();
 
@@ -232,10 +231,8 @@ public class ViewGame extends ScreenAdapter {
 
         Random rnd = new Random();
 
-        System.out.println(Math.round(adAsset.getX()) + " | " + adAsset.getWidth());
-
         for (int i = 0; i < gameState.getCurrentLevel().numButtons() - preGameButtons; i++) {
-            final Button btn = new Button();
+            final Button btn = new Button(true);
 
             int buttonWidth = rnd.nextInt(300) + 100;
             int buttonHeight = rnd.nextInt(300) + 100;
@@ -248,7 +245,7 @@ public class ViewGame extends ScreenAdapter {
 
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
-                    if (gameState.manageTap(btn))
+                    if (gameState.manageTap())
                         if (gameState.getReset()){
                             reset();
                             gameState.setResetFalse();
@@ -321,8 +318,7 @@ public class ViewGame extends ScreenAdapter {
 
 
     public void loadAssets(){
-        game.getAssetManager().load("buttons/bg_red_up.png", Texture.class);
-        game.getAssetManager().load("buttons/bg_red_down.png", Texture.class);
+
         game.getAssetManager().load("data/life_full.png", Texture.class);
         game.getAssetManager().load("data/life_empty.png", Texture.class);
         game.getAssetManager().load("data/single_ad.png", Texture.class);

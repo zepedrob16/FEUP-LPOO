@@ -30,7 +30,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class ViewMenu extends ScreenAdapter {
 
     private final GameAdHunter game;
-    private ImageButton settingsButton;
 
     private Stage stage;
 
