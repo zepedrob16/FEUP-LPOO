@@ -134,7 +134,7 @@ public class ViewGame extends ScreenAdapter {
         clearScreen();
         clearLabels();
         cX = 0; cY = 1; cW = 0; cZ = 1;
-        worldTimer = 5;
+        loadTimer();
         loadLabelsPreGame();
         fillPreGame();
         switchFromPre = true;
@@ -305,6 +305,20 @@ public class ViewGame extends ScreenAdapter {
             gameState.preGameButtons.get(i).setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
         }
     }
+
+    public void loadTimer() {
+        if (gameState.getCurrentLevel().getIndex() < 10)
+            worldTimer = 14;
+        else if (gameState.getCurrentLevel().getIndex() < 20)
+            worldTimer = 11;
+        else if (gameState.getCurrentLevel().getIndex() < 30)
+            worldTimer = 7;
+        else if (gameState.getCurrentLevel().getIndex() % 10 == 0)
+            worldTimer = 9;
+        else
+            worldTimer = 4;
+    }
+
 
     public void loadAssets(){
         game.getAssetManager().load("buttons/bg_red_up.png", Texture.class);
