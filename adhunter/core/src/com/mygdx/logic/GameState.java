@@ -47,12 +47,12 @@ public class GameState {
 
     public Level getCurrentLevel() {return currentLevel;}
 
-    public boolean manageTap(){
-        if (currentLevel.getAction() == "AVOlD") {
+    public boolean manageTap(Button btn){
+        if (!btn.getAction()) {
             takeLife();
             return false;
         }
-        else if (currentLevel.getAction() == "PRESS"){
+        else if (btn.getAction()){
             if (currentLevel.getStage() == currentLevel.getSteps()) {
                 nextLevel();
                 return true;

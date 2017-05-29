@@ -10,12 +10,13 @@ import java.util.Random;
 
 public class Button extends Actor {
 
-    boolean action;
+    boolean press;
     private Texture backgroundUp, backgroundDown, activeBG;
 
-    public Button(final boolean pressable){
+    public Button(final boolean pressable, float width, float height){
         setColor(); //Randomizes the button color.
         this.activeBG = this.backgroundUp; //Default texture is up.
+        this.setSize(width, height);
 
         if (!pressable) return; //Skip listeners if it isn't pressable.
 
@@ -24,7 +25,7 @@ public class Button extends Actor {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
                 activeBG = backgroundDown;
-                GameState.getInstance().manageTap();
+                //GameState.getInstance().manageTap(this);
                 return true;
             }
             @Override
@@ -70,12 +71,12 @@ public class Button extends Actor {
         }
     }
 
-    public void setAction(String action){
-        this.action = (action == "PRESS") ? true : false;
-    }
+    public void setAction(String action){this.press = (action == "PRESS") ? true : false;}
+
+    public void setGameButtonAction(String action) {this.press = (action == "PRESS") ? false : true;}
 
     public boolean getAction(){
-        return this.action;
+        return this.press;
     }
 
 }
