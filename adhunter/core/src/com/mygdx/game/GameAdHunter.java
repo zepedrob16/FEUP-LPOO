@@ -4,12 +4,28 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.mygdx.logic.GameState;
 
 public class GameAdHunter extends Game {
-    
+
+    private static GameAdHunter instance = null; //Creates the singleton.
+    public static GameAdHunter getInstance(){
+        if (instance == null) instance = new GameAdHunter(); //If singleton doesn't exist, create it.
+        return instance;
+    }
+
     private AssetManager assetManager;
     private SpriteBatch batch;
 
@@ -29,25 +45,76 @@ public class GameAdHunter extends Game {
         assetManager = new AssetManager();
         batch = new SpriteBatch();
 
-        this.activeScreen = new ViewMenu(this);
-        setScreen(activeScreen);
+        this.loadFonts();
+        this.loadAssets();
+    }
+
+    public void loadFonts(){
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FreeTypeFontLoaderParameter medium = new FreeTypeFontLoaderParameter();
+        medium.fontFileName = "font/whitney-medium.ttf";
+        medium.fontParameters.size = 80;
+        medium.fontParameters.color = Color.BLACK;
+        assetManager.load("font/whitney-medium.ttf", BitmapFont.class, medium);
+
+        FreeTypeFontLoaderParameter bold = new FreeTypeFontLoaderParameter();
+        bold.fontFileName = "font/whitney-bold.ttf";
+        bold.fontParameters.size = 190; //Do not exceed 200, it WILL cause chars to become invisible.
+        bold.fontParameters.color = Color.BLACK;
+        assetManager.load("font/whitney-bold.ttf", BitmapFont.class, bold);
+    }
+
+    public void loadAssets(){
+
+        //Textures.
+        assetManager.load("menu-background.png", Texture.class);
+        assetManager.load("buttons/achievements_icon.png", Texture.class);
+        assetManager.load("buttons/leaderboards_icon.png", Texture.class);
+        assetManager.load("buttons/settings_icon.png", Texture.class);
+        assetManager.load("buttons/about_icon.png", Texture.class);
+        assetManager.load("buttons/help_icon.png", Texture.class);
+
+        //Music & SFX.
+        assetManager.load("sfx/main_music_1.mp3", Music.class);
+        assetManager.load("sfx/button_press.mp3", Sound.class);
+
+        //Game assets.
+        assetManager.load("data/life_full.png", Texture.class);
+        assetManager.load("data/life_empty.png", Texture.class);
+        assetManager.load("data/single_ad.png", Texture.class);
+
     }
 
     @Override
     public void render(){
         super.render();
+
+        if (assetManager.getProgress() == 1) return;
+
+        if (assetManager.update()){
+            this.activeScreen = new ViewMenu(this);
+            setScreen(activeScreen);
+        }
+
     }
 
     @Override
     public void pause(){
-        activeScreen.pause();
+        if (activeScreen != null) activeScreen.pause();
     }
 
     @Override
     public void resume(){
-        activeScreen.resume();
+        if (activeScreen != null) activeScreen.resume();
     }
 
+    @Override
+    public void resize(int width, int height){
+
+    }
 
     @Override
     public void dispose(){

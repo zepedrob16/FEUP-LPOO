@@ -28,7 +28,6 @@ public class ActorSettings {
         this.table = new Table();
         this.mainMusic = mainMusic;
 
-        setupPopup();
         setupTable();
     }
 
@@ -58,7 +57,7 @@ public class ActorSettings {
         table.add(musicSlider);
     }
 
-    public void setupPopup(){
+    public void drawBackground(){
         this.popup = new Actor(){
             @Override
             public void draw(Batch batch, float parentAlpha){

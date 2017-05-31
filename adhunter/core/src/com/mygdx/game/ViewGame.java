@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,15 +20,14 @@ import java.util.Random;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class ViewGame extends ScreenAdapter {
+
     private float timeCount;
     private Integer worldTimer = 4;
     private GameState gameState;
     private long startTime = System.currentTimeMillis();
 
-
     private GameAdHunter game;
     private Stage stage;
-    private Sound tapSFX;
 
     private ImageButton adAsset;
 
@@ -39,7 +39,6 @@ public class ViewGame extends ScreenAdapter {
 
     TimeUtils timeUtils = new TimeUtils();
 
-    //CONSTRUCTOR
     public ViewGame(GameAdHunter game){
         gameState = new GameState();
         cX = 0; cY = 1; cW = 0; cZ = 1;
@@ -48,7 +47,6 @@ public class ViewGame extends ScreenAdapter {
         this.stage = new Stage();
 
         loadLabelsPreGame();
-        loadAssets();
         Gdx.input.setInputProcessor(stage);
 
     }
@@ -56,7 +54,7 @@ public class ViewGame extends ScreenAdapter {
     //LOADS AVOID/PRESS AND TIMER LABELS TO PREGAME
     public void loadLabelsPreGame() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = game.robotoFont;
+        labelStyle.font = game.getAssetManager().get("font/whitney-medium.ttf", BitmapFont.class);
         action = new Label(gameState.getCurrentLevel().getAction(), labelStyle);
         action.setPosition(game.getSCREEN_WIDTH()/2 - action.getWidth()/2, game.getSCREEN_HEIGHT() - action.getHeight());
         stage.addActor(action);
@@ -323,16 +321,6 @@ public class ViewGame extends ScreenAdapter {
             worldTimer = 9;
         else
             worldTimer = 4;
-    }
-
-
-    public void loadAssets(){
-
-        game.getAssetManager().load("data/life_full.png", Texture.class);
-        game.getAssetManager().load("data/life_empty.png", Texture.class);
-        game.getAssetManager().load("data/single_ad.png", Texture.class);
-
-        tapSFX = Gdx.audio.newSound(Gdx.files.internal("sfx/button_press.mp3"));
     }
 
     @Override

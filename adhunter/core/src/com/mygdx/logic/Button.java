@@ -71,9 +71,13 @@ public class Button extends Actor {
         }
     }
 
-    public void setAction(String action){this.press = (action == "PRESS") ? true : false;}
+    public void setAction(String action){
+        this.press = action.equals("PRESS");
+    }
 
-    public void setGameButtonAction(String action) {this.press = (action == "PRESS") ? false : true;}
+    public void setGameButtonAction(String action) {
+        this.press = !action.equals("PRESS");
+    }
 
     public boolean getAction(){
         return this.press;

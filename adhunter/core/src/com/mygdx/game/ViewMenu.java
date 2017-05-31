@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -9,13 +10,18 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -33,11 +39,6 @@ public class ViewMenu extends ScreenAdapter {
 
     private Stage stage;
 
-    //Font
-    FreeTypeFontGenerator generator;
-    BitmapFont font;
-    Label pressToPlay;
-
     //Textures
     private Texture texSettings, texAbout, texHelp;
 
@@ -45,119 +46,97 @@ public class ViewMenu extends ScreenAdapter {
     private Music mainMusic;
     private Sound tapSFX;
 
+    //Fonts
+    private BitmapFont whitneyBold, whitneyMedium;
+
     public ViewMenu(GameAdHunter game) {
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
 
         //Sound
-        this.mainMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/main_music_1.mp3"));
+        this.mainMusic = game.getAssetManager().get("sfx/main_music_1.mp3", Music.class);
+        this.tapSFX = game.getAssetManager().get("sfx/button_press.mp3", Sound.class);
         mainMusic.play();
 
-        this.tapSFX = Gdx.audio.newSound(Gdx.files.internal("sfx/button_press.mp3"));
-
         //Font
-        this.generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Thin.ttf"));
-        setFontProperties();
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = game.robotoFont;
-        pressToPlay = new Label("tap to play", labelStyle);
-        pressToPlay.setPosition(game.getSCREEN_WIDTH()/2 - pressToPlay.getWidth()/2, game.getSCREEN_HEIGHT()/2 - pressToPlay.getHeight()/2);
+        this.whitneyMedium = game.getAssetManager().get("font/whitney-medium.ttf", BitmapFont.class);
+        this.whitneyBold = game.getAssetManager().get("font/whitney-bold.ttf", BitmapFont.class);
 
-        loadAssets();
-        Gdx.input.setInputProcessor(stage);
         fillStage();
     }
 
-    public void loadAssets(){
-        texSettings = new Texture(Gdx.files.internal("buttons/settings_icon.png"));
-        texAbout = new Texture(Gdx.files.internal("buttons/about_icon.png"));
-        texHelp = new Texture(Gdx.files.internal("buttons/help_icon.png"));
-    }
-
     public void fillStage(){
+
         Actor a = new Actor();
         a.setBounds(0, 0, game.getSCREEN_WIDTH(), game.getSCREEN_HEIGHT());
-        a.addListener(new ClickListener(){
-
+        a.addListener(new InputListener(){
             @Override
-            public void clicked(InputEvent e, float x, float y){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new ViewGame(game));
                 tapSFX.play();
                 dispose();
+                return true;
             }
-
         });
         stage.addActor(a);
 
-        stage.addActor(pressToPlay);
+        Drawable dACH = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/achievements_icon.png", Texture.class)));
+        ImageButton bACH = new ImageButton(dACH);
+        bACH.setBounds(50, 50, 170, 170);
+        stage.addActor(bACH);
 
-        Drawable drawable = new TextureRegionDrawable(new TextureRegion(texSettings));
-        ImageButton settingsButton = new ImageButton(drawable);
-        settingsButton.setSize(100, 100);
-        settingsButton.setPosition(game.getSCREEN_WIDTH() - settingsButton.getWidth()*4.4f, game.getSCREEN_HEIGHT() - settingsButton.getHeight()*2);
-        settingsButton.addListener(new ClickListener(){
+        Drawable dLEAD = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/leaderboards_icon.png", Texture.class)));
+        ImageButton bLEAD = new ImageButton(dLEAD);
+        bLEAD.setBounds(280, 50, 170, 170);
+        stage.addActor(bLEAD);
 
+        Drawable dSETT = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/settings_icon.png", Texture.class)));
+        ImageButton bSETT = new ImageButton(dSETT);
+        bSETT.setBounds(game.getSCREEN_WIDTH() - 680, game.getSCREEN_HEIGHT() - 250, 170, 170);
+        bSETT.addListener(new InputListener(){
             @Override
-            public void clicked(InputEvent e, float x, float y){
-
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 ActorSettings as = new ActorSettings(game, mainMusic);
                 stage.addActor(as.getPopup());
                 stage.addActor(as.getTable());
 
                 tapSFX.play();
+                return true;
             }
-
         });
+        stage.addActor(bSETT);
 
-        Drawable about = new TextureRegionDrawable(new TextureRegion(texAbout));
-        ImageButton aboutButton = new ImageButton(about);
-        aboutButton.setSize(100, 100);
-        aboutButton.setPosition(game.getSCREEN_WIDTH() - aboutButton.getWidth()*3.2f, game.getSCREEN_HEIGHT() - aboutButton.getHeight()*2);
-        aboutButton.addListener(new ClickListener(){
-
+        Drawable dABOUT = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/about_icon.png", Texture.class)));
+        ImageButton bABOUT = new ImageButton(dABOUT);
+        bABOUT.setBounds(game.getSCREEN_WIDTH() - 460, game.getSCREEN_HEIGHT() - 250, 170, 170);
+        bABOUT.addListener(new InputListener(){
             @Override
-            public void clicked(InputEvent e, float x, float y){
-               //game.setScreen(new ViewAbout(game));
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+                //Dialog dialog = new Dialog(" ", skin);
+                //dialog.text("asdf");
+                //dialog.show(stage);
+
+                MenuPopup menuPopup = new PopupAbout();
+                stage.addActor(menuPopup.getBackground());
+                stage.addActor(menuPopup.getForeground());
+
                 tapSFX.play();
+                return true;
             }
-
         });
+        stage.addActor(bABOUT);
 
-        Drawable help = new TextureRegionDrawable(new TextureRegion(texHelp));
-        ImageButton helpButton = new ImageButton(help);
-        helpButton.setSize(100, 100);
-        helpButton.setPosition(game.getSCREEN_WIDTH() - helpButton.getWidth()*2, game.getSCREEN_HEIGHT() - helpButton.getHeight()*2);
-        helpButton.addListener(new ClickListener(){
+        Drawable dHELP = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/help_icon.png", Texture.class)));
+        ImageButton bHELP = new ImageButton(dHELP);
+        bHELP.setBounds(game.getSCREEN_WIDTH() - 240, game.getSCREEN_HEIGHT() - 250, 170, 170);
+        stage.addActor(bHELP);
 
-            @Override
-            public void clicked(InputEvent e, float x, float y){
-              //  game.setScreen(new ViewTutorial(game));
-                tapSFX.play();
-            }
-
-        });
-
-
-
-        stage.addActor(settingsButton);
-        stage.addActor(aboutButton);
-        stage.addActor(helpButton);
-
-    }
-
-    public void setFontProperties(){
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parameter.size = 160;
-        parameter.color = Color.BLACK;
-        game.robotoFont = generator.generateFont(parameter);
     }
 
     @Override
     public void dispose(){
-        game.getBatch().dispose();
         stage.dispose();
-        generator.dispose();
     }
 
     @Override
@@ -165,17 +144,32 @@ public class ViewMenu extends ScreenAdapter {
         Gdx.gl.glClearColor(1, 1, 1, 1); //Background color.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.getBatch().begin();
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK) || Gdx.input.getAccelerometerX() > 50){
+            Gdx.input.vibrate(100);
+            Gdx.app.exit();
+        }
 
+        game.getBatch().begin();
+        game.getBatch().draw(game.getAssetManager().get("menu-background.png", Texture.class), 0, 0);
+
+        GlyphLayout glyphLayout = new GlyphLayout();
+        glyphLayout.setText(this.whitneyBold, "Ad Hunter");
+        this.whitneyBold.draw(game.getBatch(), "Ad Hunter", game.getSCREEN_WIDTH()/2 - glyphLayout.width/2, game.getSCREEN_HEIGHT()/2 + glyphLayout.height/2 + 40);
+
+        glyphLayout.setText(this.whitneyMedium, "Tap anywhere to start");
+        this.whitneyMedium.draw(game.getBatch(), "Tap anywhere to start", game.getSCREEN_WIDTH()/2 - glyphLayout.width/2, game.getSCREEN_HEIGHT()/2 + glyphLayout.height/2 - 100);
+        game.getBatch().end();
+
+        game.getBatch().begin();
         stage.act();
         stage.draw();
-
         game.getBatch().end();
+
     }
 
     @Override
     public void show(){
-
+        Gdx.input.setInputProcessor(stage);
     }
 
 }
