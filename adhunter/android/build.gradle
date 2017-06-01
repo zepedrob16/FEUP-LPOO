@@ -19,7 +19,8 @@ android {
     }
     defaultConfig {
         applicationId 'com.mygdx.game'
-        minSdkVersion 9
+        multiDexEnabled true
+        minSdkVersion 15
         targetSdkVersion 25
     }
     productFlavors {
@@ -125,4 +126,5 @@ idea {
     }
 }
 dependencies {
+    compile 'com.android.support:multidex:1.0.0'
 }
