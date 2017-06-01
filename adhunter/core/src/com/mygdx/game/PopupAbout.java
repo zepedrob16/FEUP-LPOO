@@ -31,18 +31,18 @@ public class PopupAbout implements MenuPopup {
             @Override
             public void draw(Batch batch, float parentAlpha){
                 float promptWidth = 1150, promptHeight = 850;
-                /*
+
                 batch.end();
                 Gdx.gl.glEnable(GL20.GL_BLEND);
                 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
                 ShapeRenderer sr = new ShapeRenderer();
                 sr.begin(ShapeRenderer.ShapeType.Filled); //Starts a filled shape.
-                sr.setColor(new Color(0, 0, 0, 0.5f));
-                sr.rect(GameAdHunter.getInstance().getSCREEN_WIDTH()/2 - promptWidth/2, GameAdHunter.getInstance().getSCREEN_HEIGHT()/2 - promptHeight/2, promptWidth, promptHeight);
+                sr.setColor(new Color(1, 0, 0, 0.5f));
+                sr.rect(GameAdHunter.getSCREEN_WIDTH()/2 - promptWidth/2, GameAdHunter.getSCREEN_HEIGHT()/2 - promptHeight/2, promptWidth, promptHeight);
                 sr.end();
                 Gdx.gl.glDisable(GL20.GL_BLEND);
                 batch.begin();
-                */
+
             }
         };
     }
@@ -50,11 +50,20 @@ public class PopupAbout implements MenuPopup {
     @Override
     public void drawForeground(){
         this.foreground = new Table();
+        foreground.setSize(1150, 850);
+        foreground.setX(GameAdHunter.getSCREEN_WIDTH()/2);
+        foreground.setY(GameAdHunter.getSCREEN_HEIGHT()/2);
 
 
         LabelStyle lblStyle = new LabelStyle();
         lblStyle.font = new BitmapFont(Gdx.files.internal("font/whitney-medium.fnt"));
-        foreground.add(new Label("omg nice", new LabelStyle(lblStyle)));
+        lblStyle.fontColor = new Color(0,0,0,1);
+
+        Label description = new Label("AdHunter was developed by Miguel Mano Fernandes and Jose Pedro Borges", lblStyle);
+        description.setPosition(GameAdHunter.getSCREEN_WIDTH()/2, GameAdHunter.getSCREEN_HEIGHT()/2);
+
+        foreground.add(description);
+
     }
 
     @Override

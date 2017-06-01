@@ -6,6 +6,7 @@ public interface PlayServices {
     void signOut();
     void rateGame();
     void unlockAchievement(String achievement);
+    void increment(String achievement);
 
     void submitScore(int highScore);
     void showAchievement();

@@ -31,7 +31,8 @@ public class GameAdHunter extends Game {
     private SpriteBatch batch;
     private Screen activeScreen;
 
-    private int SCREEN_WIDTH, SCREEN_HEIGHT;
+    private static int SCREEN_WIDTH;
+    private static int SCREEN_HEIGHT;
 
     //Font
     BitmapFont robotoFont;
@@ -137,12 +138,14 @@ public class GameAdHunter extends Game {
         return batch;
     }
 
-    public int getSCREEN_WIDTH(){
+    public static int getSCREEN_WIDTH(){
         return SCREEN_WIDTH;
     }
 
-    public int getSCREEN_HEIGHT(){
+    public static int getSCREEN_HEIGHT(){
         return SCREEN_HEIGHT;
     }
+
+    public PlayServices getPlayServices() { return playServices;}
 
 }

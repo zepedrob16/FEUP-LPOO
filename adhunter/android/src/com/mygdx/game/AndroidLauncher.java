@@ -35,6 +35,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 		gameHelper.setup(gameHelperListener);
 
 		initialize(new GameAdHunter(this), config);
+
 	}
 
 	@Override
@@ -96,7 +97,12 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
 	@Override
 	public void unlockAchievement(String achievement) {
-		Games.Achievements.unlock(gameHelper.getApiClient(), getString(R.string.achievement_firewall));
+		Games.Achievements.unlock(gameHelper.getApiClient(), achievement);
+	}
+
+	@Override
+	public void increment(String achievement) {
+		Games.Achievements.increment(gameHelper.getApiClient(), achievement, 1);
 	}
 
 	@Override
@@ -132,4 +138,6 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	public boolean isSignedIn() {
 		return gameHelper.isSignedIn();
 	}
+
+
 }

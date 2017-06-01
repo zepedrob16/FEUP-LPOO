@@ -19,6 +19,8 @@ import com.mygdx.logic.GameState;
 import java.util.Random;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import static com.badlogic.gdx.Input.Keys.R;
+
 public class ViewGame extends ScreenAdapter {
 
     private float timeCount;
@@ -45,6 +47,9 @@ public class ViewGame extends ScreenAdapter {
 
         this.game = game;
         this.stage = new Stage();
+
+        game.getPlayServices().increment("CgkIn--a47IMEAIQAA");
+        game.getPlayServices().increment("CgkIn--a47IMEAIQAQ");
 
         loadLabelsPreGame();
         Gdx.input.setInputProcessor(stage);
@@ -161,7 +166,7 @@ public class ViewGame extends ScreenAdapter {
     public void loadLabelsGame() {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = game.robotoFont;
+        labelStyle.font = game.getAssetManager().get("font/whitney-medium.ttf", BitmapFont.class);
         levelLabel = new Label(String.format("Level %02d", gameState.getCurrentLevel().getIndex()), labelStyle);
         levelLabel.setFontScale(0.7f);
         levelLabel.setPosition(game.getSCREEN_WIDTH()/2 - levelLabel.getWidth()/3, game.getSCREEN_HEIGHT() - levelLabel.getHeight());
@@ -253,6 +258,7 @@ public class ViewGame extends ScreenAdapter {
                     if (gameState.manageTap(btn))
                         if (gameState.getReset()){
                             reset();
+                            checkAchievement();
                             gameState.setResetFalse();
                             return;
                         }
@@ -321,6 +327,15 @@ public class ViewGame extends ScreenAdapter {
             worldTimer = 9;
         else
             worldTimer = 4;
+    }
+
+    public void checkAchievement() {
+        if (gameState.getCurrentLevel().getIndex() == 10)
+            game.getPlayServices().unlockAchievement("CgkIn--a47IMEAIQAw");
+        if (gameState.getCurrentLevel().getIndex() == 20)
+            game.getPlayServices().unlockAchievement("CgkIn--a47IMEAIQBA");
+        if (gameState.getCurrentLevel().getIndex() == 30)
+            game.getPlayServices().unlockAchievement("CgkIn--a47IMEAIQAg");
     }
 
     @Override

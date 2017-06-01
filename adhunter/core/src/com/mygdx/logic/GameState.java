@@ -15,6 +15,7 @@ public class GameState {
     private Level currentLevel;
     public ArrayList<Button> levelButtons = new ArrayList<Button>(); //Buttons except pre-game
     public ArrayList<Button> preGameButtons = new ArrayList<Button>(); //Pre-game buttons
+    private PlayServices playServices;
 
     private int lives;
 
