@@ -83,11 +83,25 @@ public class ViewMenu extends ScreenAdapter {
         Drawable dACH = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/achievements_icon.png", Texture.class)));
         ImageButton bACH = new ImageButton(dACH);
         bACH.setBounds(50, 50, 170, 170);
+        bACH.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.playServices.showAchievement();
+                return true;
+            }
+        });
         stage.addActor(bACH);
 
         Drawable dLEAD = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/leaderboards_icon.png", Texture.class)));
         ImageButton bLEAD = new ImageButton(dLEAD);
         bLEAD.setBounds(280, 50, 170, 170);
+        bLEAD.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.playServices.showScore();
+                return true;
+            }
+        });
         stage.addActor(bLEAD);
 
         Drawable dSETT = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/settings_icon.png", Texture.class)));

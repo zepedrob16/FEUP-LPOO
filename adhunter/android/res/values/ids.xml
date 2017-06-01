@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">425946691487</string>
+    <string name="achievement_firewall">CgkIn--a47IMEAIQAw</string>
+    <string name="achievement_dns_protection">CgkIn--a47IMEAIQBA</string>
+    <string name="achievement_antivirus">CgkIn--a47IMEAIQAg</string>
+    <string name="achievement_ad_assassin">CgkIn--a47IMEAIQAA</string>
+    <string name="achievement_ad_hunter">CgkIn--a47IMEAIQAQ</string>
+    <string name="achievement_are_you_a_bot">CgkIn--a47IMEAIQBQ</string>
+    <string name="leaderboard_finished_game">CgkIn--a47IMEAIQBg</string>
+</resources>

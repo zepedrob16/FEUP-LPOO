@@ -31,7 +31,7 @@ public class PopupAbout implements MenuPopup {
             @Override
             public void draw(Batch batch, float parentAlpha){
                 float promptWidth = 1150, promptHeight = 850;
-
+                /*
                 batch.end();
                 Gdx.gl.glEnable(GL20.GL_BLEND);
                 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -42,6 +42,7 @@ public class PopupAbout implements MenuPopup {
                 sr.end();
                 Gdx.gl.glDisable(GL20.GL_BLEND);
                 batch.begin();
+                */
             }
         };
     }

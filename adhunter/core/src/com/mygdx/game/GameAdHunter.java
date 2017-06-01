@@ -17,18 +17,18 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.mygdx.logic.GameState;
+import com.mygdx.logic.PlayServices;
 
 public class GameAdHunter extends Game {
 
-    private static GameAdHunter instance = null; //Creates the singleton.
-    public static GameAdHunter getInstance(){
-        if (instance == null) instance = new GameAdHunter(); //If singleton doesn't exist, create it.
-        return instance;
-    }
+    //private static GameAdHunter instance = null; //Creates the singleton.
+    //public static GameAdHunter getInstance(){
+    //    if (instance == null) instance = new GameAdHunter(); //If singleton doesn't exist, create it.
+    //    return instance;
+    //}
 
     private AssetManager assetManager;
     private SpriteBatch batch;
-
     private Screen activeScreen;
 
     private int SCREEN_WIDTH, SCREEN_HEIGHT;
@@ -36,9 +36,15 @@ public class GameAdHunter extends Game {
     //Font
     BitmapFont robotoFont;
 
+    //Google Play Services
+    public static PlayServices playServices;
+
+    public GameAdHunter(PlayServices playServices){
+        this.playServices = playServices;
+    }
+
     @Override
     public void create() {
-        
         SCREEN_WIDTH = Gdx.app.getGraphics().getWidth();
         SCREEN_HEIGHT = Gdx.app.getGraphics().getHeight();
 
