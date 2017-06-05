@@ -42,7 +42,6 @@ public class PopupAbout implements MenuPopup {
                 sr.end();
                 Gdx.gl.glDisable(GL20.GL_BLEND);
                 batch.begin();
-
             }
         };
     }
@@ -54,15 +53,15 @@ public class PopupAbout implements MenuPopup {
         foreground.setX(GameAdHunter.getSCREEN_WIDTH()/2);
         foreground.setY(GameAdHunter.getSCREEN_HEIGHT()/2);
 
-
         LabelStyle lblStyle = new LabelStyle();
         lblStyle.font = new BitmapFont(Gdx.files.internal("font/whitney-medium.fnt"));
         lblStyle.fontColor = new Color(0,0,0,1);
 
-        Label description = new Label("AdHunter was developed by Miguel Mano Fernandes and Jose Pedro Borges", lblStyle);
-        description.setPosition(GameAdHunter.getSCREEN_WIDTH()/2, GameAdHunter.getSCREEN_HEIGHT()/2);
+        Label description1 = new Label("AdHunter was developed by Miguel Mano Fernandes and Jose Pedro Borges", lblStyle);
+        description1.setFontScale(3);
+        description1.setPosition(GameAdHunter.getSCREEN_WIDTH()/2, GameAdHunter.getSCREEN_HEIGHT()/2);
 
-        foreground.add(description);
+        foreground.add(description1);
 
     }
 

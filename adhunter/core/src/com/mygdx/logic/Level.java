@@ -2,11 +2,14 @@ package com.mygdx.logic;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Level {
+
+    public ArrayList<Button> buttons = new ArrayList<Button>();
 
     private float timeLeft;
     private int index, steps, stage; //steps is the total number of stages

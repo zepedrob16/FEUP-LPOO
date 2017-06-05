@@ -35,7 +35,7 @@ public class ViewGame extends ScreenAdapter {
 
     private Label action, timer, levelLabel, stageLabel;
 
-    private int cX, cY, cW, cZ, preGameButtons;
+    private int preGameButtons;
 
     private boolean loaded = false, switchFromPre = true;
 
@@ -43,7 +43,6 @@ public class ViewGame extends ScreenAdapter {
 
     public ViewGame(GameAdHunter game){
         gameState = new GameState();
-        cX = 0; cY = 1; cW = 0; cZ = 1;
 
         this.game = game;
         this.stage = new Stage();
@@ -139,7 +138,6 @@ public class ViewGame extends ScreenAdapter {
     public void reset() {
         clearScreen();
         clearLabels();
-        cX = 0; cY = 1; cW = 0; cZ = 1;
         worldTimer=4;
         loadLabelsPreGame();
         fillPreGame();
@@ -183,8 +181,6 @@ public class ViewGame extends ScreenAdapter {
 
     //TODO: Replace these image buttons with textures, simply.
     public void fillGame() {
-        cX = 1;
-        cW = 1;
         stage.addActor(timer);
         loadTimer();
 
@@ -340,7 +336,7 @@ public class ViewGame extends ScreenAdapter {
 
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(cX, cY, cW, cZ); //Background color.
+        Gdx.gl.glClearColor(1, 1, 1, 1); //Background color.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!loaded){

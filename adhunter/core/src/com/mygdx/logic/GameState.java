@@ -5,25 +5,28 @@ import java.util.Random;
 
 public class GameState {
 
-    private static GameState instance = null; //Creates the singleton.
+    //Singleton initialization.
+    private static GameState instance = null;
     public static GameState getInstance(){
-        if (instance == null) instance = new GameState(); //If singleton doesn't exist, create it.
+        if (instance == null) instance = new GameState();
         return instance;
     }
 
+    //Level handling.
     private ArrayList<Level> levels = new ArrayList<Level> ();
     private Level currentLevel;
+
+    //Game resources.
+    private int lives = 3;
+
     public ArrayList<Button> levelButtons = new ArrayList<Button>(); //Buttons except pre-game
     public ArrayList<Button> preGameButtons = new ArrayList<Button>(); //Pre-game buttons
-    private PlayServices playServices;
 
-    private int lives;
+    private PlayServices playServices;
 
     private boolean reset = false;
 
     public GameState(){
-        lives = 3;
-
         for (int i = 0; i < 999; i++){
             levels.add(new Level(i+1)); //Adds 999 levels.
         }

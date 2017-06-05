@@ -126,10 +126,6 @@ public class ViewMenu extends ScreenAdapter {
         bABOUT.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-                //Dialog dialog = new Dialog(" ", skin);
-                //dialog.text("asdf");
-                //dialog.show(stage);
 
                 MenuPopup menuPopup = new PopupAbout();
                 stage.addActor(menuPopup.getBackground());
