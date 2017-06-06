@@ -58,7 +58,7 @@ public class PopupAbout implements MenuPopup {
         lblStyle.fontColor = new Color(0,0,0,1);
 
         Label description1 = new Label("AdHunter was developed by Miguel Mano Fernandes and Jose Pedro Borges", lblStyle);
-        description1.setFontScale(3);
+        description1.setFontScale(2);
         description1.setPosition(GameAdHunter.getSCREEN_WIDTH()/2, GameAdHunter.getSCREEN_HEIGHT()/2);
 
         foreground.add(description1);

@@ -29,6 +29,7 @@ public class ActorSettings {
         this.mainMusic = mainMusic;
 
         setupTable();
+        drawBackground();
     }
 
     public void setupTable(){
@@ -38,10 +39,11 @@ public class ActorSettings {
         final Label pitchValue = new Label("Music", ds);
         table.add(pitchValue);
 
-        table.setX(game.getSCREEN_WIDTH()/2);
-        table.setY(game.getSCREEN_HEIGHT()/2);
+        table.setX(game.getSCREEN_WIDTH()/2 - 575);
+        table.setY(game.getSCREEN_HEIGHT()/2 - 425);
 
         final Slider musicSlider = new Slider(0, 100, 1, false, ds);
+        final Slider SFXSlider = new Slider(0, 100, 1, false, ds);
         musicSlider.setValue(100); //Initial value.
         musicSlider.addListener(new ChangeListener() {
             @Override
@@ -51,10 +53,22 @@ public class ActorSettings {
         });
         musicSlider.setScale(2,2);
         musicSlider.getStyle().knob.setMinHeight(100);
+        musicSlider.scaleBy(3);
         table.add(musicSlider).width(300).height(300);
+        //table.add(SFXSlider);
         table.row();
         table.add(new Label("SFX", ds));
-        table.add(musicSlider);
+        table.add(SFXSlider);
+        SFXSlider.setValue(100); //Initial value.
+        SFXSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                mainMusic.setVolume(musicSlider.getPercent());
+            }
+        });
+        SFXSlider.setScale(2,2);
+        SFXSlider.getStyle().knob.setMinHeight(100);
+        SFXSlider.scaleBy(3);
     }
 
     public void drawBackground(){

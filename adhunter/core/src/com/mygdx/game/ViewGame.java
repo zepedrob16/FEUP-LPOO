@@ -90,7 +90,7 @@ public class ViewGame extends ScreenAdapter {
 
         int buttonNumber;
 
-        if(gameState.getCurrentLevel().numButtons() < 4) //ON LEVELS 1 TO 5
+        if(gameState.getCurrentLevel().numButtons() < 4)
             buttonNumber = 1;
 
         else {
@@ -100,13 +100,15 @@ public class ViewGame extends ScreenAdapter {
 
         for (int i = 0; i < buttonNumber; i++) {
 
-            final Button gameButton = new Button(true, 400, 400);
-            gameButton.setBounds((game.getSCREEN_WIDTH()/(buttonNumber+1)*(i+1)) - gameButton.getWidth()/2, game.getSCREEN_HEIGHT()/2 - gameButton.getHeight()/2, 400, 400);
+            final Button gameButton = new Button();
+            gameButton.setButtonSize(400, 400);
+            gameButton.setButtonPos((game.getSCREEN_WIDTH()/(buttonNumber+1)*(i+1)) - gameButton.getButtonWidth()/2, game.getSCREEN_HEIGHT()/2 - gameButton.getButtonHeight()/2);
 
             gameState.managePreGameButtons(gameButton);
-            gameButton.setAction(gameState.getCurrentLevel().getAction());
+            gameButton.setAction(gameState);
 
-            stage.addActor(gameButton);
+            ImageButton gameImgButton = gameButton.getImgBtn();
+            stage.addActor(gameImgButton);
         }
 
         preGameButtons = buttonNumber;
@@ -114,24 +116,25 @@ public class ViewGame extends ScreenAdapter {
 
     //ADDS A LISTENER TO A BUTTON
     public void configureButton(final Button gameButton) {
-        final Button gameImgButton = gameButton;
+        ImageButton gameImgButton = gameButton.getImgBtn();
         gameImgButton.addListener(new ClickListener() {
 
-                @Override
-                public void clicked(InputEvent e, float x, float y) {
-                    if (gameState.manageTap(gameImgButton)) {
-                        if (gameState.getReset()){
-                            reset();
-                            gameState.setResetFalse();
-                            return;
-                        }
-                        randomizeButtons();
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                if (gameState.manageTap(gameButton)) {
+                    if (gameState.getReset()){
+                        reset();
+                        checkAchievement();
+                        gameState.setResetFalse();
+                        return;
                     }
-                    loadLives();
-                    clearLabels();
-                    loadLabelsGame();
+                    randomizeButtons();
                 }
-            });
+                loadLives();
+                clearLabels();
+                loadLabelsGame();
+            }
+        });
     }
 
     //USED TO SWITCH BETWEEN LEVELS
@@ -237,17 +240,24 @@ public class ViewGame extends ScreenAdapter {
 
         Random rnd = new Random();
 
-        for (int i = 0; i < gameState.getCurrentLevel().numButtons() - preGameButtons; i++) { //THE GAME BUTTONS MINUS PREGAME BUTTONS, BECAUSE LEVELBUTTONS+PREGAMEBUTTONS=TOTALBUTTON
+        for (int i = 0; i < gameState.getCurrentLevel().numButtons() - preGameButtons; i++) {
+            final Button btn = new Button();
 
             int buttonWidth = rnd.nextInt(300) + 100;
             int buttonHeight = rnd.nextInt(300) + 100;
 
-            int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
-            int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+            int buttonX = 2000, buttonY = 2000;
 
-            final Button btn = new Button(true, buttonWidth, buttonHeight);
+            while (buttonX >= (adAsset.getWidth() + adAsset.getX())
+                    || buttonY >= (adAsset.getHeight() + adAsset.getY())){
 
-            btn.addListener(new ClickListener() {
+                buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
+                buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+
+            }
+
+            final ImageButton gameImgButton = btn.getImgBtn();
+            gameImgButton.addListener(new ClickListener() {
 
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
@@ -265,9 +275,12 @@ public class ViewGame extends ScreenAdapter {
                 }
             });
 
+            btn.setButtonSize(buttonWidth, buttonHeight);
+            btn.setButtonPos(buttonX, buttonY);
+            btn.setGameButtonAction(gameState);
+
             gameState.manageButtons(btn);
-            btn.setGameButtonAction(gameState.getCurrentLevel().getAction());
-            stage.addActor(btn);
+            stage.addActor(btn.getImgBtn());
         }
 
         // Adds the buttons loaded in preGame
@@ -275,12 +288,18 @@ public class ViewGame extends ScreenAdapter {
             int buttonWidth = rnd.nextInt(300) + 100;
             int buttonHeight = rnd.nextInt(300) + 100;
 
-            int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
-            int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+            int buttonX = 2000, buttonY = 2000;
 
-            gameState.preGameButtons.get(i).setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+            while (buttonX >= (Math.round(adAsset.getWidth()) + Math.round(adAsset.getX())) || buttonY >= (Math.round(adAsset.getHeight()) + Math.round(adAsset.getY()))){
 
-            stage.addActor(gameState.preGameButtons.get(i));
+                buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
+                buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+
+            }
+
+            gameState.preGameButtons.get(i).setButtonPos(buttonX, buttonY);
+            gameState.preGameButtons.get(i).setButtonSize(buttonWidth, buttonHeight);
+            stage.addActor(gameState.preGameButtons.get(i).getImgBtn());
         }
     }
 
@@ -292,22 +311,35 @@ public class ViewGame extends ScreenAdapter {
             int buttonWidth = rnd.nextInt(300) + 100;
             int buttonHeight = rnd.nextInt(300) + 100;
 
-            int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
-            int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+            int buttonX = 2000, buttonY = 2000;
 
-            gameState.levelButtons.get(i).setSize(buttonWidth, buttonHeight);
+            while (buttonX >= (adAsset.getWidth() + adAsset.getX())
+                    || buttonY >= (adAsset.getHeight() + adAsset.getY())){
 
-            //gameState.levelButtons.get(i).setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+                buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
+                buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+
+            }
+            gameState.levelButtons.get(i).setButtonPos(buttonX, buttonY);
+            gameState.levelButtons.get(i).setButtonSize(buttonWidth, buttonHeight);
         }
 
         for (int i = 0; i < gameState.preGameButtons.size(); i++) {
             int buttonWidth = rnd.nextInt(300) + 100;
             int buttonHeight = rnd.nextInt(300) + 100;
 
-            int buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
-            int buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+            int buttonX = 2000, buttonY = 2000;
 
-            gameState.preGameButtons.get(i).setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+            while (buttonX >= (adAsset.getWidth() + adAsset.getX())
+                    || buttonY >= (adAsset.getHeight() + adAsset.getY())){
+
+                buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
+                buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
+
+            }
+
+            gameState.preGameButtons.get(i).setButtonPos(buttonX, buttonY);
+            gameState.preGameButtons.get(i).setButtonSize(buttonWidth, buttonHeight);
         }
     }
 
