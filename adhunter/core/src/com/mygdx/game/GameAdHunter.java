@@ -21,24 +21,13 @@ import com.mygdx.logic.PlayServices;
 
 public class GameAdHunter extends Game {
 
-    //private static GameAdHunter instance = null; //Creates the singleton.
-    //public static GameAdHunter getInstance(){
-    //    if (instance == null) instance = new GameAdHunter(); //If singleton doesn't exist, create it.
-    //    return instance;
-    //}
-
     private AssetManager assetManager;
     private SpriteBatch batch;
     private Screen activeScreen;
 
-    private static int SCREEN_WIDTH;
-    private static int SCREEN_HEIGHT;
+    private static int SCREEN_WIDTH, SCREEN_HEIGHT;
 
-    //Font
-    BitmapFont robotoFont;
-
-    //Google Play Services
-    public static PlayServices playServices;
+    public static PlayServices playServices; //Google Play Services
 
     public GameAdHunter(PlayServices playServices){
         this.playServices = playServices;
@@ -86,13 +75,16 @@ public class GameAdHunter extends Game {
 
         //Music & SFX.
         assetManager.load("sfx/main_music_1.mp3", Music.class);
+        assetManager.load("sfx/game_music_1.mp3", Music.class);
         assetManager.load("sfx/button_press.mp3", Sound.class);
+        assetManager.load("sfx/windows_critical.mp3", Sound.class);
 
         //Game assets.
         assetManager.load("data/life_full.png", Texture.class);
         assetManager.load("data/life_empty.png", Texture.class);
         assetManager.load("data/single_ad.png", Texture.class);
-
+        assetManager.load("buttons/button_up.png", Texture.class);
+        assetManager.load("buttons/button_down.png", Texture.class);
     }
 
     @Override

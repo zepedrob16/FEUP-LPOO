@@ -73,7 +73,7 @@ public class ViewMenu extends ScreenAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new ViewGame(game));
-                tapSFX.play();
+                mainMusic.stop();
                 dispose();
                 return true;
             }

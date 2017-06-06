@@ -11,19 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import java.util.Random;
 
-public class Button  {
+public class Button {
 
     private boolean press;
     private ImageButton imgBtn;
-    GameState gameState;
 
     private Color[] tints;
-    private Texture bgUp, bgDown, outUp, outDown;
+    private Texture bgUp, bgDown;
 
     public Button(){
         bgUp = new Texture(Gdx.files.internal("buttons/button_up.png"));
         bgDown = new Texture(Gdx.files.internal("buttons/button_down.png"));
-        outUp = new Texture(Gdx.files.internal("buttons/outline1_up.png"));
         tints = new Color[50];
         fillTints();
         generate();
@@ -77,8 +75,10 @@ public class Button  {
         imgBtn = new ImageButton(btnStyle);
     }
 
-    public void setButtonSize(float width, float height) {
+    public boolean setButtonSize(float width, float height) {
+        if (width != height) return false;
         imgBtn.setSize(width, height);
+        return true;
     }
 
     public void setButtonPos(float x, float y) {
@@ -97,5 +97,6 @@ public class Button  {
     public float getButtonHeight() {
         return imgBtn.getHeight();
     }
+    public Color[] getTints() {return tints;}
 
 }

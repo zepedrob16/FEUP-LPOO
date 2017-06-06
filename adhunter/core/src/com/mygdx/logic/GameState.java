@@ -18,11 +18,8 @@ public class GameState {
 
     //Game resources.
     private int lives = 3;
-
     public ArrayList<Button> levelButtons = new ArrayList<Button>(); //Buttons except pre-game
     public ArrayList<Button> preGameButtons = new ArrayList<Button>(); //Pre-game buttons
-
-    private PlayServices playServices;
 
     private boolean reset = false;
 
@@ -73,7 +70,9 @@ public class GameState {
         return lives;
     }
 
-    public void setResetFalse() {reset = false; return;}
+    public void setResetFalse() {reset = false;}
 
     public boolean getReset() { return reset; }
+
+    public ArrayList<Level> getLevels() { return levels; }
 }

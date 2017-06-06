@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -47,6 +48,8 @@ public class ViewGame extends ScreenAdapter {
         this.game = game;
         this.stage = new Stage();
 
+        game.getAssetManager().get("sfx/game_music_1.mp3", Music.class).play();
+
         game.getPlayServices().increment("CgkIn--a47IMEAIQAA");
         game.getPlayServices().increment("CgkIn--a47IMEAIQAQ");
 
@@ -77,7 +80,6 @@ public class ViewGame extends ScreenAdapter {
             startTime = System.currentTimeMillis();
             if (worldTimer == -1) {
                 clearScreen();
-                //fillGame();
             }
 
             timeCount = 0;
@@ -110,7 +112,6 @@ public class ViewGame extends ScreenAdapter {
             ImageButton gameImgButton = gameButton.getImgBtn();
             stage.addActor(gameImgButton);
         }
-
         preGameButtons = buttonNumber;
     }
 
@@ -203,10 +204,14 @@ public class ViewGame extends ScreenAdapter {
     }
 
     public void loadLives() {
+
         Drawable lifeFullTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_full.png", Texture.class)));
         Drawable lifeEmptyTex = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("data/life_empty.png", Texture.class)));
-        if (gameState.getLives() == 0)
-            clearScreen();
+
+        if (gameState.getLives() == 0){
+            game.getAssetManager().get("sfx/game_music_1.mp3", Music.class).stop();
+            game.setScreen(new ViewMenu(game));
+        }
 
 
         for (int i = 0; i < gameState.getLives(); i++) {
