@@ -108,8 +108,10 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	@Override
 	public void submitScore(int highScore) {
 		if (isSignedIn()) {
+
 			Games.Leaderboards.submitScore(gameHelper.getApiClient(),
 					getString(R.string.leaderboard_finished_game), highScore);
+
 		}
 	}
 	

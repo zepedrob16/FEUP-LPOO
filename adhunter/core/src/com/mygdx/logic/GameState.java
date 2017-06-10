@@ -18,6 +18,7 @@ public class GameState {
 
     //Game resources.
     private int lives = 3;
+    private boolean all = false;
     public ArrayList<Button> levelButtons = new ArrayList<Button>(); //Buttons except pre-game
     public ArrayList<Button> preGameButtons = new ArrayList<Button>(); //Pre-game buttons
 
@@ -53,17 +54,22 @@ public class GameState {
             takeLife();
             return false;
         }
-        else if (btn.getAction()){
-            if (currentLevel.getStage() == currentLevel.getSteps()) {
-                nextLevel();
-                return true;
-            }
-            else {
-                currentLevel.nextStage();
-                return true;
-            }
+        else {
+            manageLevels();
+            return true;
         }
-        return false;
+    }
+    public void manageLevels(){
+        if (currentLevel.getIndex() % 10 == 0 && !all)
+            return;
+        else if (currentLevel.getStage() == currentLevel.getSteps()) {
+                nextLevel();
+                return;
+            }
+        else {
+                currentLevel.nextStage();
+                return;
+            }
     }
 
     public int getLives() {
@@ -71,6 +77,8 @@ public class GameState {
     }
 
     public void setResetFalse() {reset = false;}
+
+    public void setAllTrue() {this.all = true;}
 
     public boolean getReset() { return reset; }
 

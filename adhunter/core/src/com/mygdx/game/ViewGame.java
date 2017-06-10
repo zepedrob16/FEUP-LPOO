@@ -25,7 +25,7 @@ import static com.badlogic.gdx.Input.Keys.R;
 public class ViewGame extends ScreenAdapter {
 
     private float timeCount;
-    private Integer worldTimer = 4;
+    private Integer worldTimer = 2;
     private GameState gameState;
     private long startTime = System.currentTimeMillis();
 
@@ -36,9 +36,9 @@ public class ViewGame extends ScreenAdapter {
 
     private Label action, timer, levelLabel, stageLabel;
 
-    private int preGameButtons;
+    private int preGameButtons, gameButtons;
 
-    private boolean loaded = false, switchFromPre = true;
+    private boolean loaded = false, switchFromPre = true, all = false;
 
     TimeUtils timeUtils = new TimeUtils();
 
@@ -129,8 +129,14 @@ public class ViewGame extends ScreenAdapter {
                         gameState.setResetFalse();
                         return;
                     }
+                    else if (gameState.getCurrentLevel().getIndex() % 10 == 0) {
+                        level10(gameButton);
+                        return;
+                    }
+
                     randomizeButtons();
                 }
+                randomizeButtons();
                 loadLives();
                 clearLabels();
                 loadLabelsGame();
@@ -142,7 +148,7 @@ public class ViewGame extends ScreenAdapter {
     public void reset() {
         clearScreen();
         clearLabels();
-        worldTimer=4;
+        worldTimer=2;
         loadLabelsPreGame();
         fillPreGame();
         switchFromPre = true;
@@ -210,6 +216,7 @@ public class ViewGame extends ScreenAdapter {
 
         if (gameState.getLives() == 0){
             game.getAssetManager().get("sfx/game_music_1.mp3", Music.class).stop();
+            game.getPlayServices().submitScore(gameState.getCurrentLevel().getIndex());
             game.setScreen(new ViewMenu(game));
         }
 
@@ -241,15 +248,48 @@ public class ViewGame extends ScreenAdapter {
 
     }
 
+    public void level10(Button btn) {
+        System.out.println(gameButtons);
+
+        if (gameState.getCurrentLevel().getAction() == "AVOlD") {
+            if (gameButtons == 2) {
+                gameState.setAllTrue();
+                btn.getImgBtn().remove();
+                gameButtons--;
+            } else {
+                btn.getImgBtn().remove();
+                gameButtons--;
+            }
+        }
+        else {
+            if (preGameButtons == 1) {
+                gameState.nextLevel();
+                gameState.setAllTrue();
+                reset();
+            }
+            if (preGameButtons == 2) {
+                gameState.setAllTrue();
+                btn.getImgBtn().remove();
+                preGameButtons--;
+            } else {
+                btn.getImgBtn().remove();
+                preGameButtons--;
+            }
+        }
+
+    }
+
     public void generateButtons(){
 
         Random rnd = new Random();
 
-        for (int i = 0; i < gameState.getCurrentLevel().numButtons() - preGameButtons; i++) {
+        gameButtons = gameState.getCurrentLevel().numButtons() - preGameButtons;
+
+        for (int i = 0; i < gameButtons; i++) {
             final Button btn = new Button();
 
-            int buttonWidth = rnd.nextInt(300) + 100;
-            int buttonHeight = rnd.nextInt(300) + 100;
+            int buttonWidth = 150;//rnd.nextInt(50);
+            int buttonHeight = 150;//rnd.nextInt(50);
 
             int buttonX = 2000, buttonY = 2000;
 
@@ -273,6 +313,10 @@ public class ViewGame extends ScreenAdapter {
                             gameState.setResetFalse();
                             return;
                         }
+                        else if (gameState.getCurrentLevel().getIndex() % 10 == 0) {
+                            level10(btn);
+                            return;
+                        }
                     randomizeButtons();
                     loadLives();
                     clearLabels();
@@ -290,8 +334,8 @@ public class ViewGame extends ScreenAdapter {
 
         // Adds the buttons loaded in preGame
         for (int i = 0; i < gameState.preGameButtons.size(); i++) {
-            int buttonWidth = rnd.nextInt(300) + 100;
-            int buttonHeight = rnd.nextInt(300) + 100;
+            int buttonWidth = 150;//rnd.nextInt(50);
+            int buttonHeight = 150;//rnd.nextInt(50);
 
             int buttonX = 2000, buttonY = 2000;
 
@@ -313,8 +357,8 @@ public class ViewGame extends ScreenAdapter {
         Random rnd = new Random();
 
         for (int i = 0; i < gameState.getCurrentLevel().numButtons() - preGameButtons; i++) {
-            int buttonWidth = rnd.nextInt(300) + 100;
-            int buttonHeight = rnd.nextInt(300) + 100;
+            int buttonWidth = 150;//rnd.nextInt(50);
+            int buttonHeight = 150;//rnd.nextInt(50);
 
             int buttonX = 2000, buttonY = 2000;
 
@@ -330,8 +374,8 @@ public class ViewGame extends ScreenAdapter {
         }
 
         for (int i = 0; i < gameState.preGameButtons.size(); i++) {
-            int buttonWidth = rnd.nextInt(300) + 100;
-            int buttonHeight = rnd.nextInt(300) + 100;
+            int buttonWidth = 150;//rnd.nextInt(50);
+            int buttonHeight = 150;//rnd.nextInt(50);
 
             int buttonX = 2000, buttonY = 2000;
 
@@ -340,7 +384,6 @@ public class ViewGame extends ScreenAdapter {
 
                 buttonX = rnd.nextInt(Math.round(adAsset.getWidth())) + Math.round(adAsset.getX());
                 buttonY = rnd.nextInt(Math.round(adAsset.getHeight())) + Math.round(adAsset.getY());
-
             }
 
             gameState.preGameButtons.get(i).setButtonPos(buttonX, buttonY);
@@ -359,7 +402,7 @@ public class ViewGame extends ScreenAdapter {
         else if (gameState.getCurrentLevel().getIndex() % 10 == 0)
             worldTimer = 9;
         else
-            worldTimer = 4;
+            worldTimer = 2;
     }
 
     public void checkAchievement() {
