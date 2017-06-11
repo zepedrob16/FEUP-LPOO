@@ -1,50 +1,21 @@
 # Ad Hunter
 
-### Mock-ups
-**Main Menu**  
-<img src=/screenshots/mockup-mainmenu.png height=300 />  
+## Setup/Instalação
+Esta app comporta-se como uma aplicação normal, não necessitando de um conjunto de passos complexos para o seu correto funcionamento.  
+É possível testar a app através da transferência e **instalação do .apk** no dispositivo Android pretendido ou através da abertura do **projeto de Android Studio**, sua compilação e sucessiva execução, recorrendo a um emulador.  
+Caso requisitado, será possível publicar a aplicação da Play Store, facilitando assim o processo.  
+Visto Ad Hunter aceder a Google Play Services e funções de vibração e acelerómetro, poderá resultar em comportamentos inesperados após a execução em desktop, pelo é fortemente desaconselhada optar por esta plataforma.
 
-**Settings**  
-<img src=/screenshots/mockup-settings.png height=300 />  
+## Diagrama UML
 
-**Tutorial**  
-<img src=/screenshots/mockup-tutorial.png height=300 />  
+## Design Patterns
+Ao longo do desenvolvimento da aplicação, os seguintes design patterns foram utilizados:
+* **Singleton** - é criada uma instância com um ponto de acesso global para facilitar a leitura da lógica do jogo pela parte gráfica, sem propriamente uma instanciação privada.
+* **Builder** - os pop-ups são compostos por um background e um foreground, cada um tendo instanciações diferentes, pelo que se implementou uma interface MenuPopup e múltiplas subclasses para cada um dos botões que implementam, da sua forma, estes conceitos.
 
-**About**  
-<img src=/screenshots/mockup-about.png height=300 />  
+Referência ainda ao **Decorator** que momentaneamente foi implementado, porém descartado, visto não resultar numa maior facilidade de manutenção do projeto, dado às limitações do libGDX.
 
-**Pre-game**  
-<img src=/screenshots/mockup-pregame.png height=300 />  
+## Dificuldades
+De longe, a principal dificuldade terá sido a aprendizagem do libGDX e correta integração com o Android Studio. O que outrora seria relativamente simples de implementar (como os serviços da Google Play e JUnit), tornou-se exclusivamente complicado por causa de métodos adicionais de compatibilidade requerida pelo libGDX. Múltiplas horas terão sido gastas exclusivamente na implementação destas funcionalidades.
 
-**Game**  
-<img src=/screenshots/mockup-game.png height=300 />  
-
-### Package and Class Diagram (UML)
-<img src=/screenshots/uml-diagram.png height=300 />
-
-### UML Sequence
-<img src=/screenshots/uml-sequence.png height=300 />
-
-### Design Patterns
-* Decorator  
-There is a need to generate a massive amount of buttons in an efficient way, given that we planned for about 150 unique combinations. Therefore, we've stripped down the button to four main components: the background, the outline, the icon and the shape. Adding decorators for these details allow us to add these functionalities without altering the structure.
-* Singleton  
-Ensuring that only one single game state is created and having easy access to it in every class is a top priority.
-
-### Tests to implement
-
-- Settings menu opens when the respective button is pressed
-- About menu opens when the respective button is pressed
-- Help menu opens when the respective button is pressed
-- High scores are updated correctly
-- Game starts when tapped in the right place
-- Language is changed correctly in the settings menu
-- Song is changed correctly in the settings menu
-- Player loses a life when he taps in the wrong button
-- The correct button disappears from the screen when tapped
-- Player advances a stage when all the correct buttons are tapped
-- Player advances a level when all stages are complete
-- Player loses the game when the time runs out
-- Player loses the game when he runs out of lives
-- Time stops running when the player hits the pause button
-- A certain achievement is unlocked when completed
+## Lições aprendidas
