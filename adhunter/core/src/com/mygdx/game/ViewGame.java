@@ -200,7 +200,7 @@ public class ViewGame extends ScreenAdapter {
             fillGame();
             switchFromPre = false;
         }
-        else {
+        else if (this.worldTimer == -1) {
             game.getAssetManager().get("sfx/game_music_1.mp3", Music.class).stop();
             game.playServices.submitScore(gameState.getCurrentLevel().getIndex());
             game.setScreen(new ViewMenu(game));
