@@ -19,6 +19,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoa
 import com.mygdx.logic.GameState;
 import com.mygdx.logic.PlayServices;
 
+/**
+ * Creates a new game
+ *
+ * @author José Borges and Miguel Mano Fernandes
+ * @version 1.0
+ *
+ */
+
 public class GameAdHunter extends Game {
 
     private AssetManager assetManager;
@@ -28,6 +36,13 @@ public class GameAdHunter extends Game {
     private static int SCREEN_WIDTH, SCREEN_HEIGHT;
 
     public static PlayServices playServices; //Google Play Services
+
+    /**
+     * GameAdHunter constructor
+     *
+     * @param playServices
+     *      Play services used from Google
+     */
 
     public GameAdHunter(PlayServices playServices){
         this.playServices = playServices;
@@ -44,6 +59,10 @@ public class GameAdHunter extends Game {
         this.loadFonts();
         this.loadAssets();
     }
+
+    /**
+     * Loads all fonts used in game     *
+     */
 
     public void loadFonts(){
         FileHandleResolver resolver = new InternalFileHandleResolver();
@@ -63,6 +82,9 @@ public class GameAdHunter extends Game {
         assetManager.load("font/whitney-bold.ttf", BitmapFont.class, bold);
     }
 
+    /**
+     * Loads all textures and music/sounds used in game
+     */
     public void loadAssets(){
 
         //Textures.
@@ -86,6 +108,7 @@ public class GameAdHunter extends Game {
         assetManager.load("buttons/button_up.png", Texture.class);
         assetManager.load("buttons/button_down.png", Texture.class);
     }
+
 
     @Override
     public void render(){

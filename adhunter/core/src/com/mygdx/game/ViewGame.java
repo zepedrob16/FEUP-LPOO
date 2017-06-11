@@ -22,6 +22,13 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import static com.badlogic.gdx.Input.Keys.R;
 
+/**
+ * Class that contains most information regarding the game, including textures, timers and important actors
+ *
+ * @author Miguel Mano Fernandes and José Borges
+ * @version 1.0
+ *
+ */
 public class ViewGame extends ScreenAdapter {
 
     private float timeCount;
@@ -42,6 +49,13 @@ public class ViewGame extends ScreenAdapter {
 
     TimeUtils timeUtils = new TimeUtils();
 
+    /**
+     * ViewGame constructor
+     *
+     * @param game
+     *      The current game
+     */
+
     public ViewGame(GameAdHunter game){
         gameState = new GameState();
 
@@ -59,7 +73,10 @@ public class ViewGame extends ScreenAdapter {
 
     }
 
-    //LOADS AVOID/PRESS AND TIMER LABELS TO PREGAME
+    /**
+     * Loads avoid/press and timer labels to pregame
+     */
+
     public void loadLabelsPreGame() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = game.getAssetManager().get("font/whitney-medium.ttf", BitmapFont.class);
@@ -72,7 +89,12 @@ public class ViewGame extends ScreenAdapter {
         stage.addActor(timer);
     }
 
-    //UPDATES THE TIMER
+    /**
+     * Updates the timer ingame
+     * @param dt
+     *      Time passed since last tick
+     */
+
     public void update(float dt) {
         timeCount += dt;
         timer.setText(String.format("%02d.%02d", worldTimer, 100 - timeUtils.timeSinceMillis(startTime)/10));
@@ -87,7 +109,10 @@ public class ViewGame extends ScreenAdapter {
         }
     }
 
-    // FILLS THE PREGAME WITH THE CORRECT NUMBER OF BUTTONS
+    /**
+     * Fills the pregame with the correct number of buttons regarding the current level
+     */
+
     public void fillPreGame(){
         gameState.preGameButtons.clear();
 
@@ -116,7 +141,13 @@ public class ViewGame extends ScreenAdapter {
         preGameButtons = buttonNumber;
     }
 
-    //ADDS A LISTENER TO A BUTTON
+    /**
+     * Adds a listener to a specific button
+     *
+     * @param gameButton
+     *      The button in question
+     */
+
     public void configureButton(final Button gameButton) {
         ImageButton gameImgButton = gameButton.getImgBtn();
         gameImgButton.addListener(new ClickListener() {
@@ -145,7 +176,10 @@ public class ViewGame extends ScreenAdapter {
         });
     }
 
-    //USED TO SWITCH BETWEEN LEVELS
+    /**
+     * Function used to skip to the next level
+     */
+
     public void reset() {
         clearScreen();
         clearLabels();
@@ -155,7 +189,10 @@ public class ViewGame extends ScreenAdapter {
         switchFromPre = true;
     }
 
-    //USED TO SWITCH BETWEEN STAGES
+    /**
+     * Function used to skip to the next stage
+     */
+
     public void clearScreen() {
         stage.clear();
         if (switchFromPre) {
@@ -165,13 +202,19 @@ public class ViewGame extends ScreenAdapter {
         }
     }
 
-    //REMOVES LABELS
+    /**
+     * Removes labels used to keep track of the current level and stage
+     */
+
     public void clearLabels() {
         stageLabel.remove();
         levelLabel.remove();
     }
 
-    //FILLS STAGE AND LEVEL LABELS ONTO GAME
+    /**
+     * Fills stage and level labels onto game
+     */
+
     public void loadLabelsGame() {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -190,7 +233,10 @@ public class ViewGame extends ScreenAdapter {
 
     }
 
-    //TODO: Replace these image buttons with textures, simply.
+    /**
+     * Fills game screen with all textures, labels and timer
+     */
+
     public void fillGame() {
         stage.addActor(timer);
         loadTimer();
@@ -209,6 +255,10 @@ public class ViewGame extends ScreenAdapter {
 
         loadLabelsGame();
     }
+
+    /**
+     * Loads the lives textures
+     */
 
     public void loadLives() {
 
@@ -249,6 +299,13 @@ public class ViewGame extends ScreenAdapter {
 
     }
 
+    /**
+     * Function used when the user is in a level multiple of 10. It's purpose is to determine whether or not the user has clicked correct buttons
+     *
+     * @param btn
+     *      Button the user clicked and that is going to be removed from screen
+     */
+
     public void level10(Button btn) {
         System.out.println(gameButtons);
 
@@ -279,6 +336,10 @@ public class ViewGame extends ScreenAdapter {
         }
 
     }
+
+    /**
+     * Function used to generate ingame buttons
+     */
 
     public void generateButtons(){
 
@@ -353,6 +414,10 @@ public class ViewGame extends ScreenAdapter {
         }
     }
 
+    /**
+     * Function used to switch randomly the buttons position
+     */
+
     //USED TO SWITCH THE BUTTON POSITION
     public void randomizeButtons() {
         Random rnd = new Random();
@@ -392,7 +457,10 @@ public class ViewGame extends ScreenAdapter {
         }
     }
 
-    //SETS THE CORRECT TIME ON THE LEVEL BEING PLAYED
+    /**
+     * Sets the correct time according to the level being played
+     */
+
     public void loadTimer() {
         if (gameState.getCurrentLevel().getIndex() < 10)
             worldTimer = 14;
@@ -406,6 +474,9 @@ public class ViewGame extends ScreenAdapter {
             worldTimer = 2;
     }
 
+    /**
+     * Checks whether or not the user has concluded an achievement
+     */
     public void checkAchievement() {
         if (gameState.getCurrentLevel().getIndex() == 10)
             game.getPlayServices().unlockAchievement("CgkIn--a47IMEAIQAw");

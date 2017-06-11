@@ -19,6 +19,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+/**
+ * Creates and displays a menu for the settings
+ *
+ * @author Miguel Mano Fernandes and José Borges
+ * @version 1.0
+ *
+ */
+
 public class ActorSettings extends ScreenAdapter {
 
     private GameAdHunter game;
@@ -27,6 +35,15 @@ public class ActorSettings extends ScreenAdapter {
 
     private final Music mainMusic;
 
+    /**
+     * ActorSettings constructor
+     *
+     * @param game
+     *        The current game
+     * @param mainMusic
+     *        Game music for the main menu
+     */
+
     public ActorSettings(GameAdHunter game, final Music mainMusic) {
         this.game = game;
         this.ds = new Skin(Gdx.files.internal("uiskin.json"));
@@ -34,10 +51,14 @@ public class ActorSettings extends ScreenAdapter {
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        setupTable();
+        setup();
     }
 
-    public void setupTable(){
+    /**
+     * Creates the sliders and sets them on screen
+     */
+
+    public void setup(){
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = game.getAssetManager().get("font/whitney-medium.ttf", BitmapFont.class);

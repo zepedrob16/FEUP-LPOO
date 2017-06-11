@@ -9,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
- * Created by migue on 27/04/2017.
+ * Creates and displays a menu for the "about" section
+ *
+ * @author Miguel Mano Fernandes and José Borges
+ * @version 1.0
+ *
  */
 
 public class ViewAbout extends ScreenAdapter{
@@ -18,6 +22,12 @@ public class ViewAbout extends ScreenAdapter{
     private GameAdHunter game;
     private Table table;
 
+    /**
+     *  ViewAbout constructor
+     *
+     * @param game
+     *      The current game
+     */
 
     public ViewAbout(GameAdHunter game) {
         this.game = game;
@@ -28,6 +38,9 @@ public class ViewAbout extends ScreenAdapter{
         setupText();
     }
 
+    /**
+     * Creates and displays the text on screen
+     */
     public void setupText() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = game.getAssetManager().get("font/whitney-medium.ttf", BitmapFont.class);

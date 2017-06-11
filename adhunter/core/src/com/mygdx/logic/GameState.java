@@ -3,6 +3,14 @@ package com.mygdx.logic;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class containing all information regarding the game state
+ *
+ * @author Miguel Mano Fernandes and José Borges
+ * @version 1.0
+ *
+ */
+
 public class GameState {
 
     //Singleton initialization.
@@ -24,6 +32,10 @@ public class GameState {
 
     private boolean reset = false;
 
+    /**
+     * GameState constructor
+     */
+
     public GameState(){
         for (int i = 0; i < 999; i++){
             levels.add(new Level(i+1)); //Adds 999 levels.
@@ -31,11 +43,28 @@ public class GameState {
         currentLevel = levels.get(0); //Sets first level.
     }
 
+    /**
+     * Adds a button to a vector containing all level buttons
+     *
+     * @param button
+     *  Button to be added
+     */
     public void manageButtons(Button button) {
         levelButtons.add(button);
     }
 
+    /**
+     * Adds a button to a vector containing all pregame buttons
+     *
+     * @param button
+     *  Button to be added
+     */
+
     public void managePreGameButtons(Button button) { preGameButtons.add(button); }
+
+    /**
+     * Advances a level
+     */
 
     public void nextLevel(){
         currentLevel = levels.get(currentLevel.getIndex());
@@ -43,11 +72,24 @@ public class GameState {
         reset = true;
     }
 
+    /**
+     * Removes 1 life
+     */
+
     public void takeLife(){
         this.lives--;
     }
 
     public Level getCurrentLevel() {return currentLevel;}
+
+    /**
+     * Manages a tap to a specific button. Returns false if the button was not supposed to be clicked
+     *
+     * @param btn
+     *  Button that was pressed
+     * @return
+     *  True or false depending on whether the click was correct or not
+     */
 
     public boolean manageTap(Button btn){
         if (!btn.getAction()) {
@@ -59,6 +101,10 @@ public class GameState {
             return true;
         }
     }
+
+    /**
+     * Decides whether to advance a level or a stage
+     */
     public void manageLevels(){
         if (currentLevel.getIndex() % 10 == 0 && !all)
             return;

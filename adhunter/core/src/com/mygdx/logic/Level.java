@@ -7,6 +7,14 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Creates and displays a menu for the settings
+ *
+ * @author Miguel Mano Fernandes and José Borges
+ * @version 1.0
+ *
+ */
+
 public class Level {
 
     public ArrayList<Button> buttons = new ArrayList<Button>();

@@ -11,6 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import java.util.Random;
 
+/**
+ * Class containing all information regarding the buttons
+ *
+ * @author Miguel Mano Fernandes and José Borges
+ * @version 1.0
+ *
+ */
+
 public class Button {
 
     private boolean press;
@@ -18,6 +26,10 @@ public class Button {
 
     private Color[] tints;
     private Texture bgUp, bgDown;
+
+    /**
+     * Button constructor
+     */
 
     public Button(){
         bgUp = new Texture(Gdx.files.internal("buttons/button_up.png"));
@@ -27,6 +39,10 @@ public class Button {
         generate();
     }
 
+    /**
+     * Fills all different tints used in the buttons
+     */
+
     public void fillTints(){
         for (int i = 0; i < 50; i++) {
             Random rnd = new Random();
@@ -34,6 +50,12 @@ public class Button {
         }
     }
 
+    /**
+     * Sets an action for a button (whether to press or avoid it)
+     *
+     * @param gameState
+     *      Current gameState
+     */
     public void setAction(GameState gameState) {
         if (gameState.getCurrentLevel().getAction() == "AVOlD")
             press = false;
@@ -41,13 +63,23 @@ public class Button {
             press = true;
     }
 
-    //Sets the opposite action of the pregame buttons
+    /**
+     * Sets the opposite action of the pregame buttons
+     *
+     * @param gameState
+     *      Current gameState
+     */
+
     public void setGameButtonAction(GameState gameState) {
         if (gameState.getCurrentLevel().getAction() == "AVOlD")
             press = true;
         if (gameState.getCurrentLevel().getAction() == "PRESS")
             press = false;
     }
+
+    /**
+     * Generates an ImageButton with two sprites
+     */
 
     public void generate(){
         ImageButton.ImageButtonStyle btnStyle = new ImageButton.ImageButtonStyle();
@@ -75,11 +107,30 @@ public class Button {
         imgBtn = new ImageButton(btnStyle);
     }
 
+    /**
+     * Sets a button's size
+     *
+     * @param width
+     *      Width of the button
+     * @param height
+     *      Height of the button
+     * @return
+     *      Returns true if the width and height are correctly used, ie the same size
+     */
     public boolean setButtonSize(float width, float height) {
         if (width != height) return false;
         imgBtn.setSize(width, height);
         return true;
     }
+
+    /**
+     * Sets a button's position
+     *
+     * @param x
+     *      X coordinate of the button
+     * @param y
+     *      Y coordinate of the button
+     */
 
     public void setButtonPos(float x, float y) {
         imgBtn.setPosition(x,y);
