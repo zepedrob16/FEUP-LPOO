@@ -1,3 +1,1 @@
-AdHunter was developed by Miguel Mano Fernandes and José Pedro Borges as the final project for a college class named LPOO (Object Oriented Programming Laboratory - OOPL) which was attended in the 2nd year of our degree. 
-
-Estou sem inspiração
+AdHunter was developed by Miguel Mano Fernandes and José Pedro Borges as the final project for a college class named LPOO (Object Oriented Programming Laboratory - OOPL) which was attended in the 2nd year of our degree. Since we didn't want to copy other famous games and make a much less detailed version of them we tried coming up with an original concept for our game, thus boosting our creativity and game developing skills.
