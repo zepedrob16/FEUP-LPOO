@@ -2,7 +2,7 @@
 
 ## Setup/Instalação
 Esta app comporta-se como uma aplicação normal, não necessitando de um conjunto de passos complexos para o seu correto funcionamento.  
-É possível testar a app através da transferência e **instalação do .apk** no dispositivo Android (localizado em /adhunter/adhunter-app.apk pretendido ou através da abertura do **projeto de Android Studio**, sua compilação e sucessiva execução, recorrendo a um emulador.  
+É possível testar a app através da transferência e **instalação do .apk** no dispositivo Android (localizado em /adhunter/adhunter-app.apk) pretendido ou através da abertura do **projeto de Android Studio**, sua compilação e sucessiva execução, recorrendo a um emulador.  
 Caso requisitado, será possível publicar a aplicação da Play Store, facilitando assim o processo.  
 Visto Ad Hunter aceder a Google Play Services e funções de vibração e acelerómetro, poderá resultar em comportamentos inesperados após a execução em desktop, pelo que é fortemente desaconselhada optar por esta plataforma.
 
