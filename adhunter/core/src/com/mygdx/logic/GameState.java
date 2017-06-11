@@ -1,5 +1,7 @@
 package com.mygdx.logic;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -93,6 +95,7 @@ public class GameState {
 
     public boolean manageTap(Button btn){
         if (!btn.getAction()) {
+            Gdx.input.vibrate(200);
             takeLife();
             return false;
         }
