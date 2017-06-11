@@ -17,7 +17,8 @@ Ao longo do desenvolvimento da aplicação, os seguintes design patterns foram u
 Referência ainda ao **Decorator** que, momentaneamente, foi implementado, porém descartado, visto não resultar numa maior facilidade de manutenção do projeto, dado às limitações do libGDX.
 
 ## Dificuldades
-De longe, a principal dificuldade terá sido a aprendizagem do libGDX e correta integração com o Android Studio. O que outrora seria relativamente simples de implementar (como os serviços da Google Play e JUnit), tornou-se exclusivamente complicado por causa de métodos adicionais de compatibilidade requerida pelo libGDX. Múltiplas horas terão sido gastas exclusivamente na implementação destas funcionalidades.
+De longe, a principal dificuldade terá sido a aprendizagem do libGDX e correta integração com o Android Studio. O que outrora seria relativamente simples de implementar (como os serviços da Google Play e JUnit), tornou-se exclusivamente complicado por causa de métodos adicionais de compatibilidade requerida pelo libGDX. Múltiplas horas terão sido gastas exclusivamente na implementação destas funcionalidades.  
+Numa vertente mais técnica, a implementação dos botões e aplicação das suas texturas (utiliza-se um tinto para pintá-los com uma cor gerada aleatoriamente).
 
 ## Lições aprendidas
 Com um projeto interessante como o desenvolvimento de uma aplicação Android é fácil priorizar certos detalhes que poderão não ser os mais relevantes. Pensamos que, além de aprofundar as aptidões de Java e aprender a nova biblioteca do libGDX, uma divisão eficiente do projeto revelou-se um aspeto importante que aperfeiçoámos.
