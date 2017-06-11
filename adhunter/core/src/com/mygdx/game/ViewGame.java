@@ -45,13 +45,14 @@ public class ViewGame extends ScreenAdapter {
     public ViewGame(GameAdHunter game){
         gameState = new GameState();
 
+
         this.game = game;
         this.stage = new Stage();
 
         game.getAssetManager().get("sfx/game_music_1.mp3", Music.class).play();
 
-        game.getPlayServices().increment("CgkIn--a47IMEAIQAA");
-        game.getPlayServices().increment("CgkIn--a47IMEAIQAQ");
+        game.playServices.increment("CgkIn--a47IMEAIQAA");
+        game.playServices.increment("CgkIn--a47IMEAIQAQ");
 
         loadLabelsPreGame();
         Gdx.input.setInputProcessor(stage);
@@ -216,7 +217,7 @@ public class ViewGame extends ScreenAdapter {
 
         if (gameState.getLives() == 0){
             game.getAssetManager().get("sfx/game_music_1.mp3", Music.class).stop();
-            game.getPlayServices().submitScore(gameState.getCurrentLevel().getIndex());
+            game.playServices.submitScore(gameState.getCurrentLevel().getIndex());
             game.setScreen(new ViewMenu(game));
         }
 

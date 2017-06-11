@@ -50,6 +50,7 @@ public class ViewMenu extends ScreenAdapter {
     private BitmapFont whitneyBold, whitneyMedium;
 
     public ViewMenu(GameAdHunter game) {
+
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
 
@@ -110,9 +111,10 @@ public class ViewMenu extends ScreenAdapter {
         bSETT.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                ActorSettings as = new ActorSettings(game, mainMusic);
-                stage.addActor(as.getPopup());
-                stage.addActor(as.getTable());
+                game.setScreen(new ActorSettings(game, mainMusic));
+                dispose();
+                //stage.addActor(as.getPopup());
+                //stage.addActor(as.getTable());
 
                 tapSFX.play();
                 return true;
@@ -127,10 +129,10 @@ public class ViewMenu extends ScreenAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                MenuPopup menuPopup = new PopupAbout();
-                stage.addActor(menuPopup.getBackground());
-                stage.addActor(menuPopup.getForeground());
-
+                game.setScreen(new ViewAbout(game));
+                //stage.addActor(menuPopup.getBackground());
+                //stage.addActor(menuPopup.getForeground());
+                dispose();
                 tapSFX.play();
                 return true;
             }
@@ -140,6 +142,18 @@ public class ViewMenu extends ScreenAdapter {
         Drawable dHELP = new TextureRegionDrawable(new TextureRegion(game.getAssetManager().get("buttons/help_icon.png", Texture.class)));
         ImageButton bHELP = new ImageButton(dHELP);
         bHELP.setBounds(game.getSCREEN_WIDTH() - 240, game.getSCREEN_HEIGHT() - 250, 170, 170);
+        bHELP.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                game.setScreen(new ViewTutorial(game));
+                //stage.addActor(menuPopup.getBackground());
+                //stage.addActor(menuPopup.getForeground());
+                dispose();
+                tapSFX.play();
+                return true;
+            }
+        });
         stage.addActor(bHELP);
 
     }
